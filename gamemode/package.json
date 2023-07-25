@@ -1,0 +1,22 @@
+{
+  "name": "wixoos",
+  "version": "0.0.1",
+  "description": "Gamemode in RageMP",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LonelyNezuko/wixoos.git"
+  },
+  "author": "LonelyNezuko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LonelyNezuko/wixoos/issues"
+  },
+  "homepage": "https://github.com/LonelyNezuko/wixoos#readme",
+  "devDependencies": {
+    "@types/ragemp-c": "github:CocaColaBear/types-ragemp-c#master",
+    "@types/ragemp-s": "github:CocaColaBear/types-ragemp-s#master"
+  },
+  "dependencies": {
+    "typescript": "^5.1.6"
+  }
+}

@@ -25,7 +25,7 @@ import { FaMicrophoneAltSlash } from 'react-icons/fa'
 import { MdFastfood } from 'react-icons/md'
 import { MdEmojiFoodBeverage } from 'react-icons/md'
 
-import './hud.css'
+import './hud.scss'
 
 import HudChat from './chat'
 

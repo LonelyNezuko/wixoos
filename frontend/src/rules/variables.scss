@@ -1,0 +1,30 @@
+$theme_background: #444;
+$theme_backgroundColor: linear-gradient(143.3deg, rgb(216, 27, 96) 33.1%, rgb(237, 107, 154) 74.9%);
+$theme_dark: #1c1e21;
+$theme_darkLight: #2a2e33;
+$theme_color: #48b0bb;
+$theme_red: #fb615a;
+
+
+$borderRadius: 4px;
+$padding: 4px;
+$margin: 4px;
+$transition: .3s;
+
+$fontsize: 14px;
+
+
+// z index
+$zindex_null: 0;
+
+$zindex_fullsize: 1;
+
+$zindex_hover: 2;
+$zindex_wrapper: 3;
+$zindex_hoverModal: 4;
+
+$zindex_modal: 5;
+$zindex_radial: 6;
+
+$zindex_dialog: 7;
+$zindex_notify: 8;

@@ -25,7 +25,7 @@ import { MdAdminPanelSettings } from 'react-icons/md'
 import { MdOutlineAttachMoney } from 'react-icons/md'
 import { RiBankCardLine } from 'react-icons/ri'
 
-import './menu.css'
+import './menu.scss'
 
 export default function Menu() {
 	const [ accountData, setAccountData ] = React.useState({

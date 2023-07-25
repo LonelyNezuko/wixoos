@@ -1,11 +1,13 @@
+@import '../../rules/variables.scss';
+
 .notify {
 	position: absolute;
+	z-index: $zindex_notify;
 
 	top: 25px;
 	right: 25px;
 
 	color: white;
-	z-index: 1000;
 }
 
 .notify section {

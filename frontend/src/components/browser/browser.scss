@@ -1,9 +1,11 @@
+@import '../../rules/variables.scss';
+
 .browser {
 	width: 90%;
 	height: 90%;
 
 	position: absolute;
-	z-index: 100;
+	z-index: $zindex_fullsize;
 
 	top: 50%;
 	left: 50%;

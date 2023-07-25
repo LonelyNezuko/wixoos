@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 
-import './browser.css'
+import './browser.scss'
 
 import { IoClose } from 'react-icons/io5'
 import { IoAdd } from 'react-icons/io5'

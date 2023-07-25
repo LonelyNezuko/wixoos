@@ -15,7 +15,7 @@ import { GiPartyPopper } from 'react-icons/gi'
 import { GoLinkExternal } from 'react-icons/go'
 import { MdOutlinePassword } from 'react-icons/md'
 
-import './auth.css'
+import './auth.scss'
 
 export default function Auth() {
 	const [ toggle, setToggle ] = React.useState(false)

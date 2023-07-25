@@ -1,7 +1,7 @@
 import React from 'react'
 import $ from 'jquery'
 
-import './tuning.css'
+import './tuning.scss'
 
 import { IoCheckmarkCircle } from 'react-icons/io5'
 

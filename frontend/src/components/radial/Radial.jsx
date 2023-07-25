@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 
-import './radial.css'
+import './radial.scss'
 
 import { AiFillCar } from 'react-icons/ai'
 import { FaUserEdit } from 'react-icons/fa'

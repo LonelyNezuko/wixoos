@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 
-import './rent.css'
+import './rent.scss'
 
 import { IoCloseSharp } from 'react-icons/io5'
 

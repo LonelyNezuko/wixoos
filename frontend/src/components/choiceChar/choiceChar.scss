@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .choicechar {
 	position: absolute;
+	z-index: $zindex_modal;
 
 	bottom: 50px;
 	left: 50%;

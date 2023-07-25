@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .phone {
 	position: absolute;
+	z-index: $zindex_modal;
 
 	bottom: 25px;
 	right: 25px;

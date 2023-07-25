@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .tuning {
 	position: absolute;
+	z-index: $zindex_modal;
 
 	top: 0;
 	left: 25px;

@@ -1,0 +1,74 @@
+@import '../../rules/variables.scss';
+
+.dialog {
+	position: absolute;
+	z-index: $zindex_dialog;
+
+	top: 50%;
+	left: 50%;
+
+	transform: translate(-50%, -50%);
+	color: white;
+
+	border-radius: $borderRadius;
+	overflow: hidden;
+
+	min-width: 400px;
+	max-width: 600px;
+
+	background-color: $theme_background;
+	
+	& .dialog-header {
+		padding: $padding * 3 $padding * 4;
+		background: $theme_backgroundColor;
+	}
+	& .dialog-body {
+		margin: $margin * 3;
+
+		background-color: $theme_dark;
+		border-radius: $borderRadius / 2;
+
+		overflow: hidden;
+
+		& .dialog-body-choice {
+			& section + section {
+				&:before {
+					display: block;
+					content: "";
+
+					width: 90%;
+					height: 1px;
+
+					background-color: $theme_darkLight;
+					border-radius: $borderRadius / 2;
+
+					margin: 0 auto;
+					margin-bottom: $margin * 2;
+				}
+			}
+			& section {
+				padding: $padding * 2 $padding * 4;
+			}
+		}
+		& .dialog-body-input {
+			padding: $padding * 2;
+
+			& input {
+				margin-top: $margin * 2;
+				width: calc(100% - 24px);
+			}
+		}
+		& .dialog-body-text {
+			padding: $padding * 3;
+		}
+	}
+	& .dialog-btn {
+		padding: $padding * 3;
+		padding-top: $padding;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: $margin * 2;
+	}
+}

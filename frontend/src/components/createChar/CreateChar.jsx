@@ -4,7 +4,7 @@ import ragemp from '../../modules/ragemp'
 import 'jquery.scrollto'
 import func from '../../modules/func'
 
-import './createChar.css'
+import './createChar.scss'
 
 import { MdSettings } from 'react-icons/md'
 import { TbGenderBigender } from 'react-icons/tb'

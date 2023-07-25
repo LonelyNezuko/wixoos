@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 
-import './fuel.css'
+import './fuel.scss'
 
 export default function Fuel() {
 	const [ toggle, setToggle ] = React.useState(false)

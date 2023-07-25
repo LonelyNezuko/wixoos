@@ -4,7 +4,7 @@ import "jquery-ui-dist/jquery-ui"
 import 'jquery.scrollto'
 import ragemp from '../../modules/ragemp'
 
-import './phone.css'
+import './phone.scss'
 
 import Call from './apps/call/Call'
 import Contacts from './apps/contacts/Contacts'

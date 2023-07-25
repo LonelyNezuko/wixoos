@@ -7,7 +7,7 @@ import { FaTools } from 'react-icons/fa'
 import { MdOtherHouses } from 'react-icons/md'
 import { TiPointOfInterest } from 'react-icons/ti'
 
-import './shop.css'
+import './shop.scss'
 
 export default function Shop() {
 	const [ toggle, setToggle ] = React.useState(false)

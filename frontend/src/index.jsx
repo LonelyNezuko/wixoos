@@ -20,7 +20,7 @@ import Tuning from './components/tuning/Tuning'
 import Rent from './components/rent/Rent'
 import Browser from './components/browser/Browser'
 
-import "./index.css"
+import "./index.scss"
 
 let keyPressed = []
 let keyPressedKD = 0

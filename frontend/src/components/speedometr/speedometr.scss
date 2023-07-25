@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .hud-speed {
     position: absolute;
+    z-index: $zindex_null;
 
     bottom: 35px;
     right: 15px;

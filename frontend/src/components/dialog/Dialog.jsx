@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 
-import './dialog.css'
+import './dialog.scss'
 
 export default function Dialog() {
 	const [ dialog, setDialog ] = React.useState({
@@ -10,9 +10,9 @@ export default function Dialog() {
 		body: {
 			text: 'Введите ваш возраст',
 			input: false,
-			list: ['Стандарт', 'Дом', 'Фракция']
+			list: []
 		},
-		btn: ['', '']
+		btn: ['вфывфв', 'нет']
 	})
 
 	function submit(type, listItem) {
@@ -83,7 +83,7 @@ export default function Dialog() {
 					<h1 dangerouslySetInnerHTML={{__html: dialog.body.text}}></h1>
 				</div>
 			</div>
-			<div className="dialog-btn" style={!dialog.btn[0].length && !dialog.btn[1].length ? {display: 'none'} : {display: 'block'}}>
+			<div className="dialog-btn" style={!dialog.btn[0].length && !dialog.btn[1].length ? {display: 'none'} : {display: 'flex'}}>
 				<button style={!dialog.btn[0].length ? {display: 'none'} : {display: 'block'}} className="btn" onClick={() => submit(0)}>{dialog.btn[0]}</button>
 				<button style={!dialog.btn[1].length ? {display: 'none'} : {display: 'block'}} className="btn" onClick={() => submit(1)}>{dialog.btn[1]}</button>
 			</div>

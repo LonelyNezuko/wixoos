@@ -1,7 +1,7 @@
 import React from 'react'
 import ragemp from '../../modules/ragemp'
 
-import './speedometr.css'
+import './speedometr.scss'
 
 import { GiBeltBuckles } from 'react-icons/gi'
 import { TbEngine } from 'react-icons/tb'

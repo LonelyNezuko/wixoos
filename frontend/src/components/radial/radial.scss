@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .radial {
 	position: absolute;
+	z-index: $zindex_radial;
 
 	top: 50%;
 	left: 50%;

@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .hud {
 	position: absolute;
+	z-index: $zindex_null;
 
 	top: 0;
 	left: 0;

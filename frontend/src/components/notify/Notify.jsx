@@ -7,7 +7,7 @@ import { IoIosCheckmarkCircle } from 'react-icons/io'
 import { MdError } from 'react-icons/md'
 import { TiInfo } from 'react-icons/ti'
 
-import './notify.css'
+import './notify.scss'
 
 export default function Notify() {
 	const [ notify, setNotify ] = React.useState([])

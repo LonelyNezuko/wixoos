@@ -1,13 +1,14 @@
+@import '../../rules/variables.scss';
+
 .createchar {
 	position: absolute;
+	z-index: $zindex_modal;
 
 	top: 0;
 	left: 0;
 
 	width: 100%;
 	height: 100%;
-
-	z-index: 100;
 }
 
 .createchar .createchar-wrap {

@@ -2,7 +2,7 @@ import React from 'react'
 import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 
-import './choiceChar.css'
+import './choiceChar.scss'
 
 import { BsGlobe2 } from 'react-icons/bs'
 

@@ -1,5 +1,8 @@
+@import '../../rules/variables.scss';
+
 .npcDialog {
 	position: absolute;
+	z-index: $zindex_modal;
 
 	bottom: 3%;
 	left: 50%;

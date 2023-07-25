@@ -1,4 +1,4 @@
-@import url(./fonts/stylesheet.css);
+@import './fonts/stylesheet.css';
 
 * {
     margin: 0;
@@ -67,20 +67,21 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.btn:not(.btn-ban):not(.btn-nothover):hover,
-.btn-sel:not(.btn-ban):not(.btn-nothover) {
-    border-color: #48b0bb;
-    background-color: #48b0bb;
-}
 
-.btn svg:first-child {
-    margin-right: 5px;
-}
+    &:not(.btn-ban):not(.btn-nothover):hover,
+    &:not(.btn-ban):not(.btn-nothover) {
+        border-color: #48b0bb;
+        background-color: #48b0bb;
+    }
 
-.btn-ban {
-    opacity: .5;
-    cursor: not-allowed;
+    & svg:first-child {
+        margin-right: 5px;
+    }
+
+    &.btn-ban {
+        opacity: .5;
+        cursor: not-allowed;
+    }
 }
 
 
@@ -93,12 +94,13 @@ input {
 
     border-radius: 3px;
     font-size: 13px;
-}
-input::placeholder {
-    color: white;
-    opacity: .4;
 
-    font-size: 13px;
+    &::placeholder {
+        color: white;
+        opacity: .4;
+    
+        font-size: 13px;
+    }
 }
 
 
@@ -107,37 +109,38 @@ input::placeholder {
     overflow: hidden;
 
     position: relative;
-}
-.avatar div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.avatar {
+
     min-width: 60px;
 
     width: 60px;
     height: 60px;
-}
-.avatar-min {
-    min-width: 30px;
 
-    width: 30px;
-    height: 30px;
-}
-.avatar-big {
-    min-width: 100px;
+    &.avatar-min {
+        min-width: 30px;
+    
+        width: 30px;
+        height: 30px;
+    }
 
-    width: 100px;
-    height: 100px;
-}
-.avatar div {
-    height: 100%;
-    width: 100%;
-}
-.avatar img {
-    width: 120%;
-    height: auto;
+    &.avatar-big {
+        min-width: 100px;
+    
+        width: 100px;
+        height: 100px;
+    }
+
+    & img {
+        width: 120%;
+        height: auto;
+    }
+    & div {
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 

@@ -1,6 +1,8 @@
+@import '../../rules/variables.scss';
+
 .auth {
 	position: absolute;
-	z-index: 500;
+	z-index: $zindex_fullsize;
 
 	top: 0;
 	left: 0;

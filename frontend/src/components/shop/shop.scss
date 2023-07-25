@@ -1,13 +1,14 @@
+@import '../../rules/variables.scss';
+
 .shop {
 	position: absolute;
+	z-index: $zindex_fullsize;
 
 	top: 0;
 	left: 0;
 
 	width: 100%;
 	height: 100%;
-
-	z-index: 10;
 
 	background-color: #1136509e;
 	color: white;

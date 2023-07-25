@@ -3,7 +3,7 @@ import $ from 'jquery'
 import ragemp from '../../modules/ragemp'
 import func from '../../modules/func'
 
-import './npcDialog.css'
+import './npcDialog.scss'
 
 export default function NPCDialog() {
 	const [ toggle, setToggle ] = React.useState(false)

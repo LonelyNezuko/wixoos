@@ -38,7 +38,7 @@ export default function Rent() {
 	const [ vehicleSel, setVehicleSel ] = React.useState(0)
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::rent', (cmd, data) => {
+		ragemp.eventCreate('rent', (cmd, data) => {
 			switch(cmd) {
 				case 'toggle': {
 					setToggle(data.status)
@@ -61,7 +61,7 @@ export default function Rent() {
 				e.preventDefault()
 
 				setToggle(false)
-				ragemp.send('ui::rent:close', {}, true)
+				ragemp.send('server::rent:close', {}, true)
 			}
 		})
 	}, [])
@@ -70,7 +70,7 @@ export default function Rent() {
 		<div className="rent" style={{display: !toggle ? 'none' : 'block'}}>
 			<header>
 				<h1>Аренда транспорта</h1>
-				<button onClick={() => {setToggle(false); ragemp.send('ui::rent:close', {}, true)}}>
+				<button onClick={() => {setToggle(false); ragemp.send('server::rent:close', {}, true)}}>
 					<IoCloseSharp />
 				</button>
 			</header>
@@ -119,7 +119,7 @@ export default function Rent() {
 							</h2>
 						</div>
 					</section>
-					<button onClick={() => ragemp.send('ui::rent', { vehicle: vehicle[vehicleSel] })} className="btn">Арендовать</button>
+					<button onClick={() => ragemp.send('server::rent', { vehicle: vehicle[vehicleSel] })} className="btn">Арендовать</button>
 				</div>
 				<div className="rent-body">
 					{vehicle.map((item, i) => {

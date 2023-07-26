@@ -1,0 +1,7 @@
+{
+    "projectName": "Wixoos",
+
+    "usernameLength": [ 4, 32 ],
+    "passwordLength": [ 6, 64 ],
+    "promoLength": [ 4, 24 ]
+}

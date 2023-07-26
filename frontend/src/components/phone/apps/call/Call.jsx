@@ -25,7 +25,7 @@ export default function Call(props) {
 	const [ number, setNumber ] = React.useState('')
 	function submit() {
 		if(!number.length)return
-		ragemp.send('ui::phone:call', { number: number })
+		ragemp.send('server::phone:call', { number: number })
 	}
 
 
@@ -46,7 +46,7 @@ export default function Call(props) {
 	}
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::phone:call', (cmd, data) => {
+		ragemp.eventCreate('phone:call', (cmd, data) => {
 			switch(cmd) {
 				case 'setNumber': {
 					setNumber(data.number.toString())
@@ -119,7 +119,7 @@ export default function Call(props) {
 						<HiBackspace onClick={() => {
 							if(!number.length)return
 
-							ragemp.send('ui::phone:call:number', { number: number.substr(0, number.length - 1) }, true)
+							ragemp.send('server::phone:call:number', { number: number.substr(0, number.length - 1) }, true)
 							setNumber(number.substr(0, number.length - 1))
 
 							if(number.length === 1) {
@@ -145,7 +145,7 @@ export default function Call(props) {
 							setNumber(temp)
 							if(!fastContactsHideS) setFastContactsHide(true)
 
-							ragemp.send('ui::phone:call:number', { number: temp }, true)
+							ragemp.send('server::phone:call:number', { number: temp }, true)
 						}} key={i}>{i === 9 ? '*' : i === 10 ? '0' : i === 11 ? '#' : i + 1}</section>)
 					})}
 				</div>

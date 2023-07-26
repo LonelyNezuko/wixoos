@@ -20,7 +20,7 @@ export default function Notify() {
 	}
 
 	React.useMemo(() => {
-		ragemp.eventCreate('client::notify', (cmd, data) => {
+		ragemp.eventCreate('notify', (cmd, data) => {
 			if(cmd === 'add') {
 				addNotify(data.text, data.type || 'info', data.time || 5000)
 			}

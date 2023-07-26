@@ -4,3 +4,6 @@ BugTrap-x64.dll
 bin
 dotnet
 node_modules
+
+packages/wixoos/index.js
+client_packages/index.js

@@ -23,7 +23,7 @@ export default function NPCDialog() {
 		}, 60 * data.text.length)
 	}, [data])
 	React.useEffect(() => {
-		ragemp.eventCreate('client::npcDialog', (cmd, data) => {
+		ragemp.eventCreate('npcDialog', (cmd, data) => {
 			switch(cmd) {
 				case 'toggle': {
 					setToggle(data.status)
@@ -57,7 +57,7 @@ export default function NPCDialog() {
 			<div className="npcDialog-body"></div>
 			<div className="npcDialog-btn" style={{display: 'none'}}>
 				{data.btn.map((item, i) => {
-					return (<button onClick={() => ragemp.send('ui::npcDialog', { btn: item.replace('%last%', '') })} key={i} style={data.btn.length % 2 === 1 && i === data.btn.length - 1 ? {width: "100%"} : {}} className={`btn ${item.indexOf('%last%') !== -1 && 'npcDialog-btn-cancel'}`}>{item.replace('%last%', '')}</button>)
+					return (<button onClick={() => ragemp.send('server::npcDialog', { btn: item.replace('%last%', '') })} key={i} style={data.btn.length % 2 === 1 && i === data.btn.length - 1 ? {width: "100%"} : {}} className={`btn ${item.indexOf('%last%') !== -1 && 'npcDialog-btn-cancel'}`}>{item.replace('%last%', '')}</button>)
 				})}
 			</div>
 		</div>

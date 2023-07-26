@@ -79,10 +79,10 @@ export default function HudChat(data) {
 		$('.hud .hud-chat .hud-chat-i input').val('')
 		
 		setChatOpen(false)
-		ragemp.send('ui::hud:chat:close', {}, true)
+		ragemp.send('server::hud:chat:close', {}, true)
 
 		if(data.accountData.mute === 0) {
-			ragemp.send('ui::hud:chat:send', { text, type: $('.hud .hud-chat .hud-chat-i').attr('data-type') })
+			ragemp.send('server::hud:chat:send', { text, type: $('.hud .hud-chat .hud-chat-i').attr('data-type') })
 		}
 	}
 
@@ -105,7 +105,7 @@ export default function HudChat(data) {
 	React.useEffect(() => {
 		$('body').on('blur', '.hud .hud-chat-i input', () => {
 			setChatOpen(false)
-			ragemp.send('ui::hud:chat:close', {}, true)
+			ragemp.send('server::hud:chat:close', {}, true)
 		})
 		$('body').keydown(e =>
 		{
@@ -119,11 +119,11 @@ export default function HudChat(data) {
 				e.preventDefault()
 
 				setChatOpen(false)
-				ragemp.send('ui::hud:chat:close', {}, true)
+				ragemp.send('server::hud:chat:close', {}, true)
 			}
 		})
 
-		ragemp.eventCreate('client::hud:chat', (cmd, data) => {
+		ragemp.eventCreate('hud:chat', (cmd, data) => {
             switch(cmd)
             {
                 case 'addMessage':

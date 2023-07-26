@@ -34,7 +34,7 @@ $(document).on('keydown', event =>
         && popularKeys.indexOf(event.keyCode) === -1)
     {
         keyPressed.push(event.keyCode)
-        ragemp.send('ui::keypressed', {
+        ragemp.send('client::keypressed', {
             keyCode: keyPressed,
             up: false
         })
@@ -45,7 +45,7 @@ $(document).on('keydown', event =>
 $(document).on('keyup', event => {
     if(!$('*').is(':focus'))
     {
-        ragemp.send('ui::keypressed', {
+        ragemp.send('client::keypressed', {
             keyCode: event.keyCode,
             up: keyPressed.indexOf(event.keyCode) !== -1 ? true : false
         })

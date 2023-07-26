@@ -69,7 +69,7 @@ export default function Settinsg(props) {
 		}
 
 		setChat(tempChat)
-		ragemp.send('ui::menu:settings:saveChat', tempChat)
+		ragemp.send('server::menu:settings:saveChat', tempChat)
 	}
 
 
@@ -90,7 +90,7 @@ export default function Settinsg(props) {
 			if(!email.length)return ragemp.trigger('client::notify', 'add', { text: 'Введите Email', type: 'error' })
 			if(!func.validateEmail(email))return ragemp.trigger('client::notify', 'add', { text: 'Не верный Email.', type: 'error' })
 
-			ragemp.send('ui::menu:settings:setEmail', { email })
+			ragemp.send('server::menu:settings:setEmail', { email })
 		}
 	}
 	function returnHideEmail() {
@@ -115,7 +115,7 @@ export default function Settinsg(props) {
 			if(input[1] !== input[2])return ragemp.trigger('client::notify', 'add', { text: 'Новые пароли не совпадают', type: 'error' })
 
 			// сюда загрузку
-			ragemp.send('ui::menu:settings:changePassword', { old: input[0], new: input[1] })
+			ragemp.send('server::menu:settings:changePassword', { old: input[0], new: input[1] })
 		}
 		else setChangePassword(false)
 	}
@@ -166,7 +166,7 @@ export default function Settinsg(props) {
 
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::menu:settings', (cmd, data) => {
+		ragemp.eventCreate('menu:settings', (cmd, data) => {
 			switch(cmd) {
 				case 'setKeyBinds': {
 					setKeyBinds(data)
@@ -212,7 +212,7 @@ export default function Settinsg(props) {
 				setKeyBinds(obj)
 				setKeyBindsSel(-1)
 
-				ragemp.send('ui::menu:settings:saveKeyBinds', obj)
+				ragemp.send('server::menu:settings:saveKeyBinds', obj)
 			}
 		})
 
@@ -381,7 +381,7 @@ export default function Settinsg(props) {
 
 							const code = random.textNumber(8)
 
-							ragemp.send('ui::menu:settings:emailSendCode', { code })
+							ragemp.send('server::menu:settings:emailSendCode', { code })
 
 							setEmailCode(code)
 							setEmailTimer(300000)
@@ -474,7 +474,7 @@ export default function Settinsg(props) {
 					</h1>
 					<button className="btn">Подключить</button>
 				</div>
-				<div onClick={() => ragemp.send('ui::menu:settings:setOnlySCID', { status: !props.accountData.onlySCID })} className={`menu-settings-elem`}>
+				<div onClick={() => ragemp.send('server::menu:settings:setOnlySCID', { status: !props.accountData.onlySCID })} className={`menu-settings-elem`}>
 					<h1>
 						Social Club ID
 						<span>Вход в аккаунт будет возможен лишь с аккаунта Social Club с которого был зарегистрирован аккаунт</span>

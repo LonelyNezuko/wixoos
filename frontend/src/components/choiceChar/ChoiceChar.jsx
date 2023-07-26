@@ -26,16 +26,16 @@ export default function ChoiceChar() {
 	])
 	function submit(id) {
 		if(characters[id].id) {
-			ragemp.send('ui::user:choiceChar', { id: characters[id].id })
+			ragemp.send('server::user:choiceChar', { id: characters[id].id })
 		}
 		else if(characters[id].donate) {
-			ragemp.send('ui::user:choiceChar:buy')
+			ragemp.send('server::user:choiceChar:buy')
 		}
-		else ragemp.send('ui::user:choiceChar:create')
+		else ragemp.send('server::user:choiceChar:create')
 	}
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::choiceChar', (cmd, data) => {
+		ragemp.eventCreate('choiceChar', (cmd, data) => {
 			switch(cmd) {
 				case 'toggle': {
 					setToggle(data.status)

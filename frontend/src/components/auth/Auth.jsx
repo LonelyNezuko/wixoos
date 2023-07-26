@@ -25,11 +25,11 @@ export default function Auth() {
 	const [ recoveryAccounts, setRecoveryAccounts ] = React.useState([])
 
 	function submitRecovery(id, accountID) {
-		ragemp.send('ui::auth:submitRecovery', { id, accountID })
+		ragemp.send('server::auth:submitRecovery', { id, accountID })
 	}
 	function recoveryReEmail() {
 		if(recoveryEmailTime > 0)return false
-		ragemp.send('ui::auth:recoveryReEmail')
+		ragemp.send('server::auth:recoveryReEmail')
 	}
 	React.useEffect(() => {
 		setInterval(() => {
@@ -44,7 +44,7 @@ export default function Auth() {
 
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::auth', (type, data) => {
+		ragemp.eventCreate('auth', (type, data) => {
 			switch(type) {
 				case 'toggle': {
 					setToggle(data.status)
@@ -119,15 +119,14 @@ export default function Auth() {
 			return
 		}
 
-		ragemp.send('ui::auth:submitAuth', { login, password, save: $('.auth #authSavePassword').is(':checked'), auto: $('.auth #authAuto').is(':checked') }, true)
+		ragemp.send('server::auth:submit', { login, password, save: $('.auth #authSavePassword').is(':checked'), auto: $('.auth #authAuto').is(':checked') }, true)
 	}
 	function submitAuthReg() {
 		$('.auth input').blur()
 		const
 			login = $('.auth #authRegLogin').val(),
 			password = $('.auth #authRegPassword').val(),
-			email = $('.auth #authRegEmail').val(),
-			promo = $('.auth #authRegPromo').val()
+			email = $('.auth #authRegEmail').val()
 
 		if(!login.length) {
 			$('.auth label[for="authRegLogin"]').html('Введи логин')
@@ -148,7 +147,7 @@ export default function Auth() {
 			return
 		}
 
-		ragemp.send('ui::auth:submitAuthReg', { login, password, email, promo, save: $('.auth #authRegSavePassword').is(':checked'), auto: $('.auth #authRegAuto').is(':checked') })
+		ragemp.send('server::auth:submit:reg', { login, password, email, save: $('.auth #authRegSavePassword').is(':checked'), auto: $('.auth #authRegAuto').is(':checked') })
 	}
 
 	return (
@@ -219,14 +218,6 @@ export default function Auth() {
 							<IoMdCheckmarkCircleOutline style={{display: 'none'}} className="auth-body-i-accept" />
 						</section>
 						<label style={{display: 'none'}} for="authRegEmail">Этот пароль не верный</label>
-					</div>
-					<div className="auth-body-i">
-						<section>
-							<input id="authRegPromo" type="text" maxlength="20" placeholder="Промокод? (Не знаешь - не пиши)" />
-							<BiGridAlt />
-							<IoMdCheckmarkCircleOutline style={{display: 'none'}} className="auth-body-i-accept" />
-						</section>
-						<label style={{display: 'none'}} for="authRegPromo">Этот пароль не верный</label>
 					</div>
 				</div>
 				<div className="auth-other" style={type !== 1 ? {display: 'none'} : {display: 'block'}}>

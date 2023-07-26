@@ -44,7 +44,7 @@ export default function Dialog() {
 			}
 		})
 
-		ragemp.eventCreate('client::dialog', (cmd, data) => {
+		ragemp.eventCreate('dialog', (cmd, data) => {
             switch(cmd)
             {
                 case 'dialog':

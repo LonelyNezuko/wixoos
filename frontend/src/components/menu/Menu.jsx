@@ -113,20 +113,20 @@ export default function Menu() {
 
 	function openHeaderNav(id) {
 		if(headerNavList[id][2] === false)return
-		ragemp.send('ui::menu:openHeaderNav', { id })
+		ragemp.send('server::menu:openHeaderNav', { id })
 		// setHeaderNav(id)
 		// setBodyNav(0)
 	}
 	function openBodyNav(id) {
 		if(bodyNavList[headerNav][id][1] === false)return
-		ragemp.send('ui::menu:openBodyNav', { headerNav: headerNav, id })
+		ragemp.send('server::menu:openBodyNav', { headerNav: headerNav, id })
 		// setBodyNav(id)
 	}
 
 
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::menu', (cmd, data) => {
+		ragemp.eventCreate('menu', (cmd, data) => {
 			switch(cmd) {
 				case 'toggle': {
 					toggle(data.status)
@@ -154,7 +154,7 @@ export default function Menu() {
 				e.preventDefault()
 
 				toggle(false)
-				ragemp.send('ui::menu:close', {}, true)
+				ragemp.send('server::menu:close', {}, true)
 			}
 		})
 	}, [])

@@ -84,7 +84,7 @@ export default function Hud() {
 	}
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::hud', (cmd, data) => {
+		ragemp.eventCreate('hud', (cmd, data) => {
             switch(cmd)
             {
                 case 'toggle':

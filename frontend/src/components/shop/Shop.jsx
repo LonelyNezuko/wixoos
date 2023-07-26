@@ -30,7 +30,7 @@ export default function Shop() {
 	const [ bankCard, setBankCard ] = React.useState(0)
 
 	function submit(id, price, type) {
-		ragemp.send('ui::shop', {
+		ragemp.send('server::shop', {
 			id,
 			price,
 			type
@@ -38,7 +38,7 @@ export default function Shop() {
 	}
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::shop', (cmd, data) => {
+		ragemp.eventCreate('shop', (cmd, data) => {
 			switch(cmd) {
 				case 'toggle': {
 					setToggle(data.status)

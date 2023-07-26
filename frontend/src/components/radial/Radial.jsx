@@ -32,7 +32,7 @@ export default function Radial() {
 	})
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::radial', (cmd, data) => {
+		ragemp.eventCreate('radial', (cmd, data) => {
 			if(cmd === 'setData') {
 				setData(data)
 			}
@@ -43,14 +43,14 @@ export default function Radial() {
 			if($('.radial').css('display') !== 'none'
 				&& e.keyCode === 27) {
 				e.preventDefault()
-				ragemp.send('ui::radial:close')
+				ragemp.send('server::radial:close')
 			}
 		})
 	}, [])
 
 	return (
 		<div className="radial" style={{display: !data.type.length ? 'none' : 'block'}}>
-			<div className="radial-center" onClick={() => ragemp.send('ui::radial:close')}>
+			<div className="radial-center" onClick={() => ragemp.send('server::radial:close')}>
 				<section>
 					{data.type === 'vehicle' ? (<AiFillCar />) : (<FaUserEdit />)}
 					<h1>{data.name}</h1>
@@ -62,7 +62,7 @@ export default function Radial() {
 			</div>
 
 			{data.btn.map((item, i) => {
-				return (<button onClick={() => ragemp.send('ui::radial', { btn: item })} key={i} style={btnPos[i]} className="btn radial-btn">
+				return (<button onClick={() => ragemp.send('server::radial', { btn: item })} key={i} style={btnPos[i]} className="btn radial-btn">
 						<h2>{i + 1}.</h2>
 						<h1>{item}</h1>
 					</button>)

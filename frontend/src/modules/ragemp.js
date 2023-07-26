@@ -21,7 +21,7 @@ const ragemp =
         if(sendTime > +new Date()
             && !noTime)return
 
-        if(global.mp) global.mp.trigger(eventname, JSON.stringify(params))
+        if(global.mp) global.mp.trigger('cef::event', JSON.stringify([eventname, params]))
         console.log(`event send: ${eventname}`, params)
 
         if(!noTime) sendTime = +new Date() + 700

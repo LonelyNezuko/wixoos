@@ -113,7 +113,7 @@ export default function Roullete(props) {
 		    	elem.addClass('menu-shop-roulette-elem-sel')
 		    	$(`.menu-shop-roulette .menu-shop-roulette-body .menu-shop-roulette-body-wrap:nth-child(${id}) .menu-shop-roulette-body-center`).addClass(`menu-shop-roulette-body-center-${temp[id - 1][item].rare}`)
 
-		    	ragemp.send('ui::shop:roullete:prize')
+		    	ragemp.send('server::shop:roullete:prize')
 		    }
         })
 	}
@@ -126,7 +126,7 @@ export default function Roullete(props) {
 		setCount(1)
 
 
-		ragemp.eventCreate('client::shop:roullete', (cmd, data) => {
+		ragemp.eventCreate('shop:roullete', (cmd, data) => {
 			switch(cmd) {
 				case 'setItems': {
 					setItems(data)
@@ -173,7 +173,7 @@ export default function Roullete(props) {
 					<div>
 						<button onClick={() => {
 							setPrizeToggle(false)
-							ragemp.send('ui::shop:roullete:sellPrize')
+							ragemp.send('server::shop:roullete:sellPrize')
 						}} className="btn" style={{display: prize.sellPrice ? 'flex' : 'none'}}>
 							Продать за <img src='./assets/donate.png' /> {prize.sellPrice && prize.sellPrice.toLocaleString()}
 						</button>
@@ -232,7 +232,7 @@ export default function Roullete(props) {
 				</div>
 				<div onClick={() => {
 					if(toggle === true)return
-					ragemp.send('ui::shop:roullete:start')
+					ragemp.send('server::shop:roullete:start')
 				}} className={`menu-shop-roulette-bottom-play ${toggle === true && 'menu-shop-roulette-bottom-play-block'}`}>
 					<FaPlay />
 				</div>

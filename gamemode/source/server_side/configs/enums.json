@@ -1,0 +1,125 @@
+{
+    "clothesComponentID": {
+        "head": 0,
+        "mask": 1,
+        "hair": 2,
+        "torsos": 3,
+        "legs": 4,
+        "bags": 5,
+        "shoes": 6,
+        "accessories": 7,
+        "undershirts": 8,
+        "armour": 9,
+        "decals": 10,
+        "tops": 11,
+
+        "props": {
+            "hat": 0,
+            "glasess": 1,
+            "ears": 2,
+            "watch": 6,
+            "bracelet": 7
+        }
+    },
+    "clothesDefault": [
+        {
+            "head": 0,
+            "mask": 0,
+            "torsos": 15,
+            "legs": 18,
+            "bags": 0,
+            "shoes": 34,
+            "accessories": 0,
+            "undershirts": 15,
+            "armour": 0,
+            "decals": 0,
+            "tops": 15,
+
+            "props": {
+                "hat": -1,
+                "glasess": -1,
+                "ears": -1,
+                "watch": -1,
+                "bracelet": -1
+            }
+        },
+        {
+            "head": 0,
+            "mask": 0,
+            "torsos": 15,
+            "legs": 15,
+            "bags": 0,
+            "shoes": 35,
+            "accessories": 0,
+            "undershirts": 15,
+            "armour": 0,
+            "decals": 0,
+            "tops": 15,
+
+            "props": {
+                "hat": -1,
+                "glasess": -1,
+                "ears": -1,
+                "watch": -1,
+                "bracelet": -1
+            }
+        }
+    ],
+
+    "characterCreateClothesList": [
+        [
+            [
+                { "id": -1, "name": "Без шапки" },
+                { "id": 2, "name": "Шапка" },
+                { "id": 4, "name": "Кепка вперед" },
+                { "id": 9, "name": "Кепка назад" },
+                { "id": 3, "name": "Панамка" }
+            ],
+            [
+                { "torsos": 15, "tops": 15, "undershirts": 15, "name": "Без верха" },
+                { "torsos": 0, "tops": 9, "undershirts": 15, "name": "Футболка" },
+                { "torsos": 5, "tops": 5, "undershirts": 15, "name": "Майка" },
+                { "torsos": 6, "tops": 6, "undershirts": 2, "name": "Кофта" }
+            ],
+            [
+                { "legs": 18, "name": "Без низа" },
+                { "legs": 1, "name": "Джинсы" },
+                { "legs": 16, "name": "Шорты" },
+                { "legs": 8, "name": "Спортивные" }
+            ],
+            [
+                { "shoes": 34, "name": "Без обуви" },
+                { "shoes": 1, "name": "Кеды" },
+                { "shoes": 12, "name": "Кросовки" },
+                { "shoes": 5, "name": "Шлепки" }
+            ]
+        ],
+        [
+            [
+                { "id": -1, "name": "Без шапки" },
+                { "id": 5, "name": "Шапка" },
+                { "id": 64, "name": "Кепка вперед" },
+                { "id": 65, "name": "Кепка назад" },
+                { "id": 3, "name": "Панамка" }
+            ],
+            [
+                { "torsos": 15, "tops": 15, "undershirts": 15, "name": "Без верха" },
+                { "torsos": 0, "tops": 14, "undershirts": 15, "name": "Футболка" },
+                { "torsos": 4, "tops": 33, "undershirts": 15, "name": "Топик" },
+                { "torsos": 3, "tops": 50, "undershirts": 15, "name": "Кофта" }
+            ],
+            [
+                { "legs": 15, "name": "Без низа" },
+                { "legs": 1, "name": "Джинсы" },
+                { "legs": 24, "name": "Юбка" },
+                { "legs": 4, "name": "Спортивные" }
+            ],
+            [
+                { "shoes": 35, "name": "Без обуви" },
+                { "shoes": 3, "name": "Кеды" },
+                { "shoes": 7, "name": "Туфли" },
+                { "shoes": 5, "name": "Шлепки" }
+            ]
+        ]
+    ]
+}

@@ -40,7 +40,7 @@ export default function Speedometr() {
     }
 
     React.useEffect(() => {
-    	ragemp.eventCreate('client::speedometr', (cmd, data) => {
+    	ragemp.eventCreate('speedometr', (cmd, data) => {
             switch(cmd)
             {
                 case 'toggle':

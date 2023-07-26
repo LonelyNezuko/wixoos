@@ -61,7 +61,7 @@ export default function Contacts(props) {
 
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::phone:contacts', (cmd, data) => {
+		ragemp.eventCreate('phone:contacts', (cmd, data) => {
 			switch(cmd) {
 				case 'setProfileData': {
 					setProfile(true)
@@ -116,7 +116,7 @@ export default function Contacts(props) {
 
 							if(!firstname.length || !lastname.length || !number.length)return
 
-							ragemp.send('ui::phone:contacts:add', { firstname, lastname, number })
+							ragemp.send('server::phone:contacts:add', { firstname, lastname, number })
 							setAdd(false)
 
 						}} className="btn">Создать контакт</button>
@@ -159,7 +159,7 @@ export default function Contacts(props) {
 					</section>
 					<section className="phone-app-contacts-add-bottom">
 						<button onClick={() => {
-							ragemp.send('ui::phone:contacts:delete', { id: profileData.id })
+							ragemp.send('server::phone:contacts:delete', { id: profileData.id })
 							setProfile(false)
 						}} className="btn">Удалить контакт</button>
 						<button onClick={() => setProfile(false)} className="btn">

@@ -44,7 +44,7 @@ export default function CreateChar() {
 		else if(id <= 3) {
 			$('.createchar .createchar-header section').scrollTo($(`.createchar .createchar-header section button:first-child`))
 		}
-		ragemp.send('ui::createChar:changeType', { type: id })
+		ragemp.send('server::createChar:changeType', { type: id })
 	}
 	React.useEffect(() => {
 		$('body').keydown(e =>
@@ -137,7 +137,7 @@ export default function CreateChar() {
 
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::createChar', (cmd, result) => {
+		ragemp.eventCreate('createChar', (cmd, result) => {
 			switch(cmd) {
 				case 'toggle': {
 					setToggle(result.status)
@@ -161,7 +161,7 @@ export default function CreateChar() {
 		})
 	}, [])
 	React.useEffect(() => {
-		ragemp.send('ui::createChar:update', data)
+		ragemp.send('server::createChar:update', data, true)
 	}, [data])
 
 
@@ -236,7 +236,7 @@ export default function CreateChar() {
 							</div>
 						</div>
 						<div style={{marginTop: '30px'}} className="createchar-edit createchar-edit-btn">
-							<button onClick={() => ragemp.send('ui::createChar:copy')} className="btn">
+							<button onClick={() => ragemp.send('server::createChar:copy')} className="btn">
 								<BiCopy />
 								Скопируем другого персонажа?
 							</button>
@@ -439,33 +439,33 @@ export default function CreateChar() {
 						<div className="createchar-edit createchar-edit-select">
 							<h1>Головной убор</h1>
 							<section>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 20 }); let clothesTemp = [...data.clothes]; clothesTemp[0] = clothesTemp[0] > 0 ? clothesTemp[0] - 1 : clothesTemp[0]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 20 }); let clothesTemp = [...data.clothes]; clothesTemp[0] = clothesTemp[0] > 0 ? clothesTemp[0] - 1 : clothesTemp[0]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
 								<h2>{clothesList[0][data.clothes[0]]}</h2>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 20 }); let clothesTemp = [...data.clothes]; clothesTemp[0] = clothesTemp[0] < clothesList[0].length - 1 ? clothesTemp[0] + 1 : clothesTemp[0]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 20 }); let clothesTemp = [...data.clothes]; clothesTemp[0] = clothesTemp[0] < clothesList[0].length - 1 ? clothesTemp[0] + 1 : clothesTemp[0]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
 							</section>
 						</div>
 						<div className="createchar-edit createchar-edit-select">
 							<h1>Верх</h1>
 							<section>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 21 }); let clothesTemp = [...data.clothes]; clothesTemp[1] = clothesTemp[1] > 0 ? clothesTemp[1] - 1 : clothesTemp[1]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 21 }); let clothesTemp = [...data.clothes]; clothesTemp[1] = clothesTemp[1] > 0 ? clothesTemp[1] - 1 : clothesTemp[1]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
 								<h2>{clothesList[1][data.clothes[1]]}</h2>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 21 }); let clothesTemp = [...data.clothes]; clothesTemp[1] = clothesTemp[1] < clothesList[1].length - 1 ? clothesTemp[1] + 1 : clothesTemp[1]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 21 }); let clothesTemp = [...data.clothes]; clothesTemp[1] = clothesTemp[1] < clothesList[1].length - 1 ? clothesTemp[1] + 1 : clothesTemp[1]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
 							</section>
 						</div>
 						<div className="createchar-edit createchar-edit-select">
 							<h1>Низ</h1>
 							<section>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 22 }); let clothesTemp = [...data.clothes]; clothesTemp[2] = clothesTemp[2] > 0 ? clothesTemp[2] - 1 : clothesTemp[2]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 22 }); let clothesTemp = [...data.clothes]; clothesTemp[2] = clothesTemp[2] > 0 ? clothesTemp[2] - 1 : clothesTemp[2]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
 								<h2>{clothesList[2][data.clothes[2]]}</h2>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 22 }); let clothesTemp = [...data.clothes]; clothesTemp[2] = clothesTemp[2] < clothesList[2].length - 1 ? clothesTemp[2] + 1 : clothesTemp[2]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 22 }); let clothesTemp = [...data.clothes]; clothesTemp[2] = clothesTemp[2] < clothesList[2].length - 1 ? clothesTemp[2] + 1 : clothesTemp[2]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
 							</section>
 						</div>
 						<div className="createchar-edit createchar-edit-select">
 							<h1>Обувь</h1>
 							<section>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 23 }); let clothesTemp = [...data.clothes]; clothesTemp[3] = clothesTemp[3] > 0 ? clothesTemp[3] - 1 : clothesTemp[3]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 23 }); let clothesTemp = [...data.clothes]; clothesTemp[3] = clothesTemp[3] > 0 ? clothesTemp[3] - 1 : clothesTemp[3]; setData({...data, clothes: clothesTemp}) }}><FaArrowLeft /></button>
 								<h2>{clothesList[3][data.clothes[3]]}</h2>
-								<button onClick={() => { ragemp.send('ui::createChar:changeType', { type: 23 }); let clothesTemp = [...data.clothes]; clothesTemp[3] = clothesTemp[3] < clothesList[3].length - 1 ? clothesTemp[3] + 1 : clothesTemp[3]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
+								<button onClick={() => { ragemp.send('server::createChar:changeType', { type: 23 }); let clothesTemp = [...data.clothes]; clothesTemp[3] = clothesTemp[3] < clothesList[3].length - 1 ? clothesTemp[3] + 1 : clothesTemp[3]; setData({...data, clothes: clothesTemp}) }}><FaArrowRight /></button>
 							</section>
 						</div>
 					</div>
@@ -480,13 +480,13 @@ export default function CreateChar() {
 							<input type="text" maxlength="15" onChange={e => { let nameTemp = [...name]; nameTemp[1] = e.target.value; setName(nameTemp) }} />
 						</div>
 						<div className="createchar-edit createchar-edit-btn createchar-edit-btn-footer">
-							<button onClick={() => ragemp.send('ui::createChar:submit', { viewData: data, name })} className="btn">Давай уже играть</button>
+							<button onClick={() => ragemp.send('server::createChar:submit', { viewData: data, name })} className="btn">Давай уже играть</button>
 						</div>
 					</div>
 					<div style={selNav === 7 && type ? {display: 'block'} : {display: 'none'}}>
 						<h1 className="createchar-body-title">Все ?</h1>
 						<div className="createchar-edit createchar-edit-btn">
-							<button onClick={() => ragemp.send('ui::createChar:submit', data)} className="btn">Ну тогда пошли</button>
+							<button onClick={() => ragemp.send('server::createChar:submit', data)} className="btn">Ну тогда пошли</button>
 						</div>
 					</div>
 				</div>

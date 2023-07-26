@@ -126,7 +126,7 @@ export default function Inventory() {
 		            	&& (draggableParent === '#inventoryChar'
 		            		|| draggableParent === '#inventoryNearby'))return
 
-		            ragemp.send('ui::client:menu:inventory:transfer', {
+		            ragemp.send('server::client:menu:inventory:transfer', {
 		            	targetParent,
 		            	targetID,
 
@@ -148,7 +148,7 @@ export default function Inventory() {
 
 		            if(draggableParent === '#inventoryNearby')return
 
-		            ragemp.send('ui::client:menu:inventory:trash', {
+		            ragemp.send('server::client:menu:inventory:trash', {
 		            	draggableParent,
 		            	draggableID
 		            })
@@ -172,21 +172,21 @@ export default function Inventory() {
 
 
 	React.useEffect(() => {
-		ragemp.send('ui::menu:inventory:update:items', items)
+		ragemp.send('server::menu:inventory:update:items', items)
 	}, [items])
 	React.useEffect(() => {
-		ragemp.send('ui::menu:inventory:update:backpack', backpack)
+		ragemp.send('server::menu:inventory:update:backpack', backpack)
 	}, [backpack])
 	React.useEffect(() => {
-		ragemp.send('ui::menu:inventory:update:charList', charList)
+		ragemp.send('server::menu:inventory:update:charList', charList)
 	}, [charList])
 	React.useEffect(() => {
-		ragemp.send('ui::menu:inventory:update:fastList', fastList)
+		ragemp.send('server::menu:inventory:update:fastList', fastList)
 	}, [fastList])
 
 
 	React.useEffect(() => {
-		ragemp.eventCreate('client::menu:inventory', (cmd, data) => {
+		ragemp.eventCreate('menu:inventory', (cmd, data) => {
 			switch(cmd) {
 				case 'setItems': {
 					if(data.items) setItems(data.items)

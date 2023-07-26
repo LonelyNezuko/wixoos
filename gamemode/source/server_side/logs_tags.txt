@@ -1,0 +1,4 @@
+uid[] ---> uid[0] ---> (uid\[\d+\])
+cid[] ---> cid[1] ---> (cid\[\d+\])
+login<> ---> login<LonelyNezuko> ---> (login<[\s\S]+>)
+name<> ---> name<Nezuko Kamado> ---> (name<[\s\S]+>)

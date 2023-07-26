@@ -1,7 +1,9 @@
-import logger from "../_modules/logger"
+import logger from "../../_modules/logger"
 
-import UserBase from "./base"
-import User from "./core"
+import UserBase from ".././base"
+import User from ".././core"
+
+import './chat'
 
 mp.events.add({
     "playerJoin": (player: PlayerMp) => {
@@ -19,6 +21,10 @@ mp.events.add({
         
         user.storage.set('isCefLoaded', true)
         user.goSignin()
+    },
+
+    "playerQuit": (player: PlayerMp, exitType: string, reason: string) => {
+        new UserBase(player).save()
     },
 
     "user:setDimension": (player: PlayerMp, dimension: number) => {

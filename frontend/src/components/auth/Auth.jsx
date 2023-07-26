@@ -72,13 +72,13 @@ export default function Auth() {
 					$('.auth #authPassword').val(data.password)
 					$('.auth #authSavePassword').prop('checked', true)
 
-					if(data.auto) {
-						$('.auth #authAuto').prop('checked', true)
+					// if(data.auto) {
+					// 	$('.auth #authAuto').prop('checked', true)
 
-						setTimeout(() => {
-							submitAuth()
-						}, 200)
-					}
+					// 	setTimeout(() => {
+					// 		submitAuth()
+					// 	}, 200)
+					// }
 					break
 				}
 			}
@@ -119,7 +119,7 @@ export default function Auth() {
 			return
 		}
 
-		ragemp.send('server::auth:submit', { login, password, save: $('.auth #authSavePassword').is(':checked'), auto: $('.auth #authAuto').is(':checked') }, true)
+		ragemp.send('server::auth:submit', { login, password, save: $('.auth #authSavePassword').is(':checked') }, true)
 	}
 	function submitAuthReg() {
 		$('.auth input').blur()
@@ -179,10 +179,10 @@ export default function Auth() {
 						<input id="authSavePassword" type="checkbox" />
 						<label for="authSavePassword">Сохранить пароль</label>
 					</div>
-					<div style={{marginBottom: '13px'}} className="auth-other-i">
+					{/* <div style={{marginBottom: '13px'}} className="auth-other-i">
 						<input id="authAuto" type="checkbox" />
 						<label for="authAuto">Автоматический вход</label>
-					</div>
+					</div> */}
 					<h1 onClick={() => setType(1)}>Нет аккаунта? Давай создадим</h1>
 					<h1 onClick={() => setType(2)}>Забыл пароль? Ща восстановим</h1>
 				</div>

@@ -21,38 +21,40 @@ export default class User {
     }
 
     toggleHud(toggle: boolean): void {
-        // if(toggle === true) this.updateHud()
-        // CEF.emit('client::hud', 'toggle', {
-        //     status: toggle
-        // })
+        if(toggle === true) this.updateHud()
+        cef.emit('hud', 'toggle', {
+            status: toggle
+        })
 
         mp.game.ui.displayRadar(toggle)
     }
     updateHud(): void {
-        // CEF.emit('client::hud', 'setData', {
-        //     online: mp.players.length,
-        //     id: mp.players.local.id,
+        cef.emit('hud', 'setData', {
+            online: mp.players.length,
+            id: this.player.id,
     
-        //     accountName: mp.players.local.name,
-        //     accountID: this.cid,
+            accountName: this.player.name,
+            accountID: this.player.getVariable('uid') || 0,
     
-        //     cash: this.cash,
-        //     bank: this.bankCash,
+            cash: this.player.getVariable('char_cash') || 0,
+            bank: this.player.getVariable('char_bankCash') || 0,
     
-        //     needs: [100, 100]
-        // })
-        // CEF.emit('client::hud', 'setAccountData', {
-        //     mute: this.mute
-        // })
+            needs: [100, 100]
+        })
+        cef.emit('hud', 'setAccountData', {
+            mute: this.player.getVariable('char_mute') || false
+        })
     
-        // const keyBinds = []
-        // for(var key in this.keyBinds)
-        // {
-        //     if(this.keyBinds[key].hudVisible === true) keyBinds.push([ this.keyBinds[key].key, this.keyBinds[key].name ])
-        // }
+        const keyBinds: any = []
+        const playerKeyBinds = this.player.getVariable('keyBinds') || {}
+        
+        for(var key in playerKeyBinds)
+        {
+            if(playerKeyBinds[key].hudVisible === true) keyBinds.push([ playerKeyBinds[key].key, playerKeyBinds[key].name ])
+        }
     
-        // CEF.emit('client::hud', 'setKeys', keyBinds)
-        // CEF.emit('client::hud', 'setKeysToggle', { status: this.keysToggle })
+        cef.emit('hud', 'setKeys', keyBinds)
+        cef.emit('hud', 'setKeysToggle', { status: true })
     }
 
     freeze(status: boolean): void {

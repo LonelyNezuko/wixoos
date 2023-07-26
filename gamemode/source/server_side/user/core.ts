@@ -7,13 +7,17 @@ interface UserInterface {
     isReady: boolean,
     isAuth: boolean,
     isCefLoaded: boolean,
-    isEditCharacter: boolean
+    isEditCharacter: boolean,
+
+    openeds: any[]
 }
 const storageDefault: UserInterface = {
     isReady: false,
     isAuth: false,
     isCefLoaded: false,
-    isEditCharacter: false
+    isEditCharacter: false,
+
+    openeds: []
 }
 const storage = new Map<number, UserInterface>()
 
@@ -36,8 +40,8 @@ export default class User {
 
     storage: any = {
         clear: (): void => {
-            storage.delete(this.id)
-            storage.set(this.id, storageDefault)
+            let res = storage.delete(this.id)
+            storage.set(this.id, {...storageDefault})
         },
         get: (key: number): any => {
             const data: any = storage.get(this.id)
@@ -55,6 +59,12 @@ export default class User {
     get isAuth(): boolean {
         return this.storage.get('isAuth')
     }
+    
+    get onFoot(): boolean {
+        if(this.storage.get('openeds').length)return false
+
+        return true
+    }
 
 
     goSignin(): void {
@@ -62,6 +72,8 @@ export default class User {
 
         if(this.storage.get('isReady')
             && this.storage.get('isCefLoaded')) {
+            this.player.call('client::user:auth:setRemember')
+
             new CEF(this.player, 'auth', 'toggle', { status: true }).send()
             this.cursor(true)
 
@@ -69,14 +81,21 @@ export default class User {
                 const
                     login: string = data.login,
                     password: string = data.password,
-                    save: boolean = data.save,
-                    auto: boolean = data.auto
+                    save: boolean = data.save
 
                 if(login.length < CONFIG_DEFAULT.usernameLength[0] || login.length > CONFIG_DEFAULT.usernameLength[1]
                     || !func.validatePassword(password))
                     return this.notify('Некорректные данные', 'error')
+
+                if(save) {
+                    this.player.call('client::user:auth:remember', [ true, {
+                        login,
+                        password
+                    } ])
+                }
+                else this.player.call('client::user:auth:remember', [ false, {} ])
                 
-                new UserBase(this.player).signin(login, password, save, auto)
+                new UserBase(this.player).signin(login, password)
             })
             new CEF(this.player, 'cef::auth:submit:reg').add((data: any): any => {
                 const
@@ -91,6 +110,14 @@ export default class User {
                     return this.notify('Некорректные данные', 'error')
                 if(!func.validateEmail(email))
                     return this.notify('Некорректный Email адрес (пример: email@domen.ru)', 'error')
+
+                if(save) {
+                    this.player.call('client::user:auth:remember', [ true, {
+                        login,
+                        password,
+                        auto
+                    } ])
+                }
 
                 new UserBase(this.player).signup(login, password, email, save, auto)
             })
@@ -367,4 +394,24 @@ export default class User {
 			if(!data.notSaveMysql) userBase.save()
 		}
 	}
+
+
+    // openeds
+    openeds: any = {
+        add: (name: string): void => {
+            const temp = this.storage.get('openeds')
+            temp.push(name)
+
+            this.storage.set('openeds', temp)
+        },
+        remove: (name: string): void => {
+            const temp = this.storage.get('openeds')
+            if(temp.indexOf(name) !== -1) temp.splice(temp.indexOf(name), 1)
+
+            this.storage.set('openeds', temp)
+        },
+        is: (name: string): boolean => {
+            return this.storage.get('openeds').indexOf(name) !== -1
+        }
+    }
 }

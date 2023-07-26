@@ -19,7 +19,7 @@ const cef = {
     },
     emit: (eventname: string, cmd: string, data: any = {}, log: boolean = true): void =>
     {
-        if(!cefActive)return logger.error('cef not init')
+        if(!cefActive)return
 
         browser.execute(`window.eventTrigger('${eventname}', '${cmd}', '${JSON.stringify(data)}')`)
         if(log === true) logger.log(`window.eventTrigger('${eventname}', '${cmd}', '${JSON.stringify(data)}')`)

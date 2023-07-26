@@ -8,6 +8,8 @@ import User from "./core"
 import func from '../_modules/func'
 import CEF from '../_modules/cef'
 
+import CONFIG_ENUMS from '../configs/enums.json'
+
 // storage
 interface UserBaseInterface {
     uid: number,
@@ -91,7 +93,7 @@ export default class UserBase {
     storage: any = {
         clear: (): void => {
             storage.delete(this.id)
-            storage.set(this.id, storageDefault)
+            storage.set(this.id, {...storageDefault})
         },
         get: (key: number): any => {
             const data: any = storage.get(this.id)
@@ -150,14 +152,16 @@ export default class UserBase {
             })
         })
     }
-    signin(login: string, password: string, auto: boolean, save: boolean): void {
+    signin(login: string, password: string): void {
         if(this.isAuth)return
 
         mysql.query('select uid, password from users where login = ?', [ login ], (err: any, res: any) => {
             if(err)return logger.error('UserBase.signin', err)
             
             if(!res.length
-                || !bcryptjs.compareSync(password, res[0]['password']))return new User(this.player).notify('Аккаунт не найден. Логин и/или пароль не верный', 'error')
+                || !bcryptjs.compareSync(password, res[0]['password'])) {
+                return new User(this.player).notify('Аккаунт не найден. Логин и/или пароль не верный', 'error')
+            }
 
             this.storage.set('uid', res[0]['uid'])
             this.load()
@@ -177,7 +181,21 @@ export default class UserBase {
                 if(res[0][item]) this.storage.set(item, func.isJSON(res[0][item]) ? JSON.parse(res[0][item]) : res[0][item])
             }
 
+            // update keys
+            const keysSettings = JSON.parse(res[0]['keyBinds'])
+            const _confTmp: any = CONFIG_ENUMS.keysSettings
+
+            for(var key in _confTmp)
+            {
+                if(keysSettings[key] === undefined) keysSettings[key] = _confTmp[key]
+            }
+            this.storage.set('keyBinds', keysSettings)
+            // 
+
             logger.debug(`Аккаунт #${this.uid} загружен`)
+
+            this.player.setVariable('uid', this.uid)
+            this.player.setVariable('keyBinds', this.storage.get('keyBinds'))
 
             new CEF(this.player, 'auth', 'toggle', { status: false }).send()            
             this.character.choice()
@@ -193,10 +211,10 @@ export default class UserBase {
 
     		// Сохранение персонажа
             for(let item in storageDefault) {
-                if(item !== 'char_cid' && item !== 'uid' && item !== 'createAt'
-                    && item.indexOf('char_') === 0)
+                if(item.indexOf('char_') === 0
+                    && item !== 'char_cid' && item !== 'char_uid' && item !== 'char_createAt')
                 {
-        			query += `${item} = ?`
+        			query += `${item.replace('char_', '')} = ?`
                     let get = this.storage.get(item)
 
                     if(typeof get === 'object') args.push(JSON.stringify(get))
@@ -208,14 +226,14 @@ export default class UserBase {
             }
 
             query = query.substring(0, query.length - 2)
-    		query += ` where id = ?`
+    		query += ` where cid = ?`
 
             args.push(this.cid)
 
-    		logger.log('user.save', {
-    			message: query,
-    			args: args
-    		})
+    		// logger.log('user.save', {
+    		// 	message: query,
+    		// 	args: args
+    		// })
     		mysql.query(query, args, (err: any) =>
     		{
     			if(err)return logger.error('UserBase.save', err)
@@ -223,7 +241,7 @@ export default class UserBase {
     		})
 
     		// Сохранение аккаута
-    		mysql.query(`update accounts set login = ?, password = ?, email = ? where uid = ?`, [
+    		mysql.query(`update users set login = ?, password = ?, email = ? where uid = ?`, [
     			this.login,
     			this.storage.get('password'),
     			this.storage.get('email'),
@@ -251,13 +269,18 @@ export default class UserBase {
                 if(!res.length)return this.player.kick("Персонаж не найден")
 
                 for(let item in storageDefault) {
-                    if(res[0][item]) this.storage.set("char_" + item, func.isJSON(res[0][item]) ? JSON.parse(res[0][item]) : res[0][item])
+                    if(res[0][item.replace('char_', '')]) this.storage.set(item, func.isJSON(res[0][item.replace('char_', '')]) ? JSON.parse(res[0][item.replace('char_', '')]) : res[0][item.replace('char_', '')])
                 }
 
-                logger.debug(`Персонаж #${this.cid} загружен`)
+                logger.debug(`Персонаж #${this.cid} загружен: ${this.storage.get('char_name')}`)
 
                 const user = new User(this.player)
                 user.storage.set('isAuth', true)
+
+                this.player.name = this.name
+
+                this.player.setVariable('char_cash', 200)
+                this.player.setVariable('char_bankCash', 0)
 
                 user.loadScreen(true)
                 user.spawn()

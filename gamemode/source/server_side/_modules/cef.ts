@@ -18,6 +18,11 @@ export default class CEF {
         this.player.call('server::cef:send', [ this.eventname, this.cmd, this.params ])
     }
     add(callback: any): void {
+        let temp: any = mp.events.getAllOf(this.eventname)
+        if(temp.length) {
+            mp.events.remove(this.eventname, temp[0])
+        }
+
         mp.events.add(this.eventname, (_: PlayerMp, params: any) => {
             callback(JSON.parse(params))
         })

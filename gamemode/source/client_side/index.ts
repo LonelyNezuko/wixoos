@@ -7,6 +7,7 @@ import User from "./user/core"
 const user = new User()
 
 import './user/events'
+import './events/keypressed'
 
 mp.gui.chat.show(false)
 mp.game.ui.displayCash(false)

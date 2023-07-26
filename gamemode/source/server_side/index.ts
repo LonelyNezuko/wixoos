@@ -1,7 +1,10 @@
 import logger from "./_modules/logger";
 import mysql from "./_mysql";
 
-const CONFIG_DEFAULT = require('./configs/default.json')
+import CONFIG_DEFAULT from './configs/default.json'
+
+import './events'
+import './commands'
 
 mysql.init(() => {
     require('./user')

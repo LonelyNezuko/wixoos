@@ -5,9 +5,13 @@ import CONFIG_DEFAULT from './configs/default.json'
 
 import './events'
 import './commands'
+import './user'
+import './systems/admin'
+
+import Admin from "./systems/admin/core"
 
 mysql.init(() => {
-    require('./user')
+    new Admin().loadAdminSettings()
     
     logger.log(`Gamemode ${CONFIG_DEFAULT.projectName} successfully loaded`)
 })

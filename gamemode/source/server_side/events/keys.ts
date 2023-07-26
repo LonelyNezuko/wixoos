@@ -15,6 +15,8 @@ mp.events.add('server::key', (player: PlayerMp, data: any) => {
                 && keyBinds[key].keyCode[0] === data.keyCode[0]
                 && keyBinds[key].keyCode[1] === data.keyCode[1])
             || (typeof data.keyCode === 'object'
-                && data.keyCode.indexOf(keyBinds[key].keyCode) !== -1)) keys[key].func(player, data.up)
+                && data.keyCode.indexOf(keyBinds[key].keyCode) !== -1)) {
+            if(keys[key] && keys[key].func) keys[key].func(player, data.up)
+        }
     }
 })

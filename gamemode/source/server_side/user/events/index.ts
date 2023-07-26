@@ -24,7 +24,10 @@ mp.events.add({
     },
 
     "playerQuit": (player: PlayerMp, exitType: string, reason: string) => {
-        new UserBase(player).save()
+        const userBase = new UserBase(player)
+
+        userBase.save()
+        userBase.logs.send(`Вышел с сервера`)
     },
 
     "user:setDimension": (player: PlayerMp, dimension: number) => {

@@ -5,6 +5,7 @@ import logger from "../_modules/logger"
 import mysql from "../_mysql"
 
 import User from "./core"
+
 import func from '../_modules/func'
 import CEF from '../_modules/cef'
 
@@ -32,8 +33,8 @@ interface UserBaseInterface {
     char_createAt: Date,
 
     char_gender: number,
-    char_appearance: Object,
-    char_clothes: Object,
+    char_appearance: any,
+    char_clothes: any,
 
     char_isMute: number,
     char_isKeysToggle: number,
@@ -67,7 +68,7 @@ const storageDefault: UserBaseInterface = {
 
     char_gender: 0,
     char_appearance: {},
-    char_clothes: {},
+    char_clothes: undefined,
 
     char_isMute: 0,
     char_isKeysToggle: 0,
@@ -84,10 +85,13 @@ const storage = new Map<number, UserBaseInterface>()
 export default class UserBase {
     private readonly player: PlayerMp
     private readonly id: number
+    private readonly user: User
 
     constructor(player: PlayerMp) {
         this.player = player
         this.id = player.id
+
+        this.user = new User(player)
     }
 
     storage: any = {
@@ -127,26 +131,28 @@ export default class UserBase {
     }
 
     get isAuth(): boolean {
-        return new User(this.player).isAuth
+        return this.user.isAuth
     }
 
 
-    signup(login: string, password: string, email: string, auto: boolean, save: boolean): void {
+    signup(login: string, password: string, email: string): void {
         if(this.isAuth)return
 
         mysql.query('select uid from users where login = ?', [ login ], (err: any, res: any) => {
             if(err)return logger.error('UserBase.signup', err)
-            if(res.length)return new User(this.player).notify('Аккаунт с таким логином уже зарегистрирован', 'error')
+            if(res.length)return this.user.notify('Аккаунт с таким логином уже зарегистрирован', 'error')
 
             let salt: string = bcryptjs.genSaltSync(10)
             password = bcryptjs.hashSync(password, salt)
 
-            mysql.query('insert into users (login, password, email) values (?, ?, ?)', [ login, password, email ], (err: any, res: any) => {
+            mysql.query('insert into users (login, password, email, createIP) values (?, ?, ?, ?)', [ login, password, email, this.player.ip ], (err: any, res: any) => {
                 if(err)return logger.error('UserBase.signup', err)
                 if(res) {
-                    new User(this.player).notify(`Аккаунт успешно создан. Его UID: ${res.insertId}`, 'success')
+                    this.user.notify(`Аккаунт успешно создан. Его UID: ${res.insertId}`, 'success')
 
                     this.storage.set('uid', res.insertId)
+                    this.logs.send(`Зарегистрировался. IP: <ip '${this.player.ip}'>`, true)
+
                     this.load()
                 }
             })
@@ -160,7 +166,7 @@ export default class UserBase {
             
             if(!res.length
                 || !bcryptjs.compareSync(password, res[0]['password'])) {
-                return new User(this.player).notify('Аккаунт не найден. Логин и/или пароль не верный', 'error')
+                return this.user.notify('Аккаунт не найден. Логин и/или пароль не верный', 'error')
             }
 
             this.storage.set('uid', res[0]['uid'])
@@ -241,10 +247,16 @@ export default class UserBase {
     		})
 
     		// Сохранение аккаута
-    		mysql.query(`update users set login = ?, password = ?, email = ? where uid = ?`, [
+    		mysql.query(`update users set login = ?, password = ?, email = ?, keyBinds = ?, admin = ?, adminData = ? where uid = ?`, [
     			this.login,
     			this.storage.get('password'),
     			this.storage.get('email'),
+
+                JSON.stringify(this.storage.get('keyBinds')),
+
+                this.storage.get('admin'),
+                JSON.stringify(this.storage.get('adminData')),
+
     			this.uid
     		], (err: any) =>
     		{
@@ -273,17 +285,17 @@ export default class UserBase {
                 }
 
                 logger.debug(`Персонаж #${this.cid} загружен: ${this.storage.get('char_name')}`)
+                this.logs.send(`Зашел на сервер. Персонаж: <character '${this.name}' cid[${this.cid}]> IP: <ip '${this.player.ip}'>`, true)
 
-                const user = new User(this.player)
-                user.storage.set('isAuth', true)
+                this.user.storage.set('isAuth', true)
 
                 this.player.name = this.name
 
                 this.player.setVariable('char_cash', 200)
                 this.player.setVariable('char_bankCash', 0)
 
-                user.loadScreen(true)
-                user.spawn()
+                this.user.loadScreen(true)
+                this.user.spawn()
             })
         },
         choice: (): void => {
@@ -291,10 +303,8 @@ export default class UserBase {
             if(!this.uid
                 || this.uid === -1)return
 
-            const user = new User(this.player)
-
-            user.setPos(-1815.242431640625, -1203.771484375, 13.01736068725586, -41.2353515625, this.player.id + 1)
-            user.setCamera(new mp.Vector3(-968.2666625976562, -2435.315185546875, 223.9071044921875), [ -580.9144897460938, -1692.084228515625, 36.439208984375 ])
+            this.user.setPos(-1815.242431640625, -1203.771484375, 13.01736068725586, -41.2353515625, this.player.id + 1)
+            this.user.setCamera(new mp.Vector3(-968.2666625976562, -2435.315185546875, 223.9071044921875), [ -580.9144897460938, -1692.084228515625, 36.439208984375 ])
             
             mysql.query('select * from characters where uid = ?', [ this.uid ], (err: any, res: any) => {
                 if(err)return logger.error('UserBase.character.choice', err)
@@ -317,7 +327,7 @@ export default class UserBase {
                 }
                 characters[2] = { donate: true }
 
-                user.cursor(true)
+                this.user.cursor(true)
 
                 new CEF(this.player, "choiceChar", "setCharacters", characters).send()
                 new CEF(this.player, "choiceChar", "toggle", { status: true }).send()
@@ -330,33 +340,46 @@ export default class UserBase {
                 })
                 new CEF(this.player, "cef::user:choiceChar:create").add(() => {
                     new CEF(this.player, 'choiceChar', 'toggle', { status: false }).send()
-                    new User(this.player).createCharacter()
+                    this.user.createCharacter()
                 })
                 new CEF(this.player, "cef::user:choiceChar:buy").add(() => {
-                    new User(this.player).notify('В разработке')
+                    this.user.notify('В разработке')
                 })
             })
         },
         create: (name: [string, string], appearance: any, gender: number): void => {
-            const user = new User(this.player)
             mysql.query('select cid from characters where name = ?', [ JSON.stringify(name) ], (err: any, res: any) => {
                 if(err)return logger.mysql('UserBase.character.create', err)
-                if(res.length)return user.notify('Данное Имя и Фамилию уже кто-то забрал. Попробуй другой вариант', 'error')
+                if(res.length)return this.user.notify('Данное Имя и Фамилию уже кто-то забрал. Попробуй другой вариант', 'error')
     
-                user.loadScreen(true)
-                mysql.query(`insert into characters (uid, name, gender, appearance, clothes) values (?, ?, ?, ?, ?)`, [
+                this.user.loadScreen(true)
+                mysql.query(`insert into characters (uid, name, gender, appearance, clothes, createIP) values (?, ?, ?, ?, ?, ?)`, [
                     this.uid,
                     JSON.stringify(name),
                     gender,
                     JSON.stringify(appearance),
-                    JSON.stringify(this.storage.get('char_clothes')) ], (err: any, res: any) => {
+                    JSON.stringify(this.storage.get('char_clothes')),
+                    this.player.ip ], (err: any, res: any) => {
                     if(err)return logger.mysql('UserBase.character.create', err)
     
                     new CEF(this.player, 'createChar', 'toggle', { status: false }).send()
                     this.storage.set('char_cid', res.insertId)
-    
+
+                    this.logs.send(`Создал нового персонажа: <character '${name[0] + ' ' + name[1]}' cid[${this.cid}]>`, true)
                     this.character.load()
                 })
+            })
+        }
+    }
+
+
+    logs: any = {
+        send: (text: string, bypassAuth: boolean = false): void => {
+            if(!this.user.isAuth
+                && !bypassAuth)return
+            
+            mysql.query('insert into logs (uid, cid, text) values (?, ?, ?)', [ this.uid, this.cid, text ], (err: any) => {
+                if(err)return logger.error('UserBase.logs.send', err)
             })
         }
     }

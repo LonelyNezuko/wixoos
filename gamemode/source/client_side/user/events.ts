@@ -1,3 +1,4 @@
+import { text } from "stream/consumers"
 import cef from "../_modules/cef"
 import func from "../_modules/func"
 import logger from "../_modules/logger"
@@ -47,6 +48,12 @@ mp.events.add({
     },
     "client::user:loadScreen": (toggle: boolean): void => {
         new User().loadScreen(toggle)
+    },
+    "client::user:setProp": (index: number, id: number, texture: number): void => {
+        new User().setProp(index, id, texture)
+    },
+    "client::user:clearProp": (index: number): void => {
+        new User().clearProp(index)
     },
 
     'server::user:changeMinimap': () => {

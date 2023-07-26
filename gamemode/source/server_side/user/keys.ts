@@ -7,7 +7,6 @@ import User from "./core";
 
 addKey({
     'chatOpen': {
-        keyCode: 84,
         func: (player: PlayerMp) => {
             const user = new User(player)
             if(!user.onFoot)return
@@ -24,6 +23,11 @@ addKey({
 
             user.cursor(true)
             user.openeds.add('chat')
+        }
+    },
+    'changeMinimap': {
+        func: (player: PlayerMp) => {
+            player.call('server::user:changeMinimap')
         }
     }
 })

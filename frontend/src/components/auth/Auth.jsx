@@ -147,7 +147,7 @@ export default function Auth() {
 			return
 		}
 
-		ragemp.send('server::auth:submit:reg', { login, password, email, save: $('.auth #authRegSavePassword').is(':checked'), auto: $('.auth #authRegAuto').is(':checked') })
+		ragemp.send('server::auth:submit:reg', { login, password, email, save: $('.auth #authRegSavePassword').is(':checked') })
 	}
 
 	return (
@@ -225,10 +225,10 @@ export default function Auth() {
 						<input id="authRegSavePassword" type="checkbox" />
 						<label for="authRegSavePassword">Сохранить пароль</label>
 					</div>
-					<div style={{marginBottom: '13px'}} className="auth-other-i">
+					{/* <div style={{marginBottom: '13px'}} className="auth-other-i">
 						<input id="authRegAuto" type="checkbox" />
 						<label for="authRegAuto">Автоматический вход</label>
-					</div>
+					</div> */}
 					<h1 onClick={() => setType(0)}>Уже есть аккаунт? Так войди</h1>
 				</div>
 				<div className="auth-footer" style={type !== 1 ? {display: 'none'} : {display: 'flex'}}>

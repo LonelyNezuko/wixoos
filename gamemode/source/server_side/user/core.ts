@@ -102,8 +102,7 @@ export default class User {
                     login: string = data.login,
                     password: string = data.password,
                     email: string = data.email,
-                    save: boolean = data.save,
-                    auto: boolean = data.auto
+                    save: boolean = data.save
 
                 if(login.length < CONFIG_DEFAULT.usernameLength[0] || login.length > CONFIG_DEFAULT.usernameLength[1]
                     || !func.validatePassword(password))
@@ -114,12 +113,11 @@ export default class User {
                 if(save) {
                     this.player.call('client::user:auth:remember', [ true, {
                         login,
-                        password,
-                        auto
+                        password
                     } ])
                 }
 
-                new UserBase(this.player).signup(login, password, email, save, auto)
+                new UserBase(this.player).signup(login, password, email)
             })
         }
     }
@@ -220,20 +218,19 @@ export default class User {
         new CEF(this.player, 'cef::createChar:update').add((data: any) => {
             if(!this.storage.get('isEditCharacter'))return
 
-            const clothes = data.clothes
+            const clothes: any = data.clothes
+            let setcloth: any = {}
+
             clothes.map((item: any, i: number) => {
                 let cl: any = CONFIG_ENUMS.characterCreateClothesList[data.gender][i][item]
                 delete cl.name
 
-                if(i === 0) {
-                    this.setClothes({ clothes: {
-                        props: {
-                            hat: cl.id
-                        }
-                    }, gender: data.gender})
+                if(i === 0) setcloth.props = { hat: cl.id }
+                else {
+                    for(let key in cl) setcloth[key] = cl[key]
                 }
-                else this.setClothes({ clothes: cl })
             })
+            this.setClothes({ clothes: setcloth })
 
             delete data.clothes
             this.resetAppearance({ appearance: data, gender: data.gender })
@@ -254,19 +251,17 @@ export default class User {
             const gender = viewData.gender
             delete viewData.gender
 
+            let setcloth: any = {}
             clothes.map((item: any, i: number) => {
                 let cl: any = CONFIG_ENUMS.characterCreateClothesList[gender][i][item]
                 delete cl.name
 
-                if(i === 0) {
-                    this.setClothes({ clothes: {
-                        props: {
-                            hat: cl.id
-                        }
-                    }, gender: gender, save: true, notSaveMysql: true })
+                if(i === 0) setcloth.props = { hat: cl.id }
+                else {
+                    for(let key in cl) setcloth[key] = cl[key]
                 }
-                else this.setClothes({ clothes: cl, save: true, notSaveMysql: true })
             })
+            this.setClothes({ clothes: setcloth, save: true, notSaveMysql: true })
 
             new UserBase(this.player).character.create(name, viewData, gender)
         })
@@ -350,29 +345,12 @@ export default class User {
 
 		if(!clothes || !clothes.props) clothes = CONFIG_ENUMS.clothesDefault[gender]
 
-        const clearedProp: any = [
-			{
-                hat: 8,
-                glasess: 6,
-                ears: 15,
-                watch: 2,
-                bracelet: 20
-            },
-            {
-                hat: 120,
-                glasess: 5,
-                ears: 12,
-                watch: 1,
-                bracelet: 16
-            }
-		]
-
         const clothesComponentIDTemp: any = CONFIG_ENUMS.clothesComponentID
         for(var key in clothes) {
         	if(key === 'props') {
         		for(var key in clothes.props) {
-        			if(clothes.props[key] === -1) this.player.setProp(clothesComponentIDTemp.props[key], clearedProp[gender][key], 0)
-        			else this.player.setProp(clothesComponentIDTemp.props[key], clothes.props[key], 0)
+        			if(clothes.props[key] === -1) this.player.call('client::user:clearProp', [ clothesComponentIDTemp.props[key] ])
+        			else this.player.call('client::user:setProp', [ clothesComponentIDTemp.props[key], clothes.props[key], 0 ])
         		}
         	}
         	else this.player.setClothes(clothesComponentIDTemp[key], clothes[key], 0, 0)

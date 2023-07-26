@@ -24,7 +24,7 @@ const mysql = {
             logger.error('MySQL init: error', e)
         }
     },
-    query: (query: string, args: any[] = [], callback: any = null) =>
+    query: (query: string, args?: any[], callback?: any) =>
     {
         dbhandle.query(query, args, callback)
     }

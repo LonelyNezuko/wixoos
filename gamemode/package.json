@@ -13,10 +13,10 @@
   },
   "homepage": "https://github.com/LonelyNezuko/wixoos#readme",
   "devDependencies": {
+    "@ragempcommunity/types-client": "^2.1.5",
+    "@ragempcommunity/types-server": "^2.1.5",
     "@types/bcryptjs": "^2.4.2",
-    "@types/node": "^20.4.4",
-    "@types/ragemp-c": "github:CocaColaBear/types-ragemp-c#v1.0",
-    "@types/ragemp-s": "github:CocaColaBear/types-ragemp-s#v1.0"
+    "@types/node": "^20.4.4"
   },
   "scripts": {
     "build": "build.bat",

@@ -87,7 +87,7 @@ export default class User {
     }
 
 
-    setCamera(position: Vector3Mp, atCoord: [ number, number, number ], data: any = {}): void {
+    setCamera(position: Vector3, atCoord: [ number, number, number ], data: any = {}): void {
         if(camera) this.destroyCamera()
 
         camera = mp.cameras.new('default', position, new mp.Vector3(0, 0, 0), data.fov ? data.fov : 40)
@@ -131,5 +131,29 @@ export default class User {
             type,
             time
         })
+    }
+
+
+    setProp(index: number, id: number, texture: number): void {
+        this.player.setPropIndex(index, id, texture, true)
+
+        const props = this.player.getVariable('props') || [ -1, -1, -1, -1, -1 ]
+
+        if(index === 6) index = 3
+        else if(index === 7) index = 4
+
+        props[index] = { id, texture }
+        // this.player.setVariable("props", props)
+    }
+    clearProp(index: number): void {
+        this.player.clearProp(index)
+
+        const props = this.player.getVariable('props') || [ -1, -1, -1, -1, -1 ]
+
+        if(index === 6) index = 3
+        else if(index === 7) index = 4
+
+        props[index] = -1
+        // this.player.setVariable("props", props)
     }
 }

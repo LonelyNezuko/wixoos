@@ -6,6 +6,7 @@ import cef from "./_modules/cef"
 import User from "./user/core"
 const user = new User()
 
+import './__sync__'
 import './user/events'
 import './events/keypressed'
 

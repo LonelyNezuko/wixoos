@@ -1,11 +1,12 @@
 import CEF from "../_modules/cef"
 import func from "../_modules/func"
+import UserBase from "./base"
 
 import User from "./core"
 
 const chat: any = {}
 
-chat.push = (player: PlayerMp, message: string, type: string, settings: any = {}) => {
+chat.push = (player: PlayerMp, message: string, type: string, settings: any = {}): any => {
     new CEF(player, 'hud:chat', 'addMessage', {
         text: message,
         type,
@@ -18,7 +19,7 @@ chat.clear = (player: PlayerMp) => {
     chat.push(player, 'Чат очищен', 'system')
 }
 
-chat.radius = (player: PlayerMp, text: string, type: string, settings: any = {}) =>
+chat.radius = (player: PlayerMp, text: string, type: string, settings: any = {}): any =>
 {
     mp.players.forEach(pl =>
     {
@@ -32,7 +33,7 @@ chat.setTypeList = (player: PlayerMp) => {
         '',
     ]
 
-    // if(STORAGE.get('user', player.id, 'admin') > 0) typeList.push('admin')
+    // if() typeList.push('admin')
 
     typeList.push('ooc')
     typeList.push('me')
@@ -43,10 +44,10 @@ chat.setTypeList = (player: PlayerMp) => {
     new CEF(player, 'hud:chat', 'setTypeList', typeList).send()
 }
 
-// chat.pushAdmin = (message, settings = {}) => {
-//     mp.players.forEach(pl => {
-//         if(STORAGE.get('user', pl.id, 'admin') > 0) chat.push(pl, message, 'admin', settings)
-//     })
-// }
+chat.pushAdmin = (message: string, settings: any = {}) => {
+    mp.players.forEach(pl => {
+        if(new UserBase(pl).storage.get('admin').length) chat.push(pl, message, 'admin', settings)
+    })
+}
 
 export default chat

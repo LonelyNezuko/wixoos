@@ -1,4 +1,4 @@
-import { commands } from "../../_modules/commands"
+import { callCommand, commands } from "../../_modules/commands"
 import func from "../../_modules/func"
 
 import UserBase from "../base"
@@ -18,16 +18,8 @@ mp.events.add('cef::hud:chat:send', (player: PlayerMp, data: any) => {
 
     if(data.text[0] === '/') {
         const cmd = data.text.split(' ')[0].replace('/', '')
-        const args = data.text.split(' ').splice(1, data.text.length)
 
-        if(commands[cmd]) {
-            if(commands[cmd].settings) {
-                // if(commands[cmd].settings.admin && commands[cmd].settings.admin > user.getAdminLevel(player))return
-                if(commands[cmd].settings.devmode && CONFIG_DEFAULT.dev.names.indexOf(userBase.login) === -1)return
-            }
-
-            commands[cmd].func(player, args, data.text.replace(data.text.split(' ')[0], ''))
-        }
+        if(commands[cmd]) callCommand(player, cmd, data.text.replace(`/${cmd} `, '').replace(`/${cmd}`, ''))
         else chat.push(player, 'Такой команды не существует!', 'system')
     }
     else {
@@ -43,7 +35,7 @@ mp.events.add('cef::hud:chat:send', (player: PlayerMp, data: any) => {
                 break
             }
             case 'admin': {
-                // chat.pushAdmin(`[A] ${user.getAdminName(player)} ${userBase.name} [${player.id}]: ${data.text}`)
+                callCommand(player, 'a', data.text)
                 break
             }
             case 'me': {

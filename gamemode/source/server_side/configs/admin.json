@@ -1,15 +1,15 @@
 {
     "defaultRoles": {
-        "HELPER": { "name": "Помощник", "color": "#8d9191", "tag": "HELPER", "notDelete": true },
-        "MODERATOR": { "name": "Модератор", "color": "#30d4c5", "tag": "MODERATOR", "notDelete": true },
-        "ADMIN1": { "name": "Мл. Администратор", "color": "#d57d15", "tag": "ADMIN1" },
-        "ADMIN2": { "name": "Ст. Администратор", "color": "#3d44e2", "tag": "ADMIN2" },
-        "DEPUTY_CHEIF_ADMIN": { "name": "Зам. Глав. Администратора", "color": "#3de39d", "tag": "DEPUTY_CHEIF_ADMIN" },
-        "CHEIF_ADMIN": { "name": "Глав. Администратор", "color": "#20c230", "tag": "CHEIF_ADMIN" },
-        "CURATOR": { "name": "Куратор", "color": "#9b1ece", "tag": "CURATOR" },
-        "RED_ADMIN": { "name": "Красный Администратор", "color": "#f23a3a", "tag": "RED_ADMIN" },
-        "DIRECTOR": { "name": "Руководство", "color": "#f23a3a", "tag": "DIRECTOR" },
-        "DEVELOPER": { "name": "Разработчик", "color": "#f33bd0", "tag": "DEVELOPER", "notDelete": true }
+        "HELPER": { "name": "Помощник", "color": "#8d9191", "notDelete": true },
+        "MODERATOR": { "name": "Модератор", "color": "#30d4c5", "notDelete": true },
+        "ADMIN1": { "name": "Мл. Администратор", "color": "#d57d15" },
+        "ADMIN2": { "name": "Ст. Администратор", "color": "#3d44e2" },
+        "DEPUTY_CHEIF_ADMIN": { "name": "Зам. Глав. Администратора", "color": "#3de39d" },
+        "CHEIF_ADMIN": { "name": "Глав. Администратор", "color": "#20c230" },
+        "CURATOR": { "name": "Куратор", "color": "#9b1ece" },
+        "RED_ADMIN": { "name": "Красный Администратор", "color": "#f23a3a" },
+        "DIRECTOR": { "name": "Руководство", "color": "#f23a3a" },
+        "DEVELOPER": { "name": "Разработчик", "color": "#f33bd0", "notDelete": true }
     },
     "defaultAccess": {
         "cmd_a": [ "ALL" ],

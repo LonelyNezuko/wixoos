@@ -10,7 +10,7 @@ import Dialog from './components/dialog/Dialog'
 import Auth from './components/auth/Auth'
 import ChoiceChar from './components/choiceChar/ChoiceChar'
 import CreateChar from './components/createChar/CreateChar'
-import Notify from './components/notify/Notify'
+import { Notify } from './components/notify/Notify'
 import Shop from './components/shop/Shop'
 import NPCDialog from './components/npcDialog/NPCDialog'
 import Radial from './components/radial/Radial'
@@ -19,8 +19,10 @@ import Phone from './components/phone/Phone'
 import Tuning from './components/tuning/Tuning'
 import Rent from './components/rent/Rent'
 import Browser from './components/browser/Browser'
+import Admin from './components/admin/admin';
 
 import "./index.scss"
+import './default'
 
 let keyPressed = []
 let keyPressedKD = 0
@@ -72,6 +74,7 @@ root.render(
         <Tuning />
         <Rent />
         <Browser />
+        <Admin />
     </>
 );
 

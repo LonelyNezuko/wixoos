@@ -9,7 +9,7 @@ import { TiInfo } from 'react-icons/ti'
 
 import './notify.scss'
 
-export default function Notify() {
+export function Notify() {
 	const [ notify, setNotify ] = React.useState([])
 	function addNotify(text, type = 'info', time = 5000) {
 		const id = random.textNumber(32)
@@ -36,4 +36,11 @@ export default function Notify() {
 			})}
 		</div>
 	)
+}
+
+export function notifySend(text, type = 'info', time = 5000) {
+	if(!text.length)return
+	ragemp.trigger('notify', 'add', {
+		text, type, time
+	})
 }

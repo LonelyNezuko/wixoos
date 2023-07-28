@@ -1,4 +1,6 @@
 @import './fonts/stylesheet.css';
+@import './rules/null.scss';
+@import './rules/variables.scss';
 
 * {
     margin: 0;
@@ -21,7 +23,7 @@ body {
     width: 100%;
     height: 100%;
 
-    // background: url(https://steamuserimages-a.akamaihd.net/ugc/405682610614540575/DF1BB078BA8227EB1166902A7C47130B8131F91D/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true);
+    background: url(https://steamuserimages-a.akamaihd.net/ugc/405682610614540575/DF1BB078BA8227EB1166902A7C47130B8131F91D/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -104,44 +106,44 @@ input {
 }
 
 
-.avatar {
-    border-radius: 50%;
-    overflow: hidden;
+// .avatar {
+//     border-radius: 50%;
+//     overflow: hidden;
 
-    position: relative;
+//     position: relative;
 
-    min-width: 60px;
+//     min-width: 60px;
 
-    width: 60px;
-    height: 60px;
+//     width: 60px;
+//     height: 60px;
 
-    &.avatar-min {
-        min-width: 30px;
+//     &.avatar-min {
+//         min-width: 30px;
     
-        width: 30px;
-        height: 30px;
-    }
+//         width: 30px;
+//         height: 30px;
+//     }
 
-    &.avatar-big {
-        min-width: 100px;
+//     &.avatar-big {
+//         min-width: 100px;
     
-        width: 100px;
-        height: 100px;
-    }
+//         width: 100px;
+//         height: 100px;
+//     }
 
-    & img {
-        width: 120%;
-        height: auto;
-    }
-    & div {
-        height: 100%;
-        width: 100%;
+//     & img {
+//         width: 120%;
+//         height: auto;
+//     }
+//     & div {
+//         height: 100%;
+//         width: 100%;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//     }
+// }
 
 
 input[type="checkbox"] {
@@ -418,4 +420,218 @@ input[type="radio"]:checked:before {
     100% {
         box-shadow: inset 0px 0px 0px 30px #cb4e4e63;
     }
+}
+
+
+.onlineStatus {
+    margin-top: $margin * 1.5;
+
+    background: $theme_light;
+    border-radius: $borderRadius;
+
+    padding: $padding * 1.5 $padding * 4;
+    &.online {
+        background: $theme_green;
+    }
+}
+
+
+.select {
+    width: 100%;
+
+    min-width: 180px;
+    min-height: 45px;
+
+    padding: $padding * 3 $padding * 4;
+    // margin-top: $margin * 2;
+
+    color: white;
+    background-color: $theme_background;
+
+    border-radius: $borderRadius;
+    font-size: $fontsize + 2px;
+
+    position: relative;
+    transition: .2s;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    user-select: none;
+
+    & .title {
+        width: calc(100% - $padding * 6);
+        white-space: nowrap;
+
+        font-size: $fontsize - 1px;
+    }
+    &:before {
+        position: absolute;
+
+        display: block;
+        content: "";
+
+        width: 8px;
+        height: 8px;
+
+        border: 2px solid white;
+        border-right: none;
+        border-bottom: none;
+
+        top: 50%;
+        right: $padding * 4;
+
+        transform: translateY(-25%) rotate(45deg);
+        transition: transform $transition;
+        
+    }
+
+    &.show {
+        &:before {
+            transform: translateY(-50%) rotate(225deg);
+        }
+
+        & ul {
+            opacity: 1;
+            visibility: visible;
+            z-index: $zindex_hoverModal;
+        }
+    }
+
+    & .icon {
+        & svg {
+            margin-right: $margin * 3;
+            transform: translateY(1px);
+
+            position: static;
+            opacity: 1;
+
+            font-size: $fontsize - 1px;
+        }
+    }
+    & h1 {
+        margin-right: $margin * 3;
+        background-color: #ffffff30;
+
+        padding: $padding;
+        font-size: $fontsize - 2px;
+
+        border-radius: $borderRadius;
+    }
+
+    &.ulbottom {
+        &.show {
+            border-radius: $borderRadius $borderRadius 0 0;
+        }
+        & ul {
+            top: 100%;
+            border-radius: 0 0 $borderRadius $borderRadius;
+        }
+    }
+    &.ultop {
+        &.show {
+            border-radius: 0 0 $borderRadius $borderRadius;
+        }
+        & ul {
+            bottom: 100%;
+            border-radius: $borderRadius $borderRadius 0 0;
+        }
+    }
+    &.ulleft ul {
+        left: 0;
+    }
+    &.ulright ul {
+        right: 0;
+    }
+
+    & ul {
+        position: absolute;
+        z-index: $zindex_hoverModal;
+
+        background-color: inherit;
+        color: white;
+
+        min-width: inherit;
+        max-height: 350px;
+
+        overflow: auto;
+        display: none;
+
+        box-shadow: 0 0 15px 1px rgba(255, 255, 255, 0.05);
+
+        & li {
+            white-space: nowrap;
+
+            padding: $padding * 3 $padding * 4;
+            transition: $transition;
+
+            display: flex;
+            align-items: center;
+
+            position: relative;
+            font-size: $fontsize - 1px;
+
+            &.invert {
+                justify-content: space-between;
+                & svg {
+                    margin: 0;
+                }
+            }
+            &:hover {
+                background-color: #ffffff10;
+            }
+            &.selected {
+                &:before {
+                    position: absolute;
+
+                    display: block;
+                    content: "✔";
+
+                    right: $padding * 4;
+                    top: 50%;
+
+                    transform: translateY(-50%);
+
+                    background-color: $theme_color;
+                    border-radius: 50%;
+
+                    width: 18px;
+                    height: 18px;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    font-size: $fontsize - 4px;
+                    padding-top: 1px;
+                }
+            }
+
+            & svg {
+                position: static;
+                opacity: 1;
+
+                margin-right: $margin * 3;
+                fill: white;
+
+                font-size: $fontsize - 1px;
+            }
+            & span {
+                font-size: $fontsize - 1px;
+            }
+        }
+    }
+}
+
+
+.adminRole {
+    padding: $padding $padding * 2;
+    border-radius: $borderRadius;
+
+    font-size: $fontsize - 1px;
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-align: center;
 }

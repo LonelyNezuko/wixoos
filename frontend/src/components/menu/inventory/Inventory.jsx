@@ -4,7 +4,7 @@ import "jquery-ui-dist/jquery-ui"
 import 'jquery.scrollto'
 import ragemp from '../../../modules/ragemp'
 
-import './inventory.css'
+import './inventory.scss'
 
 import { GiTopHat } from 'react-icons/gi'
 import { IoMdGlasses } from 'react-icons/io'
@@ -62,23 +62,25 @@ export default function Inventory() {
 
 
 	const [ charList, setCharList ] = React.useState([
-		{ id: "hat", styles: {top: '-5%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
-		{ id: "glassess", styles: {top: '5%', left: '50%', transform: 'translateX(-50%)', height: "30px"}, item: {} },
+		{ id: "hat", styles: {top: '2%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
+		{ id: "glassess", styles: {top: 'calc(2% + 56px)', left: '50%', transform: 'translateX(-50%)', height: "30px"}, item: {} },
 		{ id: "ear", styles: {top: '5%', right: '21%', width: "30px"}, item: {} },
-		{ id: "watches", styles: {bottom: '42%', right: '0%', transform: 'translateY(-50%)'}, item: {} },
-		{ id: "bracelets", styles: {bottom: '42%', left: '0%', transform: 'translateY(-50%)'}, item: {} },
-		{ id: "accesory", styles: {top: '11.5%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
 
-		{ id: "top", styles: {top: '25%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
+		{ id: "watches", styles: {top: '53%', right: '0%', transform: 'translateY(-50%)'}, item: {} },
+		{ id: "bracelets", styles: {top: '53%', left: '0%', transform: 'translateY(-50%)'}, item: {} },
+		
+		{ id: "accesory", styles: {top: 'calc(2% + 46px * 2)', left: '50%', transform: 'translateX(-50%)'}, item: {} },
+		{ id: "top", styles: {top: 'calc(2% + 46px * 4)', left: '50%', transform: 'translateX(-50%)'}, item: {} },
+
 		{ id: "legs", styles: {bottom: '22%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
-		{ id: "shoes", styles: {bottom: '0%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
+		{ id: "shoes", styles: {bottom: '2%', left: '50%', transform: 'translateX(-50%)'}, item: {} },
 
-		{ id: "weapon", styles: {bottom: '0%', left: '-14%', height: "110px"}, item: {} },
-		{ id: "ammo", styles: {bottom: '20%', left: '-14%'}, item: {} },
-		{ id: "armour", styles: {bottom: '0%', right: '-14%'}, item: {} },
-		{ id: "parachute", styles: {bottom: '10%', right: '-14%'}, item: {} },
+		{ id: "weapon", styles: {bottom: '2%', left: '0', height: "calc(46px * 2 + 13px)"}, item: {} },
+		{ id: "ammo", styles: {bottom: 'calc(2% + 56px * 2)', left: '0'}, item: {} },
+		{ id: "armour", styles: {bottom: '2%', right: '0'}, item: {} },
+		{ id: "parachute", styles: {bottom: 'calc(2% + 56px)', right: '0'}, item: {} },
 
-		{ id: "backpack", styles: {bottom: '20%', right: '-14%'}, item: {} },
+		{ id: "backpack", styles: {bottom: 'calc(2% + 56px * 2)', right: '0'}, item: {} },
 	])
 	const charListSVG = [
 		(<GiTopHat />), (<IoMdGlasses />), (<IoEarSharp />), (<IoWatch />), (<IoHandRight />), (<GiHeartNecklace />), (<GiMonclerJacket />), (<GiArmoredPants />), (<GiSonicShoes />), 
@@ -158,7 +160,6 @@ export default function Inventory() {
 	}, [items, backpack, charList, nearby, fastList])
 
 	React.useEffect(() => {
-		$('.inventory #inventoryBackpack').css('height', `calc(100% - ${$('.inventory #inventoryNearby').height()}px - 20px)`)
 		draggableRefNearby.current.map(item => {
 			$(item).draggable({
 				helper: 'clone',
@@ -169,6 +170,9 @@ export default function Inventory() {
 			})
 		})
 	}, [nearby])
+	React.useEffect(() => {
+		$('.inventory #inventoryBackpack').css('height', `calc(100% - ${$('.inventory #inventoryNearby').height()}px - 20px)`)
+	})
 
 
 	React.useEffect(() => {

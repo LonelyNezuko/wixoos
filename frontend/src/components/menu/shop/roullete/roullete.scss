@@ -1,3 +1,5 @@
+@import '../../../../rules/variables.scss';
+
 .menu-shop .menu-shop-roulette {
 	margin-top: 40px;
 	width: 100%;
@@ -114,7 +116,7 @@
 	justify-content: center;
 	align-items: center;
 
-	transform: translateX(50px);
+	// transform: translateX(50px);
 }
 .menu .menu-shop-roulette .menu-shop-roulette-bottom .menu-shop-roulette-bottom-count {
 	display: flex;
@@ -207,13 +209,16 @@
 
 	display: flex;
 	flex-wrap: wrap;
+	gap: $margin * 3;
 }
 .menu .menu-shop-roulette .menu-shop-roulette-prizes .menu-shop-roulette-elem {
-	margin-right: 10px;
-	margin-bottom: 10px;
-
 	transform: none;
 	position: relative;
+
+	width: calc(100% / 6 - $margin * 3);
+	height: 100%;
+
+	aspect-ratio: 1 / 1;
 }
 .menu .menu-shop-roulette .menu-shop-roulette-prizes .menu-shop-roulette-elem img {
 	transform: none;

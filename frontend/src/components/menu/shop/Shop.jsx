@@ -3,7 +3,7 @@ import $ from 'jquery'
 import ragemp from '../../../modules/ragemp'
 import func from '../../../modules/func'
 
-import './shop.css'
+import './shop.scss'
 
 import { HiShoppingCart } from 'react-icons/hi'
 import { MdInventory } from 'react-icons/md'
@@ -15,11 +15,11 @@ export default function Shop(props) {
 	return (
 		<div className="menu-shop">
 			<div className="menu-shop-header">
-				<button style={{marginRight: '10px'}} className="btn">
+				<button style={{marginRight: '10px'}} onClick={() => props.openBodyNav(6)} className={`btn ${props.bodyNav === 6 && 'btn-sel'}`}>
 					<HiShoppingCart />
 					История пополнения
 				</button>
-				<button className={`btn ${props.bodyNav === 5 && 'btn-sel'}`}>
+				<button onClick={() => props.openBodyNav(5)} className={`btn ${props.bodyNav === 5 && 'btn-sel'}`}>
 					<MdInventory />
 					Инвентарь
 				</button>

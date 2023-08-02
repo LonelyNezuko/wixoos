@@ -12,6 +12,10 @@ import AdminTickets from './tickets/tickets'
 import AdminList from './adminlist/adminlist'
 
 export default function Admin() {
+    function toggle(status) {
+        !status ? $('#admin').hide() : $('#admin').show()
+    }
+
     const [ role, setRole ] = React.useState({
         tag: 'DIRECTOR',
         color: '#f23a3a',
@@ -49,7 +53,7 @@ export default function Admin() {
     })
 
     return (
-        <div id="admin">
+        <div id="admin" style={{display: 'none'}}>
             <header>
                 <div className="logo">
                     <img src="assets/admin/logo.png" />

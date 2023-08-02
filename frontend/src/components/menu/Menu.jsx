@@ -72,7 +72,9 @@ export default function Menu() {
 				[ 'VIP статус', false ],
 				[ 'Транспорт', false ],
 				[ 'Одежда', false ],
-				[ 'Рулетка' ]
+				[ 'Рулетка' ],
+				[ 'inventory', true, true ],
+				[ 'deposithistory', true, true ],
 			],
 			[],
 			[],
@@ -114,13 +116,13 @@ export default function Menu() {
 	function openHeaderNav(id) {
 		if(headerNavList[id][2] === false)return
 		ragemp.send('server::menu:openHeaderNav', { id })
-		// setHeaderNav(id)
-		// setBodyNav(0)
+		setHeaderNav(id)
+		setBodyNav(0)
 	}
 	function openBodyNav(id) {
 		if(bodyNavList[headerNav][id][1] === false)return
 		ragemp.send('server::menu:openBodyNav', { headerNav: headerNav, id })
-		// setBodyNav(id)
+		setBodyNav(id)
 	}
 
 
@@ -198,6 +200,8 @@ export default function Menu() {
 				<div className={`menu-body ${JSON.stringify(bodyNavList[headerNav]) !== '[]' ? 'menu-body-choice' : ''}`}>
 					<div className="menu-body-nav" style={JSON.stringify(bodyNavList[headerNav]) === '[]' ? {display: 'none'} : {display: 'block'}}>
 						{bodyNavList[headerNav].map((item, i) => {
+							console.log(item)
+							if(item[2])return (<></>)
 							return (<h1 onClick={() => openBodyNav(i)} className={`${i === bodyNav && 'menu-body-nav-sel'} ${item[1] === false && 'menu-body-nav-block'}`} key={i}>{item[0]}</h1>)
 						})}
 					</div>
@@ -220,11 +224,9 @@ export default function Menu() {
 						<Settings accountData={accountData} bodyNav={bodyNav} />
 					</div>
 					<div className="menu-body-wrap" style={headerNav !== 4 ? {display: 'none'} : {display: 'block'}}>
-						<Shop accountData={accountData} bodyNav={bodyNav} />
+						<Shop accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />
 					</div>
 				</div>
-			</section>
-			<section className="menu-footer">
 			</section>
 		</div>
 	)

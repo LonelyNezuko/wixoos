@@ -71,7 +71,7 @@ img {
     justify-content: center;
 
     &:not(.btn-ban):not(.btn-nothover):hover,
-    &:not(.btn-ban):not(.btn-nothover) {
+    &.btn-sel:not(.btn-ban):not(.btn-nothover) {
         border-color: #48b0bb;
         background-color: #48b0bb;
     }

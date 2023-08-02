@@ -3,7 +3,7 @@ import $ from 'jquery'
 import ragemp from '../../../../modules/ragemp'
 import func from '../../../../modules/func'
 
-import './roullete.css'
+import './roullete.scss'
 import { FaPlay } from 'react-icons/fa'
 
 export default function Roullete(props) {
@@ -147,7 +147,7 @@ export default function Roullete(props) {
 					break
 				}
 				case 'start': {
-					for(var i = 1; i <= count; i ++) roulleteItemsCenter(i, data.item, !fast ? 7000 : 0)
+					for(var i = 1; i <= count; i ++) roulleteItemsCenter(i, data.item, data.fast || 7000)
 					setToggle(true)
 
 					break
@@ -158,7 +158,7 @@ export default function Roullete(props) {
 	}, [])
 	React.useEffect(() => {
 		for(var i = 1; i <= 4; i ++) roulleteItemsCenter(i, 3)
-	}, [roullete])
+	}, [roullete, ''])
 
 	return (
 		<>

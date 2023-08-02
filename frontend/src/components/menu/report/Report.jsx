@@ -5,12 +5,14 @@ import ragemp from '../../../modules/ragemp'
 import * as moment from 'moment'
 import 'moment/locale/ru';
 
+import Avatar from '../../_modules/avatar/avatar'
+
 import elementVisibleArea from '../../../modules/elementVisibleArea'
 
 import { BiCheckDouble } from 'react-icons/bi'
 import { HiOutlineLockClosed } from 'react-icons/hi'
 
-import './report.css'
+import './report.scss'
 
 export default function Report(props) {
 	const [ report, setReport ] = React.useState([
@@ -77,11 +79,12 @@ export default function Report(props) {
 					{
 						return (<section data-i={i} onClick={() => openReport(i)} key={i} className={`menu-body-report-nav-item ${reportOpen === i && 'menu-body-report-nav-item-sel'}`}>
 							<h1>
-								<h2>Жалоба #{item.id} {item.status === false ? (<HiOutlineLockClosed />) : ''}</h2>
+								<h2>Тикет #{item.id} {item.status === false ? (<HiOutlineLockClosed />) : ''}</h2>
 								<span>{moment(item.messages[item.messages.length - 1].date).fromNow()}</span>
 							</h1>
 							<div className="menu-body-report-nav-item-ans">
 								<h2>
+									<h4>Администратор: <span>LonelyNezuko</span></h4>
 									<span>{item.messages[item.messages.length - 1].owner[1] === props.accountData.char.id ? 'Вы' : item.messages[item.messages.length - 1].owner[0]}:</span>{item.messages[item.messages.length - 1].text}
 								</h2>
 								<h3 style={!findUnreadReport(i) ? {display: 'none'} : {display: 'block'}}></h3>
@@ -90,12 +93,12 @@ export default function Report(props) {
 					})}
 				</div>
 				<div className="menu-body-report-chat">
-					<h1 className="menu-body-report-chat-title" style={reportOpen === -1 ? {display: 'none'} : {display: 'block'}}>Жалоба #{reportOpen !== -1 ? report[reportOpen].id : -1}</h1>
-					<h1 className="menu-body-report-chat-title" style={reportOpen !== -1 ? {display: 'none'} : {display: 'block'}}>Создать новую жалобу</h1>
+					<h1 className="menu-body-report-chat-title" style={reportOpen === -1 ? {display: 'none'} : {display: 'block'}}>Тикет #{reportOpen !== -1 ? report[reportOpen].id : -1}</h1>
+					<h1 className="menu-body-report-chat-title" style={reportOpen !== -1 ? {display: 'none'} : {display: 'block'}}>Создать новый тикет</h1>
 					<div className="menu-body-report-chat-wrap">
 						<div className="menu-body-report-add" style={reportOpen !== -1 ? {display: 'none'} : {display: 'flex'}}>
 							<section>
-								<input placeholder="Опишите Вашу проблему" maxlength="255" />
+								<input placeholder="Опишите Вашу проблему/вопрос" maxlength="255" />
 								<input className="inputOnlyNumber" placeholder="ID нарушителя (необязательно)" maxlength="4" />
 								<div>
 									<button onClick={() => createReport()} className="btn">Создать</button>
@@ -108,11 +111,7 @@ export default function Report(props) {
 								return (
 									<section data-i={i} key={i} className={`${item.owner[1] === props.accountData.char.id && 'menu-body-report-chat-messages-right'} ${item.owner[1] === -1 && 'menu-body-report-chat-messages-system'}`}>
 										<div className="menu-body-report-chat-messages-title">
-											<div className="avatar">
-												<div>
-													<img src={item.owner[2]} />
-												</div>
-											</div>
+											<Avatar image={item.owner[2]} />
 											<h1>
 												{item.owner[0]}
 												<span>#{item.owner[1]}</span>
@@ -124,22 +123,16 @@ export default function Report(props) {
 												{item.player ? (
 													<div className="menu-body-report-chat-messages-player">
 														<header>
-															<div className="avatar avatar-min">
-																<div>
-																	<img src={item.player[3]} />
-																</div>
-															</div>
+															<Avatar type="min" image={item.player[3]} />
 															<h1>
-																{(props.accountData.admin > 0 || item.player[4] === true) ? item.player[0] : 'Гражданин'} [{item.player[2] === -1 ? 'Игрок вышел' : ''}]
+																Игрок
 																<span>#{item.player[1]}</span>
 															</h1>
 														</header>
-														<button style={item.player[2] === -1 ? {display: 'none'} : {display: 'block'}} className="btn">Следить</button>
 													</div>) : ''}
 											</h3>
 											<h4>
 												<span>{moment(item.date).fromNow()}</span>
-												{item.read === true ? (<BiCheckDouble />) : ''}
 											</h4>
 										</div>
 									</section>)

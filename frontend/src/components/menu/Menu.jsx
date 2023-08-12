@@ -5,12 +5,16 @@ import ragemp from '../../modules/ragemp'
 import * as moment from 'moment'
 import 'moment/locale/ru';
 
-import Inventory from './inventory/Inventory'
-import Report from './report/Report'
+import Avatar from '../_modules/avatar/avatar';
+import timeConvert from '../../modules/timeConvert';
+
+import { Inventory } from './inventory/Inventory'
+import Tickets from './tickets/tickets'
 import Quests from './quests/Quests'
 import Info from './info/Info'
 import Settings from './settings/Settings'
 import Shop from './shop/Shop'
+import Admin from './admin/admin';
 
 import { ImStatsBars } from 'react-icons/im'
 import { MdInventory } from 'react-icons/md'
@@ -29,26 +33,40 @@ import './menu.scss'
 
 export default function Menu() {
 	const [ accountData, setAccountData ] = React.useState({
-		id: 1,
-		admin: 0,
+		login: 'LonelyNezuko',
+
+		uid: 1,
+		cid: 2,
+
 		char: {
-			id: 1,
-			name: 'Unnamed',
-			cash: [ 0, 0 ],
+			cash: [ 25231311, 351322 ],
+
 			fraction: undefined,
 			family: undefined
 		},
-		avatar: 'https://www.casaylienzo.es/wp-content/uploads/2020/05/Picaporte-unificado-2048x2048.jpg',
+		
+		avatar: {
+            image: 'https://gas-kvas.com/uploads/posts/2023-01/1673348613_gas-kvas-com-p-nazuko-anime-risunki-37.jpg'
+        },
 
 		googleAuth: false,
 		email: 'test@mail.ru',
 		onlySCID: false,
 
-		donate: 7582938273
+		donate: 7582938273,
+
+		admin: {
+			role: {
+				tag: 'developer',
+				color: '#f23a3a',
+				name: 'Руководство'
+			}
+		},
+		playedTime: [ 2312312, 293582 ]
 	})
 
-	const [ headerNav, setHeaderNav ] = React.useState(0)
-	const [ bodyNav, setBodyNav ] = React.useState(0)
+	const [ headerNav, setHeaderNav ] = React.useState(4)
+	const [ bodyNav, setBodyNav ] = React.useState(4)
 
 	const [ bodyNavList, setBodyNavList ] = React.useState([
 		[], [], [], [], [], [], [], [], [],
@@ -65,7 +83,11 @@ export default function Menu() {
 				[ 'Имущество', false ],
 			],
 			[],
-			[],
+			[
+				[ 'Активные' ],
+				[ 'Ежедневные' ],
+				[ 'Завершенные' ],
+			],
 			[],
 			[
 				[ 'Валюта', false ],
@@ -78,7 +100,11 @@ export default function Menu() {
 			],
 			[],
 			[],
-			[],
+			[
+				[ 'Панель жалоб' ],
+				[ 'Список админов' ],
+				[ 'Настройки админки', false ]
+			],
 			[
 				[ 'Игра', false ],
 				[ 'Безопасность' ],
@@ -97,7 +123,7 @@ export default function Menu() {
 			[ (<RiShoppingCart2Fill />), 'Магазин' ],
 			[ (<GoOrganization />), 'Фракция', !accountData.char.fraction ? false : true ],
 			[ (<MdFamilyRestroom />), 'Семья', !accountData.char.family ? false : true ],
-			[ (<MdAdminPanelSettings />), 'Админка', accountData.admin <= 0 ? false : true ],
+			[ (<MdAdminPanelSettings />), 'Админка', !accountData.admin ? false : true ],
 			[ (<MdSettings />), 'Настройки' ],
 		])
 	}
@@ -162,7 +188,7 @@ export default function Menu() {
 	}, [])
 
 	return (
-		<div className="menu" style={{display: 'none'}}>
+		<div id="menu" style={{display: 'flex'}}>
 			<section className="menu-wrap">
 				<div className="menu-header">
 					<div className="menu-header-title">
@@ -177,8 +203,8 @@ export default function Menu() {
 					</div>
 					<div className="menu-header-char">
 						<div className="menu-header-char-info">
-							<h1>{accountData.char.name}</h1>
-							<h2>#{accountData.char.id}</h2>
+							<h1>{accountData.login}</h1>
+							<h2>#{accountData.uid} (CID: {accountData.cid})</h2>
 							<h3>
 								<span>
 									<MdOutlineAttachMoney />
@@ -190,17 +216,27 @@ export default function Menu() {
 								</span>
 							</h3>
 						</div>
-						<div className="avatar avatar-big">
-							<div>
-								<img src={accountData.avatar} />
-							</div>
-						</div>
+						<Avatar type="medium" image={accountData.avatar.image} />
 					</div>
 				</div>
 				<div className={`menu-body ${JSON.stringify(bodyNavList[headerNav]) !== '[]' ? 'menu-body-choice' : ''}`}>
 					<div className="menu-body-nav" style={JSON.stringify(bodyNavList[headerNav]) === '[]' ? {display: 'none'} : {display: 'block'}}>
+						{(accountData.admin && headerNav === 7) ? (
+							<div className="bodynavadmin">
+								<div className="logo">
+									<img src="assets/menu/admin/logo.png" />
+								</div>
+								<div className="info">
+									<h1 className="login">{accountData.login} (ID: {accountData.uid})</h1>
+									<span className="adminRole" style={{background: accountData.admin.role.color}}>{accountData.admin.role.name}</span>
+									<div className="other">
+										<span>{timeConvert(accountData.playedTime[0])} ({timeConvert(accountData.playedTime[1])})</span>
+									</div>
+								</div>
+							</div>
+						) : ''}
+
 						{bodyNavList[headerNav].map((item, i) => {
-							console.log(item)
 							if(item[2])return (<></>)
 							return (<h1 onClick={() => openBodyNav(i)} className={`${i === bodyNav && 'menu-body-nav-sel'} ${item[1] === false && 'menu-body-nav-block'}`} key={i}>{item[0]}</h1>)
 						})}
@@ -208,23 +244,14 @@ export default function Menu() {
 
 
 					{/* Pages */}
-					<div className="menu-body-wrap" style={{display: headerNav !== 1 ? 'none' : 'block', overflow: 'visible'}}>
-						<Inventory />
-					</div>
-					<div className="menu-body-wrap" style={headerNav !== 2 ? {display: 'none'} : {display: 'block'}}>
-						<Quests />
-					</div>
-					<div className="menu-body-wrap" style={headerNav !== 3 ? {display: 'none'} : {display: 'block'}}>
-						<Report accountData={accountData} />
-					</div>
-					<div className="menu-body-wrap" style={headerNav !== 0 ? {display: 'none'} : {display: 'block'}}>
-						<Info accountData={accountData} bodyNav={bodyNav} />
-					</div>
-					<div className="menu-body-wrap" style={headerNav !== 8 ? {display: 'none'} : {display: 'block'}}>
-						<Settings accountData={accountData} bodyNav={bodyNav} />
-					</div>
-					<div className="menu-body-wrap" style={headerNav !== 4 ? {display: 'none'} : {display: 'block'}}>
-						<Shop accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />
+					<div className="menu-body-wrap" style={headerNav === 0 ? {overflow: 'visible'} : {}}>
+						{headerNav === 0 ? (<Info />) : ''}
+						{headerNav === 1 ? (<Inventory />) : ''}
+						{headerNav === 2 ? (<Quests bodyNav={bodyNav} openBodyNav={openBodyNav} />) : ''}
+						{headerNav === 3 ? (<Tickets accountData={accountData} />) : ''}
+						{headerNav === 4 ? (<Shop accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />) : ''}
+						{headerNav === 7 ? (<Admin accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />) : ''}
+						{headerNav === 8 ? (<Settings accountData={accountData} bodyNav={bodyNav} />) : ''}
 					</div>
 				</div>
 			</section>

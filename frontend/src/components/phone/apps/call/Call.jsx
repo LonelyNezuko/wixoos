@@ -3,7 +3,7 @@ import $ from 'jquery'
 import func from '../../../../modules/func'
 import ragemp from '../../../../modules/ragemp'
 
-import './call.css'
+import './call.scss'
 
 import { HiOutlineMenuAlt3 } from 'react-icons/hi'
 import { HiBackspace } from 'react-icons/hi'

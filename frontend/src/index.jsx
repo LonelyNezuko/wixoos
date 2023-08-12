@@ -7,11 +7,11 @@ import Hud from './components/hud/Hud'
 import Speedometr from './components/speedometr/Speedometr'
 import Menu from './components/menu/Menu'
 import Dialog from './components/dialog/Dialog'
-import Auth from './components/auth/Auth'
+// import Auth from './components/auth/Auth'
 import ChoiceChar from './components/choiceChar/ChoiceChar'
 import CreateChar from './components/createChar/CreateChar'
 import { Notify } from './components/notify/Notify'
-import Shop from './components/shop/Shop'
+import Shop from './components/shop/shop'
 import NPCDialog from './components/npcDialog/NPCDialog'
 import Radial from './components/radial/Radial'
 import Fuel from './components/fuel/Fuel'
@@ -19,7 +19,8 @@ import Phone from './components/phone/Phone'
 import Tuning from './components/tuning/Tuning'
 import Rent from './components/rent/Rent'
 import Browser from './components/browser/Browser'
-import Admin from './components/admin/admin';
+import Gunshop from './components/gunshop/gunshop';
+import Signin from './components/signin/signin';
 
 import "./index.scss"
 import './default'
@@ -62,7 +63,7 @@ root.render(
         <Speedometr />
         <Menu />
         <Dialog />
-        <Auth />
+        {/* <Auth /> */}
         <ChoiceChar />
         <CreateChar />
         <Notify />
@@ -74,7 +75,8 @@ root.render(
         <Tuning />
         <Rent />
         <Browser />
-        <Admin />
+        <Gunshop />
+        <Signin />
     </>
 );
 

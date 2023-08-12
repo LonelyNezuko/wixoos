@@ -85,7 +85,7 @@ export default function Settinsg(props) {
 			if(input[0] !== emailCode)return ragemp.trigger('client::notify', 'add', { text: 'Не верный код', type: 'error' })
 
 			setEmailCode(0)
-			const email = $('.menu .menu-settings #menuSettingsElemEmail input').val()
+			const email = $('#menu .menu-settings #menuSettingsElemEmail input').val()
 
 			if(!email.length)return ragemp.trigger('client::notify', 'add', { text: 'Введите Email', type: 'error' })
 			if(!func.validateEmail(email))return ragemp.trigger('client::notify', 'add', { text: 'Не верный Email.', type: 'error' })
@@ -194,9 +194,9 @@ export default function Settinsg(props) {
 
 		$('body').keydown(e =>
 		{
-			if($('.menu .menu-settings .menu-settings-root-keyBind').css('display') !== 'none'
+			if($('#menu .menu-settings .menu-settings-root-keyBind').css('display') !== 'none'
 				&& banKeys.indexOf(e.keyCode) === -1) {
-				const id = parseInt($('.menu .menu-settings .menu-settings-root-keyBind').attr('data-keyBindsSel'))
+				const id = parseInt($('#menu .menu-settings .menu-settings-root-keyBind').attr('data-keyBindsSel'))
 				const code = e.keyCode
 
 				if(id === -1)return
@@ -204,7 +204,7 @@ export default function Settinsg(props) {
 
 				e.preventDefault()
 
-				const obj = JSON.parse($('.menu .menu-settings .menu-settings-root-keyBind').attr('data-keyBinds'))
+				const obj = JSON.parse($('#menu .menu-settings .menu-settings-root-keyBind').attr('data-keyBinds'))
 
 				obj[id].key = e.key.toUpperCase()
 				obj[id].keyCode = code
@@ -218,7 +218,7 @@ export default function Settinsg(props) {
 
 
 		setInterval(() => {
-			let emailTimer = parseInt($('.menu .menu-settings').attr('data-emailtimer'))
+			let emailTimer = parseInt($('#menu .menu-settings').attr('data-emailtimer'))
 			if(emailTimer > 0) setEmailTimer(emailTimer -= 1000)
 		}, 1000)
 	}, [])
@@ -374,7 +374,7 @@ export default function Settinsg(props) {
 						{emailTimer > 0 ? (<button className="btn btn-ban">Подожди еще {func.sliceZero(new Date(emailTimer).getMinutes())}:{func.sliceZero(new Date(emailTimer).getSeconds())}</button>) : 
 						!props.accountData.email.length ? (<button onClick={() => {
 							if(emailTimer > 0)return
-							const email = $('.menu .menu-settings #menuSettingsElemEmail input').val()
+							const email = $('#menu .menu-settings #menuSettingsElemEmail input').val()
 
 							if(!email.length)return
 							if(!func.validateEmail(email))return ragemp.trigger('client::notify', 'add', { text: 'Не верный Email.', type: 'error' })

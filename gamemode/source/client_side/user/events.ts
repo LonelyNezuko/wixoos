@@ -12,10 +12,10 @@ let minimap: number = 0
 let minimapTimer: any = null
 
 mp.events.add({
-    "client::user:auth:setRemember": (): void => {
-        if(mp.storage.data.authRemember) cef.emit('auth', 'setData', mp.storage.data.authRemember)
+    "client::user:signin:setRemember": (): void => {
+        if(mp.storage.data.authRemember) cef.emit('signin', 'setData', mp.storage.data.authRemember)
     },
-    "client::user:auth:remember": (status: boolean, data: any): void => {
+    "client::user:signin:remember": (status: boolean, data: any): void => {
         if(!status && mp.storage.data.authRemember) delete mp.storage.data.authRemember
         else if(status) mp.storage.data.authRemember = data
 
@@ -34,7 +34,7 @@ mp.events.add({
     "client::user:freeze": (toggle: boolean): void => {
         new User().freeze(toggle)
     },
-    "client::user:setCamera": (position: Vector3Mp, atCoord: [ number, number, number ], data: any = {}): void => {
+    "client::user:setCamera": (position: Vector3, atCoord: [ number, number, number ], data: any = {}): void => {
         new User().setCamera(position, atCoord, data)
     },
     "client::user:destroyCamera": (data: any = {}): void => {

@@ -7,7 +7,7 @@ import ragemp from '../../../../modules/ragemp'
 import * as moment from 'moment'
 import 'moment/locale/ru';
 
-import './messenger.css'
+import './messenger.scss'
 
 import { HiOutlineMenuAlt3 } from 'react-icons/hi'
 import { FiSearch } from 'react-icons/fi'

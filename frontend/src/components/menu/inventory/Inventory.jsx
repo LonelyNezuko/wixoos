@@ -6,6 +6,8 @@ import ragemp from '../../../modules/ragemp'
 
 import './inventory.scss'
 
+import InventoryContext from './context'
+
 import { GiTopHat } from 'react-icons/gi'
 import { IoMdGlasses } from 'react-icons/io'
 import { IoEarSharp } from 'react-icons/io5'
@@ -25,7 +27,7 @@ import { GiAk47 } from 'react-icons/gi'
 
 import { GiLightBackpack } from 'react-icons/gi'
 
-export default function Inventory() {
+export function Inventory() {
 	const [ data, setData ] = React.useState({
 		main: {
 			weight: 30
@@ -42,7 +44,7 @@ export default function Inventory() {
 	const [ fastList, setFastList ] = React.useState([
 		{}, {}, {}, {}
 	])
-	// { id: 1, name: 'Телефон', weight: .7, img: 'phone.png', count: 1, status: 100 },
+	// { id: 1, name: 'Телефон', weight: .7, img: 'phone.png', count: 1, status: 100, type: 'phone' },
 
 
 	function getWeight(i) {
@@ -52,12 +54,6 @@ export default function Inventory() {
 		})
 
 		return weight.toFixed(1)
-	}
-	function getStatus(status) {
-		if(status < 25)return 'verybad'
-		if(status >= 25 && status < 50)return 'bad'
-		if(status >= 50 && status < 75)return 'normal'
-		if(status >= 75)return 'good'
 	}
 
 
@@ -82,10 +78,12 @@ export default function Inventory() {
 
 		{ id: "backpack", styles: {bottom: 'calc(2% + 56px * 2)', right: '0'}, item: {} },
 	])
-	const charListSVG = [
-		(<GiTopHat />), (<IoMdGlasses />), (<IoEarSharp />), (<IoWatch />), (<IoHandRight />), (<GiHeartNecklace />), (<GiMonclerJacket />), (<GiArmoredPants />), (<GiSonicShoes />), 
-		(<GiAk47 />), (<GiHeavyBullets />), (<GiKevlarVest />), (<TbParachute />), (<GiLightBackpack />)
-	]
+
+	const [ itemSelect, setItemSelect ] = React.useState({
+		toggle: false,
+		position: [ 0, 0 ],
+		item: {}
+	})
 
 
 	// Jquery Draggable
@@ -157,7 +155,7 @@ export default function Inventory() {
 		        }
 			})
 		})
-	}, [items, backpack, charList, nearby, fastList])
+	}, [items, backpack, charList, nearby, fastList, draggableRef.current, draggableRef])
 
 	React.useEffect(() => {
 		draggableRefNearby.current.map(item => {
@@ -170,9 +168,6 @@ export default function Inventory() {
 			})
 		})
 	}, [nearby])
-	React.useEffect(() => {
-		$('.inventory #inventoryBackpack').css('height', `calc(100% - ${$('.inventory #inventoryNearby').height()}px - 20px)`)
-	})
 
 
 	React.useEffect(() => {
@@ -215,22 +210,26 @@ export default function Inventory() {
 
 
 	return (
-		<div className="inventory">
+		<div className="inventory" onClick={event => {
+			if(itemSelect.toggle
+				&& !$(event.target).closest('.inventorycontext').length
+				&& !$(event.target).is('.inventorycontext')) {
+				setItemSelect({
+					toggle: false,
+					position: [ 0, 0 ],
+					item: {}
+				})
+			} 
+		}}>
 			<div className="inventory-wrap">
-				<div style={{height: 'auto'}} className="inventory-body" id="inventoryNearby" data-items={JSON.stringify(nearby)}>
+				<div style={{height: "217px"}} className="inventory-body" id="inventoryNearby" data-items={JSON.stringify(nearby)}>
 					<h1>{nearbyName}</h1>
-					<section style={{height: "auto", maxHeight: "calc(325px - 10px)", minHeight: 'calc(88px - 10px)'}} className="inventory-body-items inventory-elem-hover-trash-pre">
-						{nearby.map((item, i) => {
-							return (<div ref={el => draggableRefNearby.current[i] = el} key={i} data-id={i} className="inventory-elem" data-parent="#inventoryNearby">
-									<div className="inventory-elem-drag">
-										<div className="inventory-elem-img">
-											{!item.id ? '' : (<img src={`./assets/inventory/items/${item.img}`} />)}
-										</div>
-										{item.count > 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
-										{item.id ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
-									</div>
-								</div>)
-						})}
+					<section style={{height: "168px"}} className="inventory-body-items inventory-elem-hover-trash-pre">
+						<div className="inventory-body-items-wrap">
+							{nearby.map((item, i) => {
+								return (<InventoryItem i={i} item={item} _draggablePos={0} _parent={"#inventoryNearby"} draggableRef={draggableRef} />)
+							})}
+						</div>
 					</section>
 				</div>
 				<div className="inventory-body" id="inventoryBackpack" data-items={JSON.stringify(backpack)}>
@@ -244,18 +243,12 @@ export default function Inventory() {
 							<section data-forUpdateHeight={nearby} style={{width: 100 / data.backpack.weight * getWeight(backpack) + "%"}}></section>
 						</section>
 					</div>
-					<section className="inventory-body-items" style={data.backpack.weight === 0 ? {display: 'none'} : {display: 'flex'}}>
-						{backpack.map((item, i) => {
-							return (<div ref={el => draggableRef.current[i + items.length] = el} key={i} data-id={i} className={`inventory-elem ${item.charSet === true && 'inventory-char-set'}`} data-parent="#inventoryBackpack">
-									<div className="inventory-elem-drag">
-										<div className="inventory-elem-img">
-											{!item.id ? '' : (<img src={`./assets/inventory/items/${item.img}`} />)}
-										</div>
-										{item.count > 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
-										{item.id ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
-									</div>
-								</div>)
-						})}
+					<section className="inventory-body-items" style={data.backpack.weight === 0 ? {display: 'none'} : {display: 'block'}}>
+						<div className="inventory-body-items-wrap">
+							{backpack.map((item, i) => {
+								return (<InventoryItem setItemSelect={setItemSelect} i={i} item={item} _draggablePos={items.length} _parent={"#inventoryBackpack"} draggableRef={draggableRef} />)
+							})}
+						</div>
 					</section>
 				</div>
 			</div>
@@ -265,29 +258,13 @@ export default function Inventory() {
 
 					<div className="inventory-char-wrap" id="inventoryChar" data-items={JSON.stringify(charList)}>
 						{charList.map((item, i) => {
-							return (<div data-id={i} ref={el => draggableRef.current[i + items.length + backpack.length] = el} id={`inventoryCharList-${item.id}`} style={item.styles} className="inventory-elem" data-parent="#inventoryChar">
-								<div className="inventory-elem-drag">
-									<div className="inventory-elem-img">
-										{!item.item.id ? charListSVG[i] : (<img src={`./assets/inventory/items/${item.item.img}`} />)}
-									</div>
-									{item.item.id ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.item.status)}`}></button>) : ''}
-								</div>
-							</div>)
+							return (<InventoryItem i={i} item={item} _draggablePos={items.length + backpack.length} _parent={"#inventoryChar"} draggableRef={draggableRef} _id={`inventoryCharList-${item.id}`} _styles={item.styles} />)
 						})}
 					</div>
 				</div>
 				<div className="inventory-fast" id="inventoryFast" data-items={JSON.stringify(fastList)}>
 					{fastList.map((item, i) => {
-						return (<div data-id={i} ref={el => draggableRef.current[i + items.length + backpack.length + charList.length] = el} className="inventory-elem" data-parent="#inventoryFast">
-							<div className="inventory-elem-drag">
-								<div className="inventory-elem-img">
-									{!item.id ? '' : (<img src={`./assets/inventory/items/${item.img}`} />)}
-								</div>
-								{item.count > 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
-								{item.id ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
-								<h3 className="btn-key">{i + 1}</h3>
-							</div>
-						</div>)
+						return (<InventoryItem i={i} item={item} _draggablePos={items.length + backpack.length + charList.length} _parent={"#inventoryFast"} draggableRef={draggableRef} />)
 					})}
 				</div>
 			</div>
@@ -304,20 +281,74 @@ export default function Inventory() {
 						</section>
 					</div>
 					<section className="inventory-body-items">
-						{items.map((item, i) => {
-							return (<div ref={el => draggableRef.current[i] = el} key={i} data-id={i} className={`inventory-elem ${item.charSet === true && 'inventory-char-set'}`} data-parent="#inventoryMain">
-									<div className="inventory-elem-drag">
-										<div className="inventory-elem-img">
-											{!item.id ? '' : (<img src={`./assets/inventory/items/${item.img}`} />)}
-										</div>
-										{item.count > 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
-										{item.id ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
-									</div>
-								</div>)
-						})}
+						<div className="inventory-body-items-wrap">
+							{items.map((item, i) => {
+								return (<InventoryItem setItemSelect={setItemSelect} i={i} item={item} _draggablePos={0} _parent={"#inventoryMain"} draggableRef={draggableRef} />)
+							})}
+						</div>
 					</section>
 				</div>
 			</div>
+			<InventoryContext toggle={itemSelect.toggle} setItemSelect={setItemSelect} position={itemSelect.position} item={itemSelect.item} condition={itemSelect.condition} slot={itemSelect.slot} />
+		</div>
+	)
+}
+
+
+function InventoryItem({ i, item, _draggablePos, _parent, draggableRef, _id, _styles, setItemSelect }) {
+	const charListSVG = [
+		(<GiTopHat />), (<IoMdGlasses />), (<IoEarSharp />), (<IoWatch />), (<IoHandRight />), (<GiHeartNecklace />), (<GiMonclerJacket />), (<GiArmoredPants />), (<GiSonicShoes />), 
+		(<GiAk47 />), (<GiHeavyBullets />), (<GiKevlarVest />), (<TbParachute />), (<GiLightBackpack />)
+	]
+
+	function getStatus(status) {
+		if(status < 25)return 'verybad'
+		if(status >= 25 && status < 50)return 'bad'
+		if(status >= 50 && status < 75)return 'normal'
+		if(status >= 75)return 'good'
+	}
+
+	return (
+		<div
+			data-id={i}
+			ref={el => draggableRef.current[i + _draggablePos] = el}
+			className={`inventory-elem ${item.charSet === true && 'inventory-char-set'}`}
+			id={_id}
+			style={_styles}
+			data-parent={_parent}
+
+			onClick={event => {
+				if(setItemSelect && item.id) setItemSelect({
+					toggle: true,
+					position: [ event.clientY, event.clientX ],
+					item: item,
+					condition: getStatus(item.status),
+					slot: i
+				})
+			}}
+		>
+			<div className="inventory-elem-drag">
+				<div className="inventory-elem-img">
+					{_parent === '#inventoryChar' ?
+						!item.item.id ? charListSVG[i] : (<img src={`assets/inventory/items/${item.item.img}`} />) :
+						!item.id ? '': (<img src={`assets/inventory/items/${item.img}`} />)}
+				</div>
+				{item.count >= 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
+				{(item.id && item.status) ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
+				{_parent === '#inventoryFast' ? (<h3 className="btn-key">{i + 1}</h3>) : ''}
+			</div>
+		</div>
+	)
+}
+
+
+export function InventoryRenderItem({ item }) {
+	return (
+		<div className='inventory-elem'>
+			<div className="inventory-elem-img">
+				<img src={`assets/inventory/items/${item.img}`} />
+			</div>
+			{item.count >= 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
 		</div>
 	)
 }

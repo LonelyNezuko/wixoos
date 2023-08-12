@@ -135,44 +135,66 @@ export default class UserBase {
     }
 
 
-    signup(login: string, password: string, email: string): void {
+    // авторизация/регистрация
+    signup(login: string, password: string, email: string, onCallback: any): void {
         if(this.isAuth)return
 
-        mysql.query('select uid from users where login = ?', [ login ], (err: any, res: any) => {
-            if(err)return logger.error('UserBase.signup', err)
-            if(res.length)return this.user.notify('Аккаунт с таким логином уже зарегистрирован', 'error')
+        mysql.query(`select uid from users where rgscid = ?`, [ this.player.rgscId ], (err: any, res: any) => {
+            if(err) {
+                onCallback(err)
+                return logger.error('UserBase.signup', err)
+            }
+            if(res.length)return onCallback('С данного аккаунта Social Club уже есть зарегистрированный аккаунт')
 
-            let salt: string = bcryptjs.genSaltSync(10)
-            password = bcryptjs.hashSync(password, salt)
-
-            mysql.query('insert into users (login, password, email, createIP) values (?, ?, ?, ?)', [ login, password, email, this.player.ip ], (err: any, res: any) => {
-                if(err)return logger.error('UserBase.signup', err)
-                if(res) {
-                    this.user.notify(`Аккаунт успешно создан. Его UID: ${res.insertId}`, 'success')
-
-                    this.storage.set('uid', res.insertId)
-                    this.logs.send(`Зарегистрировался. IP: <ip '${this.player.ip}'>`, true)
-
-                    this.load()
+            mysql.query('select uid from users where login = ?', [ login ], (err: any, res: any) => {
+                if(err) {
+                    onCallback(err)
+                    return logger.error('UserBase.signup', err)
                 }
+                if(res.length)return onCallback('Аккаунт с таким логином уже зарегистрирован')
+    
+                let salt: string = bcryptjs.genSaltSync(10)
+                password = bcryptjs.hashSync(password, salt)
+    
+                mysql.query('insert into users (rgscid, login, password, email, createIP) values (?, ?, ?, ?, ?)', [ this.player.rgscId, login, password, email, this.player.ip ], (err: any, res: any) => {
+                    if(err) {
+                        onCallback(err)
+                        return logger.error('UserBase.signup', err)
+                    }
+                    if(res) {
+                        onCallback(undefined, `Аккаунт успешно создан. Его UID: ${res.insertId}`)
+    
+                        this.storage.set('uid', res.insertId)
+                        this.logs.send(`Зарегистрировался. IP: <ip '${this.player.ip}'>`, true)
+    
+                        this.load()
+                    }
+                })
             })
         })
     }
-    signin(login: string, password: string): void {
+    signin(login: string, password: string, onCallback: any): void {
         if(this.isAuth)return
 
-        mysql.query('select uid, password from users where login = ?', [ login ], (err: any, res: any) => {
-            if(err)return logger.error('UserBase.signin', err)
+        mysql.query('select uid, password, rgscid from users where login = ?', [ login ], (err: any, res: any) => {
+            if(err) {
+                onCallback(err)
+                return logger.error('UserBase.signin', err)
+            }
             
             if(!res.length
                 || !bcryptjs.compareSync(password, res[0]['password'])) {
-                return this.user.notify('Аккаунт не найден. Логин и/или пароль не верный', 'error')
+                return onCallback('Аккаунт не найден. </br><span>Или логин и/или пароль не верный</span>')
             }
+            if(res[0]['rgscid'] !== this.player.rgscId)return onCallback('Вы не можете войти в данный аккаунт под другим Social Club аккаунтом')
+
+            onCallback(undefined, 'Вы успешно вошли в аккаунт. <br /><span>Загружаем информацию об аккаунте...</span>')
 
             this.storage.set('uid', res[0]['uid'])
             this.load()
         })
     }
+    /////////
 
 
     load(): void {
@@ -203,7 +225,7 @@ export default class UserBase {
             this.player.setVariable('uid', this.uid)
             this.player.setVariable('keyBinds', this.storage.get('keyBinds'))
 
-            new CEF(this.player, 'auth', 'toggle', { status: false }).send()            
+            new CEF(this.player, 'signin', 'toggle', { status: false }).send()
             this.character.choice()
         })
     }

@@ -65,7 +65,7 @@ func.validateEmail = email => {
     return true
 }
 func.validatePassword = password => {
-    if(password.length < 2 || password.length > 144)return false
+    if(password.length < 4 || password.length > 64)return false
 
     const re = /[а-яА-ЯЁё]/
     if(re.test(password))return false

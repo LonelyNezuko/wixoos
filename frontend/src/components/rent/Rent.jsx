@@ -122,13 +122,15 @@ export default function Rent() {
 					<button onClick={() => ragemp.send('server::rent', { vehicle: vehicle[vehicleSel] })} className="btn">Арендовать</button>
 				</div>
 				<div className="rent-body">
-					{vehicle.map((item, i) => {
-						return (<section onClick={() => setVehicleSel(i)} key={i} className={`rent-body-elem ${vehicleSel === i && 'rent-body-elem-sel'}`}>
-								<img src={`./assets/rent/${item.id}.png`} />
-								<h1>{item.name}</h1>
-								<h2>{item.price.toLocaleString()}$ <span>/ час</span></h2>
-							</section>)
-					})}
+					<div className="rent-wrapper">
+						{vehicle.map((item, i) => {
+							return (<section onClick={() => setVehicleSel(i)} key={i} className={`rent-body-elem ${vehicleSel === i && 'rent-body-elem-sel'}`}>
+									<img src={`./assets/rent/${item.id}.png`} />
+									<h1>{item.name}</h1>
+									<h2>{item.price.toLocaleString()}$ <span>/ час</span></h2>
+								</section>)
+						})}
+					</div>
 				</div>
 			</div>
 		</div>

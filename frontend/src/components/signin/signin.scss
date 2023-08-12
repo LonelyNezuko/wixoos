@@ -1,0 +1,288 @@
+@import '../../rules/variables.scss';
+
+#signin {
+    position: fixed;
+    z-index: $zindex_fullsize;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    & .pageWrapper {
+        width: 100%;
+        height: 100%;
+
+        position: relative;
+
+        display: flex;
+        align-items: center;
+
+        & .page {
+            min-width: 52%;
+            width: 52%;
+            height: 100%;
+    
+            position: relative;
+    
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+    
+            color: white;
+            transition: 1s;
+
+            &.auth {
+                clip-path: polygon(0% 0%, 98% -3%, 96% 5%, 100% 10%, 95% 18%, 99% 27%, 97% 35%, 100% 41%, 98% 49%, 100% 55%, 97% 61%, 98% 65%, 95% 71%, 95% 77%, 98% 83%, 95% 87%, 98% 93%, 100% 103%, 0% 100%);
+                z-index: 2;
+
+                & .notf {
+                    left: $padding * 4;
+                }
+            }
+            &.registry {
+                & .wrapper {
+                    margin-left: 10%;
+                }
+    
+                clip-path: none;
+                transform: translateX(-7.5%);
+
+                & .notf {
+                    right: $padding * 4;
+                    align-items: flex-end;
+
+                    & div {
+                        transform: translateX(150%);
+                        text-align: right;
+                    }
+                }
+            }
+    
+            & .blackbg,
+            & .blackbg2 {
+                position: absolute;
+                z-index: -1;
+    
+                top: 0;
+                left: 0;
+    
+                width: 100%;
+                height: 100%;
+    
+                background-color: rgba(0, 0, 0, .7);
+                transition: 1s;
+    
+                &.blackbg2 {
+                    background-color: rgba(0, 0, 0, .5);
+    
+                    opacity: 1;
+                    z-index: 3;
+                }
+            }
+            &.selected {
+                width: 65%;
+                min-width: 65%;
+    
+                & .blackbg2 {
+                    opacity: 0;
+                    z-index: -1;
+                }
+    
+                &.registry {
+                    transform: translateX(-26%);
+                }
+            }
+
+
+            & .wrapper {
+                width: 90%;
+                height: 100%;
+    
+                position: absolute;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                & .body {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    width: 500px;
+
+                    & .logo {
+                        & img {
+                            width: 250px;
+                            height: auto;
+                        }
+                    }    
+                    & .desc {
+                        margin-top: $margin * 4;
+                        text-align: center;
+
+                        opacity: .6;
+                        line-height: $fontsize + 2px;
+                    }
+                    & .form {
+                        margin-top: $margin * 12;
+                        width: 65%;
+
+                        & .input + .input {
+                            margin-top: $margin * 2;
+                        }
+                        & .input {
+                            position: relative;
+
+                            & input[type='text'], & input[type='password'] {
+                                width: 100%;
+
+                                padding: $padding * 4;
+                                padding-right: $padding * 9;
+
+                                border: 1px solid rgba(255, 255, 255, .3);
+                                transition: $transition;
+
+                                border-radius: $borderRadius * 2;
+
+                                &:not(:placeholder-shown) {
+                                    & ~ svg {
+                                        opacity: 1;
+                                    }
+                                    border-color: rgba(255, 255, 255, .6);
+                                }
+                            }
+                            & svg {
+                                position: absolute;
+
+                                top: 50%;
+                                right: $padding * 3;
+
+                                transform: translateY(-50%);
+                                transition: $transition;
+
+                                font-size: $fontsize + 8px;
+                                opacity: .3;
+                            }
+                        }
+
+                        & .other {
+                            margin-top: $margin * 3;
+
+                            & .input {
+                                display: flex;
+                                align-items: center;
+
+                                & label {
+                                    margin-left: $margin * 2;
+                                }
+                            }
+                        }
+                    }
+                    & .action {
+                        width: 65%;
+                        margin-top: $margin * 14;
+
+                        & .help {
+                            display: flex;
+                            justify-content: center;
+                            flex-wrap: wrap;
+
+                            & button + button {
+                                margin-top: $margin;
+                            }
+                            & button {
+                                background: transparent;
+                                color: white;
+
+                                opacity: .4;
+                                font-size: $fontsize - 1px;
+
+                                width: 100%;
+                                text-align: center;
+
+                                transition: $transition;
+
+                                &:hover {
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                        & .btn {
+                            margin-top: $margin * 3;
+                            padding: $padding * 6 0;
+
+                            background: $theme_backgroundColor;
+                            border: none;
+
+                            border-radius: $borderRadius * 4;
+
+                            font-size: $fontsize + 2px;
+                            transition: none;
+
+                            &.disabled {
+                                background: $theme_grey;
+                                opacity: .7;
+                            }
+                            &.loader {
+                                padding: $padding * 4 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            & .notf {
+                position: absolute;
+                top: $padding * 4;
+                
+                z-index: $zindex_notify;
+
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                & div + div {
+                    margin-top: $margin * 2;
+                }
+                & div {
+                    background: $theme_grey;
+                    color: white;
+
+                    padding: $padding * 3;
+                    border-radius: $borderRadius * 2;
+
+                    line-height: $fontsize + 2px;
+                    & span {
+                        font-size: $fontsize - 2px;
+                    }
+
+                    transition: .6s;
+                    transform: translateX(-150%);
+
+                    &.show {
+                        transform: translateX(0);
+                    }
+
+                    &.error {
+                        background: $theme_red;
+                    }
+                    &.success {
+                        background: $theme_colorGradient;
+                    }
+                }
+            }
+
+            & .sd {
+                position: absolute;
+
+                top: 0;
+                right: 0;
+
+                transform: translateX(-150%);
+            }
+        }
+    }
+}

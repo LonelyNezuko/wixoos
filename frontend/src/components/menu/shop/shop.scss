@@ -1,9 +1,9 @@
-.menu-shop {
+.menuShop {
 	width: 100%;
 	height: 100%;
 }
 
-.menu-shop .menu-shop-header {
+.menuShop .menuShop-header {
 	display: flex;
 	align-items: center;
 
@@ -20,30 +20,30 @@
 
 	width: 100%;
 }
-.menu-shop .menu-shop-header .menu-shop-header-balance {
+.menuShop .menuShop-header .menuShop-header-balance {
 	display: flex;
 	align-items: center;
 
 	margin-left: 30px;
 }
-.menu-shop .menu-shop-header .menu-shop-header-balance img {
+.menuShop .menuShop-header .menuShop-header-balance img {
 	width: 30px;
 	height: 30px;
 }
-.menu-shop .menu-shop-header .menu-shop-header-balance h1 {
+.menuShop .menuShop-header .menuShop-header-balance h1 {
 	margin-left: 7px;
 	font-size: 16px;
 }
-.menu-shop .menu-shop-header .btn {
+.menuShop .menuShop-header .btn {
 	border: 0;
 	background-color: #414c5c;
 
 	padding: 10px 15px;
 	font-size: 12px;
 }
-.menu-shop .menu-shop-header .btn:not(.btn-sel):hover {
+.menuShop .menuShop-header .btn:not(.btn-sel):hover {
 	background-color: #5a687c;
 }
-.menu-shop .menu-shop-header .btn-sel {
+.menuShop .menuShop-header .btn-sel {
 	background-color: #2eb7cd;
 }

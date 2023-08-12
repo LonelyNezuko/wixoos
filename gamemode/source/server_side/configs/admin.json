@@ -13,6 +13,8 @@
     },
     "defaultAccess": {
         "cmd_a": [ "ALL" ],
-        "cmd_spawn": [ "ADMIN2", "DEPUTY_CHEIF_ADMIN", "CHEIF_ADMIN", "CURATOR", "RED_ADMIN", "DIRECTOR", "DEVELOPER" ]
+        "cmd_spawn": [ "ADMIN1", "ADMIN2", "DEPUTY_CHEIF_ADMIN", "CHEIF_ADMIN", "CURATOR", "RED_ADMIN", "DIRECTOR", "DEVELOPER" ],
+        "cmd_ban": [ "ADMIN1", "ADMIN2", "DEPUTY_CHEIF_ADMIN", "CHEIF_ADMIN", "CURATOR", "RED_ADMIN", "DIRECTOR", "DEVELOPER" ],
+        "cmd_unban": [ "ADMIN1", "ADMIN2", "DEPUTY_CHEIF_ADMIN", "CHEIF_ADMIN", "CURATOR", "RED_ADMIN", "DIRECTOR", "DEVELOPER" ]
     }
 }

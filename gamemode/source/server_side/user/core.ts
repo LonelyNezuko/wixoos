@@ -67,42 +67,47 @@ export default class User {
     }
 
 
+    // авторизация/регистрация
     goSignin(): void {
         if(this.isAuth)return
 
         if(this.storage.get('isReady')
             && this.storage.get('isCefLoaded')) {
-            this.player.call('client::user:auth:setRemember')
+            this.player.call('client::user:signin:setRemember')
 
-            new CEF(this.player, 'auth', 'toggle', { status: true }).send()
+            new CEF(this.player, 'signin', 'toggle', { status: true }).send()
             this.cursor(true)
 
-            new CEF(this.player, 'cef::auth:submit').add((data: any): any => {
+            new CEF(this.player, 'cef::signin:submit:auth').add((data: any): any => {
                 const
                     login: string = data.login,
                     password: string = data.password,
-                    save: boolean = data.save
+                    remember: boolean = data.remember
 
                 if(login.length < CONFIG_DEFAULT.usernameLength[0] || login.length > CONFIG_DEFAULT.usernameLength[1]
                     || !func.validatePassword(password))
                     return this.notify('Некорректные данные', 'error')
-
-                if(save) {
-                    this.player.call('client::user:auth:remember', [ true, {
-                        login,
-                        password
-                    } ])
-                }
-                else this.player.call('client::user:auth:remember', [ false, {} ])
                 
-                new UserBase(this.player).signin(login, password)
+                new UserBase(this.player).signin(login, password, (err: string, success: string) => {
+                    new CEF(this.player, 'signin', 'notf', { type: err ? 'error' : 'success', where: '.auth', message: err }).send()
+
+                    if(success) {
+                        if(remember) {
+                            this.player.call('client::user:signin:remember', [ true, {
+                                login,
+                                password
+                            } ])
+                        }
+                        else this.player.call('client::user:signin:remember', [ false, {} ])
+                    }
+                })
             })
-            new CEF(this.player, 'cef::auth:submit:reg').add((data: any): any => {
+            new CEF(this.player, 'cef::signin:submit:registry').add((data: any): any => {
                 const
                     login: string = data.login,
                     password: string = data.password,
                     email: string = data.email,
-                    save: boolean = data.save
+                    remember: boolean = data.remember
 
                 if(login.length < CONFIG_DEFAULT.usernameLength[0] || login.length > CONFIG_DEFAULT.usernameLength[1]
                     || !func.validatePassword(password))
@@ -110,17 +115,23 @@ export default class User {
                 if(!func.validateEmail(email))
                     return this.notify('Некорректный Email адрес (пример: email@domen.ru)', 'error')
 
-                if(save) {
-                    this.player.call('client::user:auth:remember', [ true, {
+                if(remember) {
+                    this.player.call('client::user:signin:remember', [ true, {
                         login,
                         password
                     } ])
                 }
 
-                new UserBase(this.player).signup(login, password, email)
+                new UserBase(this.player).signup(login, password, email, (err: string, success: string) => {
+                    new CEF(this.player, 'signin', 'notf', { type: err ? 'error' : 'success', where: '.registry', message: err }).send()
+                    if(success) {
+                        new CEF(this.player, 'signin', 'notf', { type: 'success', where: '.registry', message: 'Загружаем данные аккаунта...' }).send()
+                    }
+                })
             })
         }
     }
+    ////////////
 
 
     notify(text: string, type: string = 'info', time: number = 5000): void {
@@ -143,7 +154,7 @@ export default class User {
         this.player.call('client::user:freeze', [ toggle ])
     }
 
-    setCamera(position: Vector3Mp, atCoord: [ number, number, number ], data: any = {}): void {
+    setCamera(position: Vector3, atCoord: [ number, number, number ], data: any = {}): void {
         this.player.call('client::user:setCamera', [ position, atCoord, data ])
     }
     destroyCamera(data: any = {}): void {

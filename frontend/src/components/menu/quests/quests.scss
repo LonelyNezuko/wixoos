@@ -1,0 +1,220 @@
+@import '../../../rules/variables.scss';
+
+#menu {
+	& .menuQuests {
+		width: 100%;
+		height: 100%;
+
+		& .menuQuests-body {
+			width: 100%;
+			height: 100%;
+
+			display: flex;
+			align-items: flex-start;
+
+			& .star {
+				& svg {
+					font-size: $fontsize + 6px;
+					color: $theme_yellow;
+				}
+				margin-right: $margin;
+			}
+			& .progress {
+				margin-top: $margin * 2;
+
+				width: 100%;
+
+				height: 20px;
+				min-height: 20px;
+
+				border-radius: $borderRadius;
+				overflow: hidden;
+
+				background: rgba(255, 255, 255, .6);
+				padding: $padding;
+
+				& div {
+					height: 100%;
+					background: rgba(255, 255, 255, .8);
+
+					border-radius: $borderRadius;
+
+				}
+			}
+
+			& .list {
+				width: 35%;
+				min-width: 35%;
+
+				height: 100%;
+				overflow: auto;
+
+				padding-right: $padding;
+
+				& .elem + .elem {
+					margin-top: $margin * 3;
+				}
+				& .elem {
+					background: rgba(255, 255, 255, .3);
+					border: 1px solid rgba(255, 255, 255, .5);
+
+					padding: $padding * 2;
+					border-radius: $borderRadius;
+
+					& .header {
+						display: flex;
+						align-items: center;
+
+						height: 22px;
+
+						& .title {
+							font-size: $fontsize + 2px;
+						}
+					}
+					& .task {
+						margin-top: $margin * 3;
+						font-size: $fontsize + 1px;
+					}
+
+					
+					&.selected {
+						background: $theme_colorGradient;
+						border-color: transparent;
+
+						& .progress {
+							background: $theme_colorGradientLight;
+							& div {
+								background: $theme_colorGradient;
+							}
+						}
+					}
+				}
+			}
+			& .info {
+				margin-left: $margin * 6;
+
+				background: rgba(255, 255, 255, .3);
+				border: 1px solid rgba(255, 255, 255, .5);
+
+				border-radius: $borderRadius;
+				padding: $padding * 2;
+
+				height: 100%;
+				width: 100%;
+
+				display: flex;
+				flex-direction: column;
+
+				& .header {
+					display: flex;
+					align-items: center;
+
+					height: 26px;
+					min-height: 26px;
+
+					& .title {
+						font-size: $fontsize + 8px;
+					}
+					& .star {
+						transform: translateY(1px);
+						& svg {
+							font-size: $fontsize + 10px;
+						}
+					}
+				}
+				& .desc {
+					margin-top: $margin * 4;
+					opacity: .8;
+
+					line-height: $fontsize + 2px;
+
+					border-bottom: 1px solid rgba(255, 255, 255, .5);
+					padding-bottom: $padding * 4;
+				}
+				& .tasks {
+					margin-top: $margin * 4;
+
+					height: 100%;
+					overflow: auto;
+
+					& section + section {
+						margin-top: $margin * 2;
+					}
+					& section {
+						display: flex;
+						align-items: center;
+
+						background: rgba(255, 255, 255, .3);
+						border: 1px solid rgba(255, 255, 255, .5);
+
+						padding: $padding * 2;
+						border-radius: $borderRadius;
+
+						&.completed {
+							opacity: .4;
+						}
+
+						& .status {
+							transform: translateY(2px);
+							& svg {
+								font-size: $fontsize + 10px;
+							}
+						}
+						& h1 {
+							font-size: $fontsize + 2px;
+							margin-left: $margin * 2;
+						}
+					}
+				}
+				& .rewards {
+					margin-top: $margin * 4;
+
+					& .title {
+						
+					}
+					& .items {
+						margin-top: $margin * 2;
+
+						display: flex;
+						align-items: center;
+						gap: $padding;
+						flex-wrap: wrap;
+
+						background: rgba(255, 255, 255, .3);
+						border: 1px solid rgba(255, 255, 255, .5);
+
+						padding: $padding * 2;
+						border-radius: $borderRadius;
+
+						& .inventory-elem {
+							width: calc(100% / 9 - $padding * 0.9);
+							height: 100%;
+
+							aspect-ratio: 1 / 1;
+						}
+					}
+				}
+				& .traking {
+					margin-top: $margin * 4;
+					width: 100%;
+
+					& .btn {
+						width: 100%;
+						
+						padding: $padding * 6 0;
+						font-size: $fontsize + 6px;
+
+						text-transform: uppercase;
+					}
+
+					&.on {
+						& .btn {
+							background: $theme_backgroundColor;
+							border-color: transparent;
+						}
+					}
+				}
+			}
+		}
+	}
+}

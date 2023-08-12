@@ -199,8 +199,7 @@ export default function Hud() {
 			<HudChat accountData={accountData} />
 			<div className="hud-logo">
 				<div className="hud-logo-img">
-					{/*<img src='/assets/logo2.png' />*/}
-					<h1>{CONFIG.projectName}</h1>
+					<img src='assets/logo/full-right.png' />
 				</div>
 				<div className="hud-data">
 					<section>

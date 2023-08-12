@@ -13,6 +13,9 @@ export default function HudChat(data) {
 	const [ chatTypeSelect, setChatTypeSelect ] = React.useState(0)
 	const [ chatSettings, setChatSettings ] = React.useState([ 450, 250, 13, 'Open Sans', 4, 7 ])
 
+	const [ chatHistory, setChatHistory ] = React.useState([])
+	const [ chatHistoryIndex, setChatHistoryIndex ] = React.useState(-1)
+
 	function addChatMessage(text, type = '') {
 		text = text.replace(/<(.|\n)*?>/g, '')
 
@@ -77,9 +80,16 @@ export default function HudChat(data) {
 		const text = $('.hud .hud-chat .hud-chat-i input').val().replace(/<(.|\n)*?>/g, '')
 
 		$('.hud .hud-chat .hud-chat-i input').val('')
-		
 		setChatOpen(false)
+
 		ragemp.send('server::hud:chat:close', {}, true)
+		addChatMessage(text)
+
+		setChatHistory(old => {
+			if(old.length > 5) old.splice(old.length - 1, 1)
+			return [...old, text]
+		})
+		setChatHistoryIndex(-1)
 
 		if(data.accountData.mute === 0) {
 			ragemp.send('server::hud:chat:send', { text, type: $('.hud .hud-chat .hud-chat-i').attr('data-type') })
@@ -120,6 +130,29 @@ export default function HudChat(data) {
 
 				setChatOpen(false)
 				ragemp.send('server::hud:chat:close', {}, true)
+			}
+
+			const chatHistory = JSON.parse($('.hud .hud-chat').attr('data-chatHistory'))
+			let chatHistoryIndex = parseInt($('.hud .hud-chat').attr('data-chatHistoryIndex'))
+
+			if(chatOpen && chatHistory.length
+				&& (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+				if(e.key === 'ArrowUp' && chatHistoryIndex < chatHistory.length - 1) {
+					$('.hud .hud-chat .hud-chat-i input').val(chatHistory[chatHistoryIndex + 1])
+					setChatHistoryIndex(old => {
+						return old + 1
+					})
+				}
+				else if(e.key === 'ArrowDown' && chatHistoryIndex > 0) {
+					$('.hud .hud-chat .hud-chat-i input').val(chatHistory[chatHistoryIndex - 1])
+					setChatHistoryIndex(old => {
+						return old - 1
+					})
+				}
+				else if(e.key === 'ArrowDown' && chatHistoryIndex <= 0) {
+					$('.hud .hud-chat .hud-chat-i input').val('')
+					setChatHistoryIndex(-1)
+				}
 			}
 		})
 
@@ -167,9 +200,13 @@ export default function HudChat(data) {
 			}
 		})
 	}, [chatTypeSelect, chatTypeList])
+	React.useEffect(() => {
+		setChatHistoryIndex(-1)
+	}, [chatOpen])
 
 	return (
-		<div className={`hud-chat ${chatOpen === true && 'hud-chat-open'}`} style={{width: chatSettings[0] + 'px'}}>
+		<div className={`hud-chat ${chatOpen === true && 'hud-chat-open'}`} style={{width: chatSettings[0] + 'px'}}
+			data-chatHistory={JSON.stringify(chatHistory)} data-chatHistoryIndex={chatHistoryIndex}>
 			<section className="hud-chat-body" style={{height: chatSettings[1] - 12 + 'px'}}>
 				{chat.map((item, i) => {
 					return (
@@ -183,7 +220,7 @@ export default function HudChat(data) {
 			</section>
 			<section className="hud-chat-i" data-type={chatTypeList[chatTypeSelect]} data-typeID={chatTypeSelect}>
 				{returnChatType(chatTypeList[chatTypeSelect])}
-				<input id="chat" type="text" maxlength="255" placeholder="Чат" />
+				<input autoComplete='off' id="chat" type="text" maxlength="255" placeholder="Чат" />
 				{data.accountData.mute > 0 ? (<MdCancelScheduleSend className="hud-chat-i-mute" />) : (<MdSend onClick={() => chatSubmit()} />)}
 			</section>
 		</div>

@@ -1,0 +1,321 @@
+@import '../../../../rules/variables.scss';
+
+#admin {
+    & .adminlist {
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+
+        & .modal.adminlist_modal_edit {
+            & .modalBody {
+                overflow: visible;
+            }
+            & .edit {
+                margin-top: $margin * 8;
+
+                & section + section {
+                    margin-top: $margin * 4;
+                }
+                & section {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: $margin * 4;
+
+                    height: 45px;
+
+                    & .btn {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+        & .modal.adminlist_modal_info {
+            & .onlineStatus {
+                font-size: $fontsize - 2px;
+            }
+
+            & .accountpage {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+
+                & .wrap:first-child {
+                    display: flex;
+                    align-items: center;
+
+                    & section {
+                        margin-left: $margin * 4;
+                        & h1 {
+                            font-size: $fontsize + 2px;
+                            font-weight: 600;
+                        }
+                        & span {
+                            display: block;
+                            margin-top: $margin;
+    
+                            &:last-child {
+                                font-size: $fontsize - 2px;
+                                opacity: .6;
+    
+                                margin-top: $margin * 2;
+                            }
+                        }
+                    }
+                }
+                & .wrap:last-child {
+                    width: 100%;
+
+                    margin-left: $margin * 8;
+                    margin-top: 0;
+                }
+
+                background-color: $theme_dark;
+                border-radius: $borderRadius;
+
+                padding: $padding * 3;
+            }
+            & .stats {
+                margin-top: $margin * 6;
+
+                & h6 {
+                    font-size: $fontsize + 6px;
+                    font-weight: 700;
+
+                    text-align: center;
+                    margin-bottom: $margin * 2;
+
+                    &.more {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        text-align: left;
+
+                        & .select {
+                            width: 170px;
+                        }
+                    }
+                }
+
+                & .wrap {
+                    background-color: $theme_dark;
+                    border-radius: $borderRadius;
+
+                    padding: $padding * 4 $padding * 3;
+
+                    & .chart {
+                        margin-top: $margin * 6;
+                    }
+                }
+                & section + section {
+                    margin-top: $margin * 4;
+                }
+                & section {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    & h2 {
+                        text-align: right;
+
+                        & .onlineStatus {
+                            padding-top: $padding;
+                            padding-bottom: $padding;
+                        }
+                    }
+                }
+            }
+        }
+
+        & .header {
+            display: flex;
+            align-items: center;
+
+            & .search {
+                background-color: $theme_dark;
+                border-radius: $borderRadius;
+
+                overflow: hidden;
+
+                display: flex;
+                align-items: center;
+
+                & input {
+                    background: transparent;
+                    width: 250px;
+                }
+                & svg {
+                    margin-left: $margin * 2;
+                    min-width: 24px;
+                }
+                & h1 {
+                    min-width: 120px;
+
+                    padding-right: $padding * 3;
+                    white-space: nowrap;
+                    & span {
+                        font-weight: 700;
+                        margin-left: $margin;
+                    }
+                }
+            }
+            & .stats {
+                margin-left: $margin * 4;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: $margin * 10;
+
+                width: 100%;
+
+                & .elem {
+                    width: calc(100% / 3);
+
+                    & section + section {
+                        margin-top: $margin * 2;
+                    }
+                    & section {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        & h1 {
+                            opacity: .7;
+                        }
+                        & span {
+                            text-align: right;
+                        }
+                    }
+                }
+            }
+        }
+        & .list {
+            height: 100%;
+            width: 100%;
+
+            margin-top: $margin * 4;
+
+            background-color: $theme_dark;
+            border-radius: $borderRadius;
+
+            overflow: auto;
+            padding: $padding * 2;
+
+            & table {
+                width: 100%;
+                border-collapse: collapse;
+
+                & thead {
+                    & tr {
+                        & th {
+                            padding: $padding * 3;
+                            padding-bottom: $padding * 5;
+
+                            cursor: pointer;
+                            white-space: nowrap;
+
+                            & .sort {
+                                display: inline-block;
+                                margin-left: $margin * 2;
+
+                                & svg {
+                                    transform: translateY(3px);
+                                }
+                                & span {
+                                    margin-left: $margin / 2;
+                                    font-size: $fontsize - 2px;
+                                }
+                            }
+                        }
+                    }
+                }
+                & tbody {
+                    & tr {
+                        background: $theme_darkLight;
+                        &:nth-child(odd) {
+                            background: #33383f;
+                        }
+
+                        white-space: nowrap;
+                        
+                        & td {
+                            padding: $padding * 2;
+
+                            &:first-child {
+                                // border-radius: $borderRadius 0 0 $borderRadius;
+                            }
+                            &:last-child {
+                                // border-radius: 0 $borderRadius $borderRadius 0;
+                            }
+
+                            &.center {
+                                text-align: center;
+                            }
+
+
+                            &.login {
+                                display: flex;
+                                align-items: center;
+
+                                & h1 {
+                                    margin-left: $margin * 3;
+                                    & span {
+                                        display: block;
+                                        margin-top: $margin;
+
+                                        opacity: .6;
+                                        font-size: $fontsize - 2px;
+
+                                        &:last-child {
+                                            margin-top: $margin * 2;
+                                            opacity: .4;
+
+                                            font-size: $fontsize - 3px;
+                                        }
+                                    }
+                                }
+                            }
+                            &.role {
+
+                            }
+                            &.status {
+                                
+                            }
+                            &.action {
+                                // padding: 0;
+                                & button {
+                                    width: 35px;
+                                    height: 35px;
+
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    background-color: $theme_grey;
+                                    border-radius: $borderRadius;
+
+                                    & svg {
+                                        color: white;
+                                        font-size: $fontsize + 2px;
+                                    }
+                                }
+
+                                // padding-right: $padding * 2;
+                                &:last-child {
+                                    // padding-right: $padding * 2;
+                                    // padding-left: $padding;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -18,7 +18,7 @@ import { MdOutlinePassword } from 'react-icons/md'
 import './auth.scss'
 
 export default function Auth() {
-	const [ toggle, setToggle ] = React.useState(false)
+	const [ toggle, setToggle ] = React.useState(true)
 	const [ type, setType ] = React.useState(0)
 
 	const [ recoveryEmailTime, setRecoveryEmailTime ] = React.useState(0)
@@ -119,7 +119,7 @@ export default function Auth() {
 			return
 		}
 
-		ragemp.send('server::auth:submit', { login, password, save: $('.auth #authSavePassword').is(':checked') }, true)
+		ragemp.send('server::auth:submit', { login, password, save: $('.auth #authSavePassword').is(':checked') })
 	}
 	function submitAuthReg() {
 		$('.auth input').blur()

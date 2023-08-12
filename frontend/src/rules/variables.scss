@@ -1,14 +1,18 @@
 $theme_background: #444;
-$theme_backgroundColor: linear-gradient(143.3deg, rgb(216, 27, 96) 33.1%, rgb(237, 107, 154) 74.9%);
+$theme_backgroundColor: linear-gradient(143.3deg, #d81b60 33.1%, #ed6b9a 74.9%);
 $theme_background2: linear-gradient(180deg, #101014 0%, #101014 100%);
 $theme_dark: #1c1e21;
 $theme_darkLight: #2a2e33;
 $theme_light: #53585f;
 $theme_color: #48b0bb;
+$theme_colorGradientLight: #ed6b9a;
+$theme_colorGradient: #d81b60;
 $theme_red: #fb615a;
 $theme_green: #177a17;
+$theme_greenLight: #30ad30;
 $theme_silver: silver;
 $theme_grey: #5a5a5a;
+$theme_yellow: rgb(252, 252, 55);
 
 
 $borderRadius: 4px;

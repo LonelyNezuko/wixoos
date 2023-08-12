@@ -1,0 +1,150 @@
+@import '../../../rules/variables.scss';
+
+.stickeraction {
+    &:hover {
+        & svg {
+            opacity: 1;
+        }
+    }
+    & svg {
+        font-size: $fontsize + 10px;
+        opacity: .4;
+
+        transition: $transition;
+    }
+
+    &:hover {
+        & .stickermenu {
+            opacity: 1;
+            visibility: visible;
+            z-index: $zindex_hoverModal;
+
+            bottom: calc(100% + 20px);
+        }
+    }
+
+    position: relative;
+    & .stickermenu {
+        position: absolute;
+
+        bottom: calc(100% + 10px);
+        right: 0;
+
+        background: $theme_dark;
+        border-radius: $borderRadius;
+
+        width: 360px;
+
+        opacity: 0;
+        visibility: hidden;
+        z-index: -1;
+
+        transition: $transition;
+
+        &:after {
+            display: block;
+            content: "";
+
+            position: absolute;
+
+            bottom: -10px;
+            right: 30px;
+
+            width: 20px;
+            height: 20px;
+
+            background: inherit;
+            border-radius: $borderRadius / 2;
+
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+        &:before {
+            display: block;
+            content: "";
+
+            position: absolute;
+
+            width: 100%;
+            height: 20px;
+
+            bottom: -20px;
+            left: 0;
+        }
+
+        & .stickermenu-input {
+            padding: $padding * 4;
+            background: transparent;
+
+            width: 100%;
+        }
+
+        & .stickermenu-body {
+            width: 100%;
+            height: 400px;
+
+            overflow: auto;
+        }
+        & .stickermenu-list {
+            padding: $padding * 4;
+            padding-top: $padding * 2;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: $padding * 2;
+
+            & .stickermenu-list-title {
+                width: 100%;
+                text-align: left;
+
+                background: $theme_darkLight;
+                padding: $padding * 2;
+
+                border-radius: $borderRadius / 2;
+            }
+
+            & .stickermenu-list-elem {
+                width: calc(100% / 2 - $padding);
+
+                & h1 {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    font-size: $fontsize - 2px;
+
+                    & svg {
+                        opacity: .4;
+                        font-size: $fontsize + 4px;
+
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+                }
+                & img {
+                    display: block;
+                    margin: 0 auto;
+
+                    width: 80%;
+                    height: auto;
+                }
+
+                &.stickermenu-list-elem-pined {
+                    & h1 svg {
+                        opacity: 1;
+                    }
+                }
+
+                border-radius: $borderRadius;
+                padding: $padding * 2;
+
+                transition: $transition;
+
+                &:hover {
+                    background: $theme_darkLight;
+                }
+            }
+        }
+    }
+}

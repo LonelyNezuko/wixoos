@@ -6,7 +6,7 @@ import ragemp from '../../../../modules/ragemp'
 import * as moment from 'moment'
 import 'moment/locale/ru';
 
-import './contacts.css'
+import './contacts.scss'
 
 import { RiUserAddFill } from 'react-icons/ri'
 import { FiSearch } from 'react-icons/fi'

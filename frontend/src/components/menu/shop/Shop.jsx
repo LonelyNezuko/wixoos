@@ -8,33 +8,31 @@ import './shop.scss'
 import { HiShoppingCart } from 'react-icons/hi'
 import { MdInventory } from 'react-icons/md'
 
-import Roullete from './roullete/Roullete'
+import Roulette from './roullete/roulette'
 import Inventory from './inventory/Inventory'
 
-export default function Shop(props) {
+export default function Shop({ bodyNav, openBodyNav, accountData }) {
 	return (
-		<div className="menu-shop">
-			<div className="menu-shop-header">
-				<button style={{marginRight: '10px'}} onClick={() => props.openBodyNav(6)} className={`btn ${props.bodyNav === 6 && 'btn-sel'}`}>
+		<div className="menuShop">
+			<div className="menuShop-header">
+				<button style={{marginRight: '10px'}} onClick={() => openBodyNav(6)} className={`btn ${bodyNav === 6 && 'btn-sel'}`}>
 					<HiShoppingCart />
 					История пополнения
 				</button>
-				<button onClick={() => props.openBodyNav(5)} className={`btn ${props.bodyNav === 5 && 'btn-sel'}`}>
+				<button onClick={() => openBodyNav(5)} className={`btn ${bodyNav === 5 && 'btn-sel'}`}>
 					<MdInventory />
 					Инвентарь
 				</button>
-				<section className="menu-shop-header-balance">
+				<section className="menuShop-header-balance">
 					<img src='./assets/donate.png' />
-					<h1>{props.accountData.donate.toLocaleString()}</h1>
+					<h1>{accountData.donate.toLocaleString()}</h1>
 				</section>
 			</div>
 
-			<div className="menu-shop-root menu-shop-inventory" style={{display: props.bodyNav !== 5 ? 'none' : 'flex'}}>
-				<Inventory />
-			</div>
-
-			<div className="menu-shop-root menu-shop-roulette" style={{display: props.bodyNav !== 4 ? 'none' : 'block'}}>
-				<Roullete />
+			
+			<div className="menu-shop-root">
+				{bodyNav === 4 ? (<Roulette />) : ''}
+				{bodyNav === 5 ? (<Inventory />) : ''}
 			</div>
 		</div>
 	)

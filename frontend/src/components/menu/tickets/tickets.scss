@@ -1,0 +1,402 @@
+@import '../../../rules/variables.scss';
+
+#menu {
+	.tickets {
+		width: 100%;
+		height: 100%;
+
+		display: flex;
+		align-items: flex-start;
+
+		&#tickets {
+			& .list {
+				width: 400px;
+				min-width: 400px;
+			}
+		}
+
+		& .list {
+			width: 300px;
+			min-width: 300px;
+
+			& .elem + .elem {
+				margin-top: $margin * 2;
+			}
+			& .elem {
+				background: $theme_dark;
+				border-radius: $borderRadius;
+
+				padding: $padding * 2;
+				&.selected {
+					background: $theme_darkLight;
+				}
+
+				& .title {
+					font-size: $fontsize + 2px;
+					font-weight: 600;
+
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					& span {
+						font-size: $fontsize - 2px;
+						opacity: .6;
+					}
+				}
+				& .sender {
+					margin-top: $margin;
+
+					font-size: $fontsize - 2px;
+					opacity: .6;
+				}
+				& .lastmessage {
+					margin-top: $margin * 2;
+
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					background-color: $theme_background;
+					border-radius: $borderRadius;
+
+					padding: $padding * 2 $padding * 3;
+
+					&.new {
+						background: $theme_colorGradientLight;
+					}
+				}
+			}
+		}
+		& .chat {
+			margin-left: $margin * 4;
+
+			width: 100%;
+			height: 100%;
+
+			& .noselected {
+				width: 100%;
+				height: 100%;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				& .wrap {
+					& svg {
+						display: block;
+						margin: 0 auto;
+
+						font-size: $fontsize + 68px;
+						opacity: .4;
+					}
+					& span {
+						display: block;
+						text-align: center;
+
+						margin-top: $margin * 4;
+
+						font-size: $fontsize + 2px;
+						opacity: .4;
+					}
+				}
+			}
+
+			& .wrapper {
+				display: flex;
+				flex-direction: column;
+
+				height: 100%;
+			}
+
+			& .account {
+				width: 100%;
+
+				height: 100px;
+				min-height: 100px;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: $margin * 4;
+
+				background-color: $theme_dark;
+				border-radius: $borderRadius;
+
+				padding: $padding * 2 $padding * 4;
+
+				& .main {
+					// min-width: 220px;
+
+					display: flex;
+					align-items: center;
+
+					& h1 {
+						display: flex;
+						flex-direction: column;
+						align-items: flex-start;
+
+						margin-left: $margin * 3;
+						white-space: nowrap;
+					}
+				}
+				& .info {
+					width: calc(100% / 3);
+
+					& section + section {
+						margin-top: $margin * 1.5;
+					}
+					& section {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+
+						& h1 {
+							opacity: .6;
+						}
+						& span {
+							text-align: right;
+						}
+					}
+				}
+				& .other {
+					min-width: 26px;
+					margin-left: $margin * 4;
+
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					& button {
+						background-color: transparent;
+						border-radius: $borderRadius;
+
+						padding: $padding;
+						transition: $transition;
+
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						& svg {
+							color: white;
+							font-size: $fontsize + 6px;
+						}
+						&:hover {
+							background-color: $theme_light;
+						}
+					}
+				}
+			}
+			& .messages {
+				padding: $padding * 4 0;
+
+				height: 100%;
+				overflow: auto;
+
+				padding-right: $padding * 4;
+
+				& .message + .message {
+					margin-top: $margin * 4;
+				}
+				& .message {
+					display: flex;
+					align-items: flex-end;
+
+					& .info {
+						& .time {
+							margin-bottom: $margin * 3;
+							text-align: center;
+
+							font-size: $fontsize - 2px;
+							opacity: .6;
+						}
+					}
+					& .text {
+						margin-left: $margin * 4;
+
+						background: $theme_backgroundColor;
+						border-radius: $borderRadius * 2 $borderRadius * 2 $borderRadius * 2 0;
+
+						padding: $padding * 3;
+						max-width: 600px;
+
+						position: relative;
+						&:before {
+							position: absolute;
+							z-index: -1;
+
+							display: block;
+							content: "";
+
+							width: 12px;
+							height: 12px;
+
+							background: rgb(216, 27, 96);
+							transform: rotate(45deg);
+
+							bottom: 3px;
+							left: -6px;
+						}
+
+						& .sticker {
+							width: 144px;
+							height: 144px;
+						}
+					}
+
+					&.reverse {
+						flex-direction: row-reverse;
+
+						& .text {
+							margin-left: 0;
+							margin-right: $margin * 4;
+
+							border-radius: $borderRadius * 2 $borderRadius * 2 0 $borderRadius * 2;
+							background: $theme_dark;
+
+							&:before {
+								left: auto;
+								right: -6px;
+
+								background: inherit;
+							}
+						}
+					}
+					&.system {
+						justify-content: center;
+						opacity: .7;
+
+						& span {
+							background-color: $theme_dark;
+							border-radius: $borderRadius * 2;
+
+							padding: $padding * 2 $padding * 4;
+						}
+					}
+				}
+			}
+
+			& .help {
+				display: flex;
+				flex-wrap: wrap;
+				gap: $margin * 1.7;
+
+				padding: $padding * 4;
+
+				background: $theme_darkLight;
+				border-radius: $borderRadius $borderRadius 0 0;
+
+				& .btn {
+					background: $theme_background;
+					border: none;
+
+					padding: $padding * 2 $padding * 4;
+					&.selected {
+						background: $theme_backgroundColor;
+					}
+
+					&.hover {
+						position: relative;
+						&:before {
+							position: absolute;
+							z-index: $zindex_hover;
+
+							display: block;
+							content: attr(data-text);
+
+							top: -30px;
+							left: 50%;
+
+							transform: translateX(-50%);
+
+							background-color: inherit;
+							color: white;
+
+							padding: $padding $padding * 2;
+							border-radius: $borderRadius;
+
+							white-space: nowrap;
+
+							opacity: 0;
+							visibility: hidden;
+							z-index: -1;
+
+							transition: $transition;
+						}
+						
+						&:hover:before {
+							opacity: 1;
+							visibility: visible;
+							z-index: $zindex_hover;
+						}
+					}
+				}
+			}
+			& .form {
+				display: flex;
+				align-items: center;
+
+				min-height: 50px;
+				height: 50px;
+
+				background: $theme_dark;
+				border-radius: $borderRadius;
+
+				&.helper {
+					border-radius: 0 0 $borderRadius $borderRadius;
+				}
+
+				& .btn {
+					height: 100%;
+					border-radius: 0;
+
+					background: transparent;
+					border: none;
+
+					padding: 0 $padding * 6;
+
+					&:nth-child(2) {
+						padding: 0;
+						&:after, &:before {
+							width: 1px;
+							height: 50%;
+
+							background: $theme_darkLight;
+							transition: $transition;
+
+							display: block;
+							content: "";
+						}
+
+						&.stickeraction:after {
+							background: transparent;
+						}
+
+						&:after {
+							margin-left: $margin * 6;
+						}
+						&:before {
+							margin-right: $margin * 6;
+						}
+					}
+					
+					&:hover, &.selected {
+						background-color: $theme_darkLight;
+						&:before, &:after,
+						&:nth-child(1) ~ .btn:before {
+							background: transparent;
+						}
+					}
+				}
+				& input:not(.stickermenu-input) {
+					height: 100%;
+					width: 100%;
+
+					background: transparent;
+					padding: 0 $padding * 4;
+				}
+			}
+		}
+	}
+}

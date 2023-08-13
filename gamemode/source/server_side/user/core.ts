@@ -11,14 +11,6 @@ interface UserInterface {
 
     openeds: any[]
 }
-const storageDefault: UserInterface = {
-    isReady: false,
-    isAuth: false,
-    isCefLoaded: false,
-    isEditCharacter: false,
-
-    openeds: []
-}
 const storage = new Map<number, UserInterface>()
 
 import CONFIG_DEFAULT from '../configs/default.json'
@@ -32,6 +24,15 @@ export default class User {
     private readonly player: PlayerMp
     private readonly id: number
 
+    private readonly storageDefault: UserInterface = {
+        isReady: false,
+        isAuth: false,
+        isCefLoaded: false,
+        isEditCharacter: false,
+    
+        openeds: []
+    }
+
     constructor(player: PlayerMp) {
         this.player = player
         this.id = player.id
@@ -41,17 +42,21 @@ export default class User {
     storage: any = {
         clear: (): void => {
             let res = storage.delete(this.id)
-            storage.set(this.id, {...storageDefault})
+            const newobj = {...this.storageDefault}
+
+            storage.set(this.id, newobj)
         },
         get: (key: number): any => {
             const data: any = storage.get(this.id)
             return data[key]
         },
         set: (key: number, value: [string, number]): boolean => {
-            const data: any = storage.get(this.id)
+            const data: any = {...storage.get(this.id)}
             if(!data)return false
 
             data[key] = value
+            storage.set(this.id, data)
+
             return true
         }
     }
@@ -138,8 +143,8 @@ export default class User {
         this.player.call('client::user:notify', [ text, type, time ])
     }
 
-    cursor(toggle: boolean): void {
-        this.player.call('client::user:cursor', [ toggle ])
+    cursor(toggle: boolean, toggleESC: boolean = false): void {
+        this.player.call('client::user:cursor', [ toggle, toggleESC ])
     }
 
     setDimension(dimension: number): void {

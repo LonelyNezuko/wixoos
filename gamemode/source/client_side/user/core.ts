@@ -5,7 +5,7 @@ import logger from "../_modules/logger"
 let camera: any
 
 let cursorStatus: boolean = false
-let escStatus: boolean = true
+export let escStatus: boolean = true
 let escStatusTimer: any = null
 
 export default class User {

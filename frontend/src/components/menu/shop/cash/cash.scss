@@ -1,0 +1,111 @@
+@import '../../../../rules/variables.scss';
+
+#menu {
+    & .shopCash {
+        & .list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $padding * 3;
+
+            & .elem {
+                width: calc(100% / 3 - $padding * 2);
+
+                background: rgba(255, 255, 255, .3);
+                border: 1px solid rgba(255, 255, 255, .5);
+
+                border-radius: $borderRadius;
+                padding: $padding * 3;
+
+                display: flex;
+                flex-direction: column;
+
+                position: relative;
+                overflow: hidden;
+
+                & .title {
+                    text-align: center;
+
+                    font-size: $fontsize + 4px;
+                    font-weight: 600;
+                }
+                & .desc {
+                    margin-top: $margin;
+                    opacity: .6;
+
+                    text-align: center;
+                }
+                & .icon {
+                    margin-top: $margin * 3;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    width: 100%;
+                    height: 100%;
+
+                    & img {
+                        width: 50%;
+                        height: auto;
+                    }
+
+                    position: relative;
+                    & h1 {
+                        position: absolute;
+
+                        bottom: 10px;
+                        left: 50%;
+
+                        transform: translateX(-50%);
+
+                        font-size: $fontsize + 16px;
+                        font-weight: 800;
+
+                        font-family: 'Avenir';
+                    }
+                }
+                & .other {
+                    margin-top: $margin * 8;
+
+                    text-align: center;
+                    font-size: $fontsize - 2px;
+
+                    opacity: .6;
+                }
+                & .action {
+                    margin-top: $margin * 2;
+                    width: 100%;
+
+                    & .btn {
+                        width: 100%;
+                        padding: $padding * 4;
+
+                        &:hover {
+                            background: white;
+                            border-color: white;
+
+                            color: black;
+                        }
+
+                        & .donateCount {
+                            font-weight: 600;
+                        }
+                    }
+                }
+
+                & .discount {
+                    position: absolute;
+                    z-index: 2;
+
+                    right: -45px;
+                    top: 15px;
+
+                    transform: rotate(45deg);
+
+                    background: $theme_red;
+                    padding: $padding * 2 $padding * 10;
+                }
+            }
+        }
+    }
+}

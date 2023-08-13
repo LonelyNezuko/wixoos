@@ -6,7 +6,9 @@ import CONFIG_DEFAULT from './configs/default.json'
 import './events'
 import './commands'
 import './user'
+
 import './systems/admin'
+import './systems/inventory'
 
 import Admin from "./systems/admin/core"
 

@@ -1,19 +1,31 @@
+@import '../../../rules/variables.scss';
+
 .menuShop {
 	width: 100%;
 	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	& .menu-shop-root {
+		margin-top: $margin * 4;
+		height: 100%;
+	}
 }
 
 .menuShop .menuShop-header {
 	display: flex;
 	align-items: center;
 
-	background-color: #263040;
+	background-color: $theme_dark;
 	border-radius: 8px;
 
 	padding: 15px;
 	z-index: 100;
 
 	position: sticky;
+	z-index: $zindex_wrapper;
 
 	top: 0;
 	left: 0;
@@ -36,7 +48,7 @@
 }
 .menuShop .menuShop-header .btn {
 	border: 0;
-	background-color: #414c5c;
+	background-color: $theme_darkLight;
 
 	padding: 10px 15px;
 	font-size: 12px;

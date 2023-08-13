@@ -10,7 +10,7 @@ import Checkmark from '../../../modules/checkmark'
 
 import Dialog from '../_modules/Dialog'
 
-import './settings.css'
+import './settings.scss'
 
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { AiOutlineArrowRight } from 'react-icons/ai'
@@ -242,7 +242,7 @@ export default function Settinsg(props) {
 				callback={changePasswordDialog} />)}
 
 			{/* Key binds */}
-			<div className="menu-settings-root menu-settings-root-keyBind" style={{display: props.bodyNav !== 3 ? 'none' : 'block'}} data-keyBindsSel={keyBindsSel} data-keyBinds={JSON.stringify(keyBinds)}>
+			<div className="menu-settings-root menu-settings-root-keyBind" style={{display: props.bodyNav !== 'keys' ? 'none' : 'block'}} data-keyBindsSel={keyBindsSel} data-keyBinds={JSON.stringify(keyBinds)}>
 				{keyBinds.map((item, i) => {
 					return (<div onClick={() => setKeyBindsSel(keyBindsSel === i ? -1 : i)} key={i} className={`menu-settings-elem ${keyBindsSel === i && 'menu-settings-elem-sel'} ${item.key === '' && 'menu-settings-root-keyBind-no'}`}>
 						<h1>
@@ -255,7 +255,7 @@ export default function Settinsg(props) {
 			</div>
 
 			{/* Chat */}
-			<div className="menu-settings-root menu-settings-root-chat" style={{display: props.bodyNav !== 2 ? 'none' : 'block'}} data-chat={JSON.stringify(chat)}>
+			<div className="menu-settings-root menu-settings-root-chat" style={{display: props.bodyNav !== 'chat' ? 'none' : 'block'}} data-chat={JSON.stringify(chat)}>
 				<div className={`menu-settings-root-chat-preview ${chatBorder && 'menu-settings-root-chat-preview-border'}`}>
 					<div className="menu-settings-root-chat-preview-img" style={{backgroundImage: 'url(./assets/menu/settings/chat/bg.jpg)'}}></div>
 					<section className="menu-settings-root-chat-preview-chat">
@@ -356,7 +356,7 @@ export default function Settinsg(props) {
 			</div>
 
 			{/* Secure */}
-			<div className="menu-settings-root menu-settings-root-secure" style={{display: props.bodyNav !== 1 ? 'none' : 'block'}}>
+			<div className="menu-settings-root menu-settings-root-secure" style={{display: props.bodyNav !== 'security' ? 'none' : 'block'}}>
 				<div onClick={() => setChangePassword(true)} className={`menu-settings-elem menu-settings-elem-link`}>
 					<h1>
 						Пароль

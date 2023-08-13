@@ -23,7 +23,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background: url(https://steamuserimages-a.akamaihd.net/ugc/405682610614540575/DF1BB078BA8227EB1166902A7C47130B8131F91D/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true);
+    // background: url(https://steamuserimages-a.akamaihd.net/ugc/405682610614540575/DF1BB078BA8227EB1166902A7C47130B8131F91D/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -72,8 +72,8 @@ img {
 
     &:not(.btn-ban):not(.btn-nothover):hover,
     &.btn-sel:not(.btn-ban):not(.btn-nothover) {
-        border-color: #48b0bb;
-        background-color: #48b0bb;
+        border-color: $theme_colorGradient;
+        background-color: $theme_colorGradient;
     }
 
     & svg:first-child {
@@ -83,6 +83,10 @@ img {
     &.btn-ban {
         opacity: .5;
         cursor: not-allowed;
+    }
+
+    & .donateCount {
+        margin-left: $margin * 2;
     }
 }
 
@@ -222,7 +226,7 @@ input[type="checkbox"].input-swap:checked:before {
     transform: translateX(-100%);
 }
 input[type="checkbox"].input-swap:checked {
-    background-color: #2eb7cd;
+    background: $theme_colorGradient;
 }
 
 
@@ -785,4 +789,18 @@ input[type="radio"]:checked:before {
 }
 .inventory-elem .inventory-elem-status-verybad:before {
 	content: "Очень плохо";
+}
+
+
+.donateCount {
+    display: flex;
+    align-items: center;
+
+    & img {
+        width: 20px;
+        height: 20px;
+
+        margin-right: $margin;
+        transform: translateY(1px);
+    }
 }

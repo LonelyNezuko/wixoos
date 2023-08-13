@@ -3,7 +3,7 @@ import cef from "../_modules/cef"
 import func from "../_modules/func"
 import logger from "../_modules/logger"
 
-import User from "./core"
+import User, { escStatus } from "./core"
 
 const IS_RADAR_HIDDEN: string = "0x157F93B036700462"
 const IS_RADAR_ENABLED: string = "0xAF754F20EB5CD51A"
@@ -25,8 +25,8 @@ mp.events.add({
     "client::user:notify": (text: string, type: string, time: number): void => {
         new User().notify(text, type, time)
     },
-    "client::user:cursor": (toggle: boolean): void => {
-        new User().cursor(toggle)
+    "client::user:cursor": (toggle: boolean, toggleESC: boolean): void => {
+        new User().cursor(toggle, toggleESC)
     },
     "client::user:setPos": (x: number, y: number, z: number, a: number, dimension: number): void => {
         new User().setPos(x, y, z, a, dimension)
@@ -124,5 +124,8 @@ mp.events.add({
             pos: [`${mapPos[0]}%`, `${mapPos[1]}%`]
         }, false)
         cef.emit('hud', 'setKeysPos', [`${keyPos[0]}%`, `${keyPos[1]}%`], false)
+
+
+        if(escStatus === false) mp.game.controls.disableControlAction(32, 200, true)
     }
 })

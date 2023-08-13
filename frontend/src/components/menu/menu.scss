@@ -22,7 +22,7 @@
 
 
 #menu .menu-wrap {
-	width: 80%;
+	width: 90%;
 	height: 100%;
 
 	padding: 25px 0;
@@ -158,6 +158,21 @@
 	transition: .2s;
 
 	white-space: nowrap;
+
+	display: flex;
+	align-items: center;
+
+	& span {
+		margin-left: $margin * 3;
+
+		background: $theme_backgroundColor;
+		border-radius: $borderRadius;
+
+		color: white;
+		padding: $padding * 1.5 $padding * 2;
+
+		font-size: $fontsize - 2px;
+	}
 }
 #menu .menu-body .menu-body-nav .menu-body-nav-block {
 	opacity: .2;
@@ -244,7 +259,7 @@
 }
 #menu #menuDialog .menuDialog-body input {
 	margin-top: 10px;
-	width: calc(100% - 24px);
+	width: 100%;
 
 	background-color: #ffffff20;
 }

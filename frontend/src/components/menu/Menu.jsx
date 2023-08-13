@@ -65,8 +65,8 @@ export default function Menu() {
 		playedTime: [ 2312312, 293582 ]
 	})
 
-	const [ headerNav, setHeaderNav ] = React.useState(4)
-	const [ bodyNav, setBodyNav ] = React.useState(4)
+	const [ headerNav, setHeaderNav ] = React.useState(0)
+	const [ bodyNav, setBodyNav ] = React.useState('account')
 
 	const [ bodyNavList, setBodyNavList ] = React.useState([
 		[], [], [], [], [], [], [], [], [],
@@ -76,41 +76,41 @@ export default function Menu() {
 	function updateBodyNavList() {
 		setBodyNavList([
 			[
-				[ 'Аккаунт' ],
-				[ 'Персонаж' ],
-				[ 'История пополнений' ],
-				[ 'История наказаний' ],
-				[ 'Имущество', false ],
+				[ 'account', 'Аккаунт' ],
+				[ 'character', 'Персонаж' ],
+				[ 'deposithistory', 'История пополнений' ],
+				[ 'warnshistory', 'История наказаний' ],
+				[ 'property', 'Имущество', false ],
 			],
 			[],
 			[
-				[ 'Активные' ],
-				[ 'Ежедневные' ],
-				[ 'Завершенные' ],
+				[ 'actives', 'Активные' ],
+				[ 'dailys', 'Ежедневные' ],
+				[ 'completed', 'Завершенные' ],
 			],
 			[],
 			[
-				[ 'Валюта', false ],
-				[ 'VIP статус', false ],
-				[ 'Транспорт', false ],
-				[ 'Одежда', false ],
-				[ 'Рулетка' ],
-				[ 'inventory', true, true ],
-				[ 'deposithistory', true, true ],
+				[ 'cash', 'Валюта', ],
+				[ 'packet', 'Пакеты', true ],
+				[ 'vip', 'VIP статус', ],
+				[ 'vehicles', 'Транспорт', false ],
+				[ 'clothes', 'Одежда', false ],
+				[ 'roulette', 'Рулетка' ],
+				[ 'inventory', 'inventory', true, true ]
 			],
 			[],
 			[],
 			[
-				[ 'Панель жалоб' ],
-				[ 'Список админов' ],
-				[ 'Настройки админки', false ]
+				[ 'tickets', 'Панель жалоб' ],
+				[ 'adminlist', 'Список админов' ],
+				[ 'adminsettings', 'Настройки админки', false ]
 			],
 			[
-				[ 'Игра', false ],
-				[ 'Безопасность' ],
-				[ 'Чат' ],
-				[ 'Клавиши' ],
-				[ 'Прицел', false ]
+				[ 'game', 'Игра', false ],
+				[ 'security', 'Безопасность' ],
+				[ 'chat', 'Чат' ],
+				[ 'keys', 'Клавиши' ],
+				[ 'crosshair', 'Прицел', false ]
 			],
 		])
 	}
@@ -135,18 +135,29 @@ export default function Menu() {
 
 
 	function toggle(toggle) {
-		if(!toggle) $('.menu').css('display', 'none')
-		else $('.menu').css('display', 'flex')
+		if(!toggle) {
+			$('#menu').css('display', 'none')
+			$('body').attr('data-keyPressedDisable', '0')
+		}
+		else {
+			$('#menu').css('display', 'flex')
+			$('body').attr('data-keyPressedDisable', '1')
+		}
 	}
 
 	function openHeaderNav(id) {
 		if(headerNavList[id][2] === false)return
 		ragemp.send('server::menu:openHeaderNav', { id })
-		setHeaderNav(id)
-		setBodyNav(0)
+
+		// setHeaderNav(id)
+		// if(bodyNavList[id][0]) setBodyNav(bodyNavList[id][0][0])
 	}
 	function openBodyNav(id) {
-		if(bodyNavList[headerNav][id][1] === false)return
+		let nav = bodyNavList[headerNav].find((item, s) => item[0] === id)
+
+		if(!nav)return
+		if(nav[2] === false)return
+
 		ragemp.send('server::menu:openBodyNav', { headerNav: headerNav, id })
 		setBodyNav(id)
 	}
@@ -158,13 +169,16 @@ export default function Menu() {
 			switch(cmd) {
 				case 'toggle': {
 					toggle(data.status)
-
 					if(data.accountData) setAccountData(data.accountData)
 
 					break
 				}
 				case 'setHeaderNav': {
 					setHeaderNav(data.id)
+
+					const bodyNavList = JSON.parse($('#menu').attr('data-bodyNavList'))
+					if(bodyNavList[data.id][0]) setBodyNav(bodyNavList[data.id][0][0])
+
 					break
 				}
 				case 'setBodyNav': {
@@ -177,7 +191,7 @@ export default function Menu() {
 		// Закрытие
 		$('body').keydown(e =>
 		{
-			if($('.menu').css('display') !== 'none'
+			if($('#menu').css('display') !== 'none'
 				&& e.keyCode === 27) {
 				e.preventDefault()
 
@@ -186,9 +200,12 @@ export default function Menu() {
 			}
 		})
 	}, [])
+	React.useEffect(() => {
+		updateBodyNavList()
+	}, [accountData])
 
 	return (
-		<div id="menu" style={{display: 'flex'}}>
+		<div id="menu" style={{display: 'none'}} data-bodyNavList={JSON.stringify(bodyNavList)} data-headerNavList={JSON.stringify(headerNavList)}>
 			<section className="menu-wrap">
 				<div className="menu-header">
 					<div className="menu-header-title">
@@ -237,8 +254,13 @@ export default function Menu() {
 						) : ''}
 
 						{bodyNavList[headerNav].map((item, i) => {
-							if(item[2])return (<></>)
-							return (<h1 onClick={() => openBodyNav(i)} className={`${i === bodyNav && 'menu-body-nav-sel'} ${item[1] === false && 'menu-body-nav-block'}`} key={i}>{item[0]}</h1>)
+							if(item[3])return (<></>)
+							return (
+								<h1 onClick={() => openBodyNav(item[0])} className={`${item[0] === bodyNav && 'menu-body-nav-sel'} ${item[2] === false && 'menu-body-nav-block'}`} key={i}>
+									{item[1]}
+									{(headerNav === 4 && item[0] === 'packet' && !item[3]) ? (<span>Временно</span>) : ''}
+								</h1>
+							)
 						})}
 					</div>
 

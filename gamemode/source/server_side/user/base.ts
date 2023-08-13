@@ -9,6 +9,7 @@ import User from "./core"
 import func from '../_modules/func'
 import CEF from '../_modules/cef'
 
+import CONFIG_DEFAULT from '../configs/default.json'
 import CONFIG_ENUMS from '../configs/enums.json'
 
 // storage
@@ -40,45 +41,12 @@ interface UserBaseInterface {
     char_isKeysToggle: number,
 
     char_inventory: Array<any>,
+    char_backpack: Array<any>,
 
     char_cash: number,
     
     char_isBank: number,
-    char_bankCash: number
-}
-const storageDefault: UserBaseInterface = {
-    uid: -1,
-
-    login: '',
-    password: '',
-    email: '',
-
-    keyBinds: {},
-
-    admin: 0,
-    adminData: {},
-
-
-    // character
-    char_cid: -1,
-    char_uid: -1,
-
-    char_name: ['', ''],
-    char_createAt: new Date(),
-
-    char_gender: 0,
-    char_appearance: {},
-    char_clothes: undefined,
-
-    char_isMute: 0,
-    char_isKeysToggle: 0,
-
-    char_inventory: [],
-
-    char_cash: 0,
-    
-    char_isBank: 0,
-    char_bankCash: 0
+    char_bankCash: number,
 }
 const storage = new Map<number, UserBaseInterface>()
 
@@ -86,6 +54,42 @@ export default class UserBase {
     private readonly player: PlayerMp
     private readonly id: number
     private readonly user: User
+
+    private readonly storageDefault: UserBaseInterface = {
+        uid: -1,
+    
+        login: '',
+        password: '',
+        email: '',
+    
+        keyBinds: {},
+    
+        admin: 0,
+        adminData: {},
+    
+    
+        // character
+        char_cid: -1,
+        char_uid: -1,
+    
+        char_name: ['', ''],
+        char_createAt: new Date(),
+    
+        char_gender: 0,
+        char_appearance: {},
+        char_clothes: undefined,
+    
+        char_isMute: 0,
+        char_isKeysToggle: 0,
+    
+        char_inventory: [],
+        char_backpack: [],
+    
+        char_cash: 0,
+        
+        char_isBank: 0,
+        char_bankCash: 0
+    }
 
     constructor(player: PlayerMp) {
         this.player = player
@@ -97,17 +101,19 @@ export default class UserBase {
     storage: any = {
         clear: (): void => {
             storage.delete(this.id)
-            storage.set(this.id, {...storageDefault})
+            storage.set(this.id, {...this.storageDefault})
         },
         get: (key: number): any => {
             const data: any = storage.get(this.id)
             return data[key]
         },
         set: (key: number, value: [string, number]): boolean => {
-            const data: any = storage.get(this.id)
+            const data: any = {...storage.get(this.id)}
             if(!data)return false
 
             data[key] = value
+            storage.set(this.id, data)
+
             return true
         }
     }
@@ -132,6 +138,12 @@ export default class UserBase {
 
     get isAuth(): boolean {
         return this.user.isAuth
+    }
+
+    get avatar(): any {
+        return {
+            image: `https://a.rsg.sc/n/${this.player.socialClub.toLowerCase()}`
+        }
     }
 
 
@@ -205,7 +217,7 @@ export default class UserBase {
         mysql.query('select * from users where uid = ?', [ this.uid ], (err: any, res: any) => {
             if(err)return logger.error('UserBase.load', err)
 
-            for(let item in storageDefault) {
+            for(let item in this.storageDefault) {
                 if(res[0][item]) this.storage.set(item, func.isJSON(res[0][item]) ? JSON.parse(res[0][item]) : res[0][item])
             }
 
@@ -238,7 +250,7 @@ export default class UserBase {
     		const args = []
 
     		// Сохранение персонажа
-            for(let item in storageDefault) {
+            for(let item in this.storageDefault) {
                 if(item.indexOf('char_') === 0
                     && item !== 'char_cid' && item !== 'char_uid' && item !== 'char_createAt')
                 {
@@ -302,7 +314,7 @@ export default class UserBase {
                 if(err)return logger.error('UserBase.character.load', err)
                 if(!res.length)return this.player.kick("Персонаж не найден")
 
-                for(let item in storageDefault) {
+                for(let item in this.storageDefault) {
                     if(res[0][item.replace('char_', '')]) this.storage.set(item, func.isJSON(res[0][item.replace('char_', '')]) ? JSON.parse(res[0][item.replace('char_', '')]) : res[0][item.replace('char_', '')])
                 }
 
@@ -315,6 +327,23 @@ export default class UserBase {
 
                 this.player.setVariable('char_cash', 200)
                 this.player.setVariable('char_bankCash', 0)
+
+                if(!this.storage.get('char_inventory').length) {
+                    let inv = []
+                    for(let i = 0; i < CONFIG_DEFAULT.defaultInventorySlots; i ++) {
+                        inv.push({})
+                    }
+
+                    this.storage.set('char_inventory', inv)
+                }
+                if(!this.storage.get('char_backpack').length) {
+                    let inv = []
+                    for(let i = 0; i < CONFIG_DEFAULT.defaultInventorySlots; i ++) {
+                        inv.push({})
+                    }
+
+                    this.storage.set('char_backpack', inv)
+                }
 
                 this.user.loadScreen(true)
                 this.user.spawn()

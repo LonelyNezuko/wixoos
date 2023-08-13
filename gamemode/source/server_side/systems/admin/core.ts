@@ -65,7 +65,6 @@ export default class Admin {
             return 'unknown'
         }
         if(!this.userBase.storage.get('admin').length){
-            logger.error("Admin.removeRole: У передоваемого PlayerMp нет роли")
             return 'unknown'
         }
 

@@ -1,24 +1,29 @@
+@import '../../../../rules/variables.scss';
+
 .menu-shop-inventory {
 	margin-top: 30px;
+
+	display: flex;
 	flex-wrap: wrap;
+	gap: $padding * 2;
 }
 
 .menu-shop-inventory .menu-shop-inventory-elem {
-	width: 220px;
+	width: calc(100% / 5 - $padding * 1.6);
 	height: 280px;
 
 	background-color: #263040;
 	border-radius: 5px;
 
-	margin-right: 15px;
-	margin-bottom: 15px;
-
-	transform: translateX(60px);
 	position: relative;
+
+	display: flex;
+	flex-direction: column;
+
+	padding: $padding * 3;
 }
 .menu-shop-inventory .menu-shop-inventory-elem h1 {
 	text-align: center;
-	padding: 15px;
 
 	text-transform: uppercase;
 	font-size: 15px;
@@ -26,30 +31,33 @@
 .menu-shop-inventory .menu-shop-inventory-elem section {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 
 	width: 100%;
+	height: 100%;
 }
 .menu-shop-inventory .menu-shop-inventory-elem section img {
 	width: 80%;
 	height: auto;
 }
-.menu-shop-inventory .menu-shop-inventory-elem div {
+.menu-shop-inventory .menu-shop-inventory-elem div:not(.donateCount) {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
 
-	position: absolute;
-
-	bottom: 15px;
-	left: 0;
-
 	width: 100%;
 }
 .menu-shop-inventory .menu-shop-inventory-elem div button {
-	width: 90%;
+	width: 100%;
 
 	border: 0;
 	background-color: #414c5c;
+
+	white-space: nowrap;
+
+	&:last-child {
+		background: $theme_backgroundColor;
+	}
 }
 .menu-shop-inventory .menu-shop-inventory-elem div button + button {
 	margin-top: 7px;
@@ -57,6 +65,4 @@
 .menu-shop-inventory .menu-shop-inventory-elem div img {
 	width: 20px;
 	height: 20px;
-
-	margin: 0 5px;
 }

@@ -83,7 +83,7 @@ export default function HudChat(data) {
 		setChatOpen(false)
 
 		ragemp.send('server::hud:chat:close', {}, true)
-		addChatMessage(text)
+		// addChatMessage(text)
 
 		setChatHistory(old => {
 			if(old.length > 5) old.splice(old.length - 1, 1)

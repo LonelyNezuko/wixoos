@@ -22,7 +22,7 @@ const cef = {
         if(!cefActive)return
 
         browser.execute(`window.eventTrigger('${eventname}', '${cmd}', '${JSON.stringify(data)}')`)
-        if(log === true) logger.log(`window.eventTrigger('${eventname}', '${cmd}', '${JSON.stringify(data)}')`)
+        if(log === true) logger.log(`window.eventTrigger('${eventname}', '${cmd}', '${JSON.stringify(data)}')`, false, true)
     },
     
 

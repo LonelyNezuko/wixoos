@@ -14,8 +14,8 @@ import AdminList from './adminlist/adminlist'
 export default function Admin({ accountData, bodyNav, openBodyNav }) {
     return (
         <div id="admin">
-            {bodyNav === 0 ? (<AdminTickets accountData={accountData} />) : ''}
-            {bodyNav === 1 ? (<AdminList accountData={accountData} />) : ''}
+            {bodyNav === 'tickets' ? (<AdminTickets accountData={accountData} />) : ''}
+            {bodyNav === 'adminlist' ? (<AdminList accountData={accountData} />) : ''}
         </div>
     )
 }

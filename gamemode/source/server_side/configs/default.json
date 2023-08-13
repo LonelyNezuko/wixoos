@@ -7,5 +7,7 @@
 
     "dev": {
         "names": [ "LonelyNezuko" ]
-    }
+    },
+
+    "defaultInventorySlots": 80
 }

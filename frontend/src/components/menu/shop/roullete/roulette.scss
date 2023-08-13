@@ -2,6 +2,546 @@
 
 #menu {
     & .menuShop {
+        & .menuShopRoulette {
+            
+            & .chests {
+                & .list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: $padding * 3;
+    
+                    & .elem {
+                        width: calc(100% / 4 - $padding * 2.3);
+                        height: 350px;
+    
+                        background: $theme_dark;
+                        border-radius: $borderRadius;
 
+                        padding: $padding * 4;
+
+                        display: flex;
+                        flex-direction: column;
+
+                        & .title {
+                            text-align: center;
+                            font-size: $fontsize + 10px;
+                        }
+                        & .icon {
+                            margin-top: $margin * 4;
+                            height: 100%;
+
+                            display: flex;
+                            justify-content: center;
+
+                            & img {
+                                width: 70%;
+                                height: auto;
+                            }
+                        }
+                        & .count {
+                            margin-top: $margin * 4;
+
+                            height: 40px;
+                            min-height: 40px;
+
+                            background: $theme_darkLight;
+                            border-radius: $borderRadius;
+
+                            padding: $padding * 3;
+                            text-align: center;
+
+                            font-size: $fontsize + 2px;
+                        }
+                        & .action {
+                            margin-top: $margin * 2;
+
+                            & .btn {
+                                height: 40px;
+                                min-height: 40px;
+
+                                background: $theme_darkLight;
+                                border: none;
+                                
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+
+                                padding: $padding * 2.5;
+                                &:hover:not(.btn-ban) {
+                                    background: $theme_background;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            & .roulette {
+                & .reward {
+                    position: fixed;
+                    z-index: $zindex_modal;
+
+                    top: 0;
+                    left: 0;
+
+                    width: 100vw;
+                    height: 100vh;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    background: rgba(0, 0, 0, .6);
+
+                    opacity: 0;
+                    visibility: hidden;
+                    z-index: -1;
+
+                    &.show {
+                        opacity: 1;
+                        visibility: visible;
+                        z-index: $zindex_modal;
+
+                        & .wrapper {
+                            transform: scale(1);
+                        }
+                    }
+
+                    & .wrapper {
+                        width: 550px;
+
+                        background: $theme_dark;
+                        border-radius: $borderRadius * 4;
+
+                        padding: $padding * 10;
+
+                        transition: 1s;
+                        transform: scale(0);
+
+                        position: relative;
+                        & .arrows {
+                            position: absolute;
+
+                            top: 0;
+                            left: 0;
+
+                            width: 100%;
+                            height: 100%;
+
+                            align-items: center;
+                            justify-content: space-between;
+
+                            cursor: pointer;
+                            display: none;
+
+                            & div {
+                                & svg {
+                                    font-size: $fontsize + 40px;
+                                }
+
+                                &.right {
+                                    transform: rotate(180deg);
+                                }
+                            }
+                        }
+                        &.more {
+                            & .arrows {
+                                display: flex;
+                            }
+                        }
+
+                        & .list {
+                            overflow: hidden;
+                            & .listwrap {
+                                width: 100%;
+                                display: flex;
+
+                                transition: $transition;
+                            }
+                            & .elem {
+                                width: 100%;
+                                min-width: 100%;
+                            }
+                            
+                            position: relative;
+                            z-index: 2;
+                        }
+
+                        & .title {
+                            text-align: center;
+                            
+                            font-size: $fontsize + 8px;
+                            font-weight: 700;
+                        }
+                        & .rouletteItem {
+                            margin: 0 auto;
+                            margin-top: $margin * 3;
+
+                            width: 300px;
+                            height: 300px;
+                        }
+                        & .action {
+                            margin-top: $margin * 6;
+
+                            & .btn + .btn {
+                                margin-top: $margin * 2;
+                            }
+                            & .btn {
+                                width: 100%;
+                                padding: $padding * 3;
+
+                                background: $theme_darkLight;
+                                border: none;
+
+                                &:first-child {
+                                    background: $theme_colorGradient;
+                                }
+                                &.close {
+                                    margin-top: $margin * 10;
+                                    background: $theme_background;
+                                }
+                            }
+                            
+                            position: relative;
+                            z-index: 2;
+                        }
+                    }
+                }
+                
+                & .rouletteItem {
+                    width: calc(100% / 6 - $padding * 2.5);
+                    min-width: calc(100% / 6 - $padding * 2.5);
+
+                    height: 100%;
+
+                    aspect-ratio: 1 / 1;
+
+                    background-color: $theme_darkLight;
+                    border-radius: $borderRadius * 6;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    & .icon {
+                        width: 75%;
+                        height: 75%;
+
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        & img {
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+
+
+                    &.red {
+                        background: #f73e3e;
+                    }
+                    &.gold {
+                        background: #f7b366;
+                    }
+                    &.purple {
+                        background: #775ac5;
+                    }
+                    &.blue {
+                        background: #5890df;
+                    }
+                    &.green {
+                        background: #97d97a;
+                    }
+                }
+
+
+                & .header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    background: $theme_dark;
+                    border-radius: $borderRadius * 2;
+
+                    padding: $padding * 4 $padding * 6;
+
+                    & .btn {
+                        background: $theme_darkLight;
+                        border: none;
+                    }
+
+                    & .back {
+                        padding: $padding * 3 $padding * 10;
+                    }
+
+                    & .openedchest {
+                        display: flex;
+                        align-items: center;
+
+                        & .icon {
+                            & img {
+                                width: 50px;
+                                height: 50px;
+                            }
+                        }
+                        & .desc {
+                            margin-left: $margin * 3;
+
+                            & .title {
+                                font-size: $fontsize + 2px;
+                            }
+                            & .count {
+                                margin-top: $margin;
+
+                                font-size: $fontsize - 2px;
+                                opacity: .6;
+                            }
+                        }
+                        & .action {
+                            margin-left: $margin * 4;
+                            align-self: flex-end;
+
+                            & .btn {
+                                padding: $padding * 2 $padding * 4;
+                            }
+                        }
+                    }
+                }
+
+                & .body {
+                    margin-top: $margin * 8;
+                    & .game {
+                        & .listWrapper {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: $padding * 2;
+
+                            &:not(.listWrapper-1) .list {
+                                background: $theme_dark;
+                                border-radius: $borderRadius * 2;
+
+                                padding: $padding * 10 $padding * 4;
+                                & .listarrow {
+                                    top: $padding * 4;
+                                    height: calc(100% - $padding * 8);
+
+                                    & div {
+                                        background: $theme_background;
+                                    }
+                                }
+                            }
+
+                            &.listWrapper-1, &.listWrapper-2 {
+                                flex-wrap: nowrap;
+                            }
+                            &.listWrapper-2, &.listWrapper-3, &.listWrapper-4 {
+                                & .list {
+                                    width: calc(50% - $padding);
+                                }
+                            }
+                            &.listWrapper-3, &.listWrapper-5 {
+                                & .list {
+                                    width: calc(50% - $padding);
+                                    &:first-child {
+                                        width: 100%;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        & .list {
+                            position: relative;
+                            padding: $padding * 6 0;
+
+                            width: 100%;
+                            & .wrap {
+                                overflow: hidden;
+
+                                display: flex;
+                                gap: $padding * 3;
+
+                                & .rouletteItem {
+                                    width: 185px;
+                                    min-width: 185px;
+                                }
+                            }
+                            & .listarrow {
+                                position: absolute;
+    
+                                top: 0;
+                                left: 50%;
+    
+                                transform: translateX(-50%);
+    
+                                width: calc(100% / 6 - $padding * 2.5 + 20px);
+                                height: 100%;
+
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+
+                                & div {
+                                    width: 100%;
+                                    height: 4px;
+
+                                    background: $theme_dark;
+                                    position: relative;
+
+                                    &:before, &:after {
+                                        display: block;
+                                        content: "";
+
+                                        width: 4px;
+                                        height: 16px;
+
+                                        background: inherit;
+                                        position: absolute;
+                                    }
+
+                                    &:before {
+                                        left: 0;
+                                    }
+                                    &:after {
+                                        right: 0;
+                                    }
+
+                                    &:first-child {
+                                        &:before, &:after {
+                                            top: 0;
+                                        }
+                                    }
+                                    &:last-child {
+                                        &:before, &:after {
+                                            bottom: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        & .listWrapper:not(.listWrapper-1) {
+                            & .rouletteItem {
+                                width: 120px;
+                                min-width: 120px;
+                            }
+                            & .list .listarrow {
+                                width: 120px;
+                            }
+                        }
+
+                        & .action {
+                            margin-top: $margin * 8;
+
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: $padding * 10;
+
+                            & .start {
+                                width: 75px;
+                                height: 75px;
+
+                                background: $theme_backgroundColor;
+
+                                transform: rotate(45deg);
+                                border-radius: 10px;
+
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+
+                                & svg {
+                                    transform: rotate(-45deg) translateX(3px);
+                                    font-size: $fontsize + 16px;
+
+                                    color: white;
+                                }
+
+                                &.blocked {
+                                    background: $theme_dark;
+                                }
+                            }
+                            & .count {
+                                display: flex;
+                                align-items: center;
+                                gap: $padding * 4;
+
+                                & button {
+                                    width: 30px;
+                                    height: 30px;
+
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    transform: rotate(45deg);
+                                    border-radius: $borderRadius;
+
+                                    background-color: $theme_dark;
+                                    opacity: .6;
+
+                                    &.selected {
+                                        opacity: 1;
+                                        background: $theme_backgroundColor;
+                                    }
+
+                                    &:nth-child(2) {
+                                        zoom: 1.1;
+                                    }
+                                    &:nth-child(3) {
+                                        zoom: 1.2;
+                                    }
+                                    &:nth-child(4) {
+                                        zoom: 1.3;
+                                    }
+                                    &:nth-child(5) {
+                                        zoom: 1.4;
+                                    }
+
+                                    & span {
+                                        transform: rotate(-45deg) translateX(1px);
+                                        color: white;
+                                    }
+                                }
+                            }
+                            & .fast {
+                                display: flex;
+                                align-items: center;
+
+                                & h1 {
+                                    font-size: $fontsize + 2px;
+                                }
+                                & input {
+                                    margin-left: $margin * 3;
+                                }
+                            }
+                        }
+                    }
+                    & .rewards {
+                        margin-top: $margin * 12;
+
+                        background: $theme_dark;
+                        border-radius: $borderRadius * 2;
+
+                        padding: $padding * 4;
+
+                        & .title {
+                            text-align: center;
+                            
+                            font-size: $fontsize + 8px;
+                            font-weight: 700;
+                        }
+                        & .list {
+                            margin-top: $margin * 4;
+
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: $padding * 3;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

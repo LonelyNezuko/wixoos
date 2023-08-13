@@ -3,15 +3,15 @@ import $ from 'jquery'
 import ragemp from '../../../../modules/ragemp'
 import func from '../../../../modules/func'
 
-import './inventory.css'
+import './inventory.scss'
 
 export default function Inventory(props) {
 	const [ items, setItems ] = React.useState([
-		{ id: 1, type: 'cash', count: 1000, rare: '', rare2: 0, icon: './assets/sharkcards/1.png', name: '1.000$' },
-		{ id: 2, type: 'cash', count: 15000, rare: '', rare2: 0, icon: './assets/sharkcards/2.png', name: '15.000$' },
-		{ id: 3, type: 'cash', count: 50000, rare: 'green', rare2: 1, icon: './assets/sharkcards/3.png', name: '50.000$' },
-		{ id: 4, type: 'cash', count: 150000, rare: 'blue', rare2: 2, icon: './assets/sharkcards/4.png', name: '150.000$' },
-		{ id: 5, type: 'cash', count: 500000, rare: 'purple', rare2: 3, icon: './assets/sharkcards/5.png', name: '500.000$' },
+		{ id: 1, type: 'cash', count: 1000, rare: '', rare2: 0, icon: 'assets/inventory/items/cash.png', name: '1.000$' },
+		{ id: 2, type: 'cash', count: 15000, rare: '', rare2: 0, icon: 'assets/inventory/items/cash.png', name: '15.000$' },
+		{ id: 3, type: 'cash', count: 50000, rare: 'green', rare2: 1, icon: 'assets/inventory/items/cash.png', name: '50.000$' },
+		{ id: 4, type: 'cash', count: 150000, rare: 'blue', rare2: 2, icon: 'assets/inventory/items/cash.png', name: '150.000$' },
+		{ id: 5, type: 'cash', count: 500000, rare: 'purple', rare2: 3, icon: 'assets/inventory/items/cash.png', name: '500.000$' },
 
 		{ id: 6, type: 'vehicle', model: 'stafford', count: 1, rare: 'green', rare2: 1, icon: './assets/vehicles/stafford.png', name: 'Enus Stafford', sellPrice: 300 },
 		{ id: 7, type: 'vehicle', model: 'trophytruck2', count: 1, rare: 'blue', rare2: 2, icon: './assets/vehicles/trophytruck2.png', name: 'Vapid Desert Raid', sellPrice: 750 },
@@ -32,20 +32,28 @@ export default function Inventory(props) {
 
 	return (
 		<>
-			{items.map((item, i) => {
-				return (<div className="menu-shop-inventory-elem">
-					<h1>{item.name}</h1>
-					<section>
-						<img src={item.icon} />
-					</section>
-					<div>
-						<button className="btn" style={{display: item.sellPrice ? 'flex' : 'none'}}>
-							Продать за <img src='./assets/donate.png' /> {item.sellPrice && item.sellPrice.toLocaleString()}
-						</button>
-						<button className="btn">Забрать в игру</button>
-					</div>
-				</div>)
-			})}
+			<div className="menu-shop-inventory">
+				{items.map((item, i) => {
+					return (<div className="menu-shop-inventory-elem">
+						<h1>{item.name}</h1>
+						<section>
+							<img src={item.icon} />
+						</section>
+						<div>
+							{item.sellPrice ? (
+								<button className="btn">
+									Продать за
+									<div className="donateCount">
+										<img src="assets/donate.png" />
+										{item.sellPrice.toLocaleString()}
+									</div>
+								</button>
+							) : ''}
+							<button className="btn">Забрать в игру</button>
+						</div>
+					</div>)
+				})}
+			</div>
 		</>
 	)
 }

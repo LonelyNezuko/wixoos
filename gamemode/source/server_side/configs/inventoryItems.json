@@ -1,0 +1,6 @@
+[
+    { "name": "none", "desc": "none", "weight": 0, "img": "none.png", "maxCount": 0, "type": "none" },
+
+    { "hash": "chips", "name": "Чипсы", "desc": "Пачка замечательный чипсов. <br />Можно приобрести в любом 24.7", "weight": 0.1, "img": "chips.png", "maxCount": 5, "type": "eat" },
+    { "hash": "burger", "name": "Бургер", "desc": "Ох уж этот аппетитный бургер. <br />Можно приобрести в любой закусочной", "weight": 0.300, "img": "burger.png", "maxCount": 2, "type": "eat" }
+]

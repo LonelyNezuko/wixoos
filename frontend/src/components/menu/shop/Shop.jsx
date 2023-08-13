@@ -10,16 +10,15 @@ import { MdInventory } from 'react-icons/md'
 
 import Roulette from './roullete/roulette'
 import Inventory from './inventory/Inventory'
+import Cash from './cash/cash'
+import Packet from './packet/packet'
+import Vip from './vip/vip'
 
 export default function Shop({ bodyNav, openBodyNav, accountData }) {
 	return (
 		<div className="menuShop">
 			<div className="menuShop-header">
-				<button style={{marginRight: '10px'}} onClick={() => openBodyNav(6)} className={`btn ${bodyNav === 6 && 'btn-sel'}`}>
-					<HiShoppingCart />
-					История пополнения
-				</button>
-				<button onClick={() => openBodyNav(5)} className={`btn ${bodyNav === 5 && 'btn-sel'}`}>
+				<button onClick={() => openBodyNav('inventory')} className={`btn ${bodyNav === 'inventory' && 'btn-sel'}`}>
 					<MdInventory />
 					Инвентарь
 				</button>
@@ -31,8 +30,11 @@ export default function Shop({ bodyNav, openBodyNav, accountData }) {
 
 			
 			<div className="menu-shop-root">
-				{bodyNav === 4 ? (<Roulette />) : ''}
-				{bodyNav === 5 ? (<Inventory />) : ''}
+				{bodyNav === 'cash' ? (<Cash />) : ''}
+				{bodyNav === 'packet' ? (<Packet />) : ''}
+				{bodyNav === 'vip' ? (<Vip />) : ''}
+				{bodyNav === 'roulette' ? (<Roulette />) : ''}
+				{bodyNav === 'inventory' ? (<Inventory />) : ''}
 			</div>
 		</div>
 	)

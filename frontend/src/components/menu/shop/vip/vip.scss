@@ -1,0 +1,36 @@
+@import '../../../../rules/variables.scss';
+
+#menu {
+    & .shopVip {
+        & .list {
+            & .elem {
+                &:nth-child(3) {
+                    &, & .context section span {
+                        background: rgba(111, 179, 246, 0.3);
+                        border-color: rgba(111, 179, 246, 0.5);
+                    }
+                    & .action .btn {
+                        border-color: rgba(111, 179, 246, 0.5);
+                        &:hover {
+                            background: rgba(111, 179, 246);
+                            color: black;
+                        }
+                    }
+                }
+                &:nth-child(4) {
+                    &, & .context section span {
+                        background: rgba(129, 125, 216, 0.3);
+                        border-color: rgba(129, 125, 216, 0.5);
+                    }
+                    & .action .btn {
+                        border-color: rgba(129, 125, 216, 0.5);
+                        &:hover {
+                            background: rgba(129, 125, 216);
+                            color: black;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

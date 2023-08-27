@@ -266,14 +266,26 @@ export default function Menu() {
 
 
 					{/* Pages */}
-					<div className="menu-body-wrap" style={headerNav === 0 ? {overflow: 'visible'} : {}}>
-						{headerNav === 0 ? (<Info />) : ''}
-						{headerNav === 1 ? (<Inventory />) : ''}
-						{headerNav === 2 ? (<Quests bodyNav={bodyNav} openBodyNav={openBodyNav} />) : ''}
-						{headerNav === 3 ? (<Tickets accountData={accountData} />) : ''}
-						{headerNav === 4 ? (<Shop accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />) : ''}
-						{headerNav === 7 ? (<Admin accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />) : ''}
-						{headerNav === 8 ? (<Settings accountData={accountData} bodyNav={bodyNav} />) : ''}
+					<div className="menu-body-wrap" style={{overflow: 'visible', display: headerNav !== 0 ? 'none' : 'block'}}>
+						<Info />
+					</div>
+					<div className="menu-body-wrap" style={{display: headerNav !== 1 ? 'none' : 'block'}}>
+						<Inventory />
+					</div>
+					<div className="menu-body-wrap" style={{display: headerNav !== 2 ? 'none' : 'block'}}>
+						<Quests bodyNav={bodyNav} openBodyNav={openBodyNav} />
+					</div>
+					<div className="menu-body-wrap" style={{display: headerNav !== 3 ? 'none' : 'block'}}>
+						<Tickets accountData={accountData} />
+					</div>
+					<div className="menu-body-wrap" style={{display: headerNav !== 4 ? 'none' : 'block'}}>
+						<Shop accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />
+					</div>
+					<div className="menu-body-wrap" style={{display: headerNav !== 7 ? 'none' : 'block'}}>
+						<Admin accountData={accountData} bodyNav={bodyNav} openBodyNav={openBodyNav} />
+					</div>
+					<div className="menu-body-wrap" style={{display: headerNav !== 8 ? 'none' : 'block'}}>
+						<Settings accountData={accountData} bodyNav={bodyNav} />
 					</div>
 				</div>
 			</section>

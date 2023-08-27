@@ -16,7 +16,7 @@ addKey({
 
             new CEF(player, 'hud:chat', 'setOpen', { status: true }).send()
             new CEF(player, 'cef::hud:chat:close').add(() => {
-                user.cursor(false)
+                user.cursor(false, true)
                 user.openeds.remove('chat')
 
                 new CEF(player, 'hud:chat', 'setOpen', { status: false }).send()

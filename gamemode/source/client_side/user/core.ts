@@ -39,7 +39,7 @@ export default class User {
             cash: this.player.getVariable('char_cash') || 0,
             bank: this.player.getVariable('char_bankCash') || 0,
     
-            needs: [100, 100]
+            needs: this.player.getVariable('char_needs') || [ 0, 0 ]
         })
         cef.emit('hud', 'setAccountData', {
             mute: this.player.getVariable('char_mute') || false

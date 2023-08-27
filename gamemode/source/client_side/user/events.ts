@@ -46,6 +46,9 @@ mp.events.add({
     "client::user:toggleHud": (toggle: boolean): void => {
         new User().toggleHud(toggle)
     },
+    "client::user:updateHud": (): void => {
+        new User().updateHud()
+    },
     "client::user:loadScreen": (toggle: boolean): void => {
         new User().loadScreen(toggle)
     },

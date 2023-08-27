@@ -36,6 +36,8 @@ $(document).on('keydown', event =>
         && keyPressedKD >= +new Date()
         && popularKeys.indexOf(event.keyCode) === -1)
     {
+        if(global.mp) event.preventDefault()
+
         keyPressed.push(event.keyCode)
         ragemp.send('client::keypressed', {
             keyCode: keyPressed,
@@ -48,6 +50,8 @@ $(document).on('keydown', event =>
 $(document).on('keyup', event => {
     if(!$('*').is(':focus'))
     {
+        if(global.mp) event.preventDefault()
+        
         ragemp.send('client::keypressed', {
             keyCode: event.keyCode,
             up: keyPressed.indexOf(event.keyCode) !== -1 ? true : false
@@ -71,7 +75,7 @@ root.render(
         <NPCDialog />
         <Radial />
         <Fuel />
-        <Phone />
+        {/* <Phone /> */}
         <Tuning />
         <Rent />
         <Browser />

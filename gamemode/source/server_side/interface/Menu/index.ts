@@ -1,7 +1,11 @@
 import CEF from "../../_modules/cef"
+
 import Admin from "../../systems/admin/core"
+
 import UserBase from "../../user/base"
 import User from "../../user/core"
+
+import InterfaceMenuInventory from "./inventory"
 
 export enum interfaceMenuEnums {
     HEADER_NAV_INFO = 0,
@@ -17,8 +21,10 @@ export enum interfaceMenuEnums {
 
 export class InterfaceMenu {
     private readonly player
+
     private readonly user
     private readonly userBase
+
     private readonly admin
 
     constructor(player: PlayerMp) {
@@ -33,6 +39,13 @@ export class InterfaceMenu {
     show(): void {
         if(!this.user.isAuth)return
         if(!this.user.onFoot)return
+
+        this.user.openeds.add('menu')
+        this.user.cursor(true)
+        this.user.toggleHud(false)
+
+        this.setHeaderNav(interfaceMenuEnums.HEADER_NAV_INFO)
+        this.setBodyNav('account')
 
         new CEF(this.player, 'menu', 'toggle', {
             status: true,
@@ -62,42 +75,11 @@ export class InterfaceMenu {
             }
         }).send()
 
-        this.user.openeds.add('menu')
-        this.user.cursor(true)
-        this.user.toggleHud(false)
-
         new CEF(this.player, 'cef::menu:openHeaderNav').add((data: any) => {
-            switch(data.id) {
-                case interfaceMenuEnums.HEADER_NAV_INFO: { // information
-                    break
-                }
-                case interfaceMenuEnums.HEADER_NAV_INVENTORY: { // inventory
-                    break
-                }
-                case interfaceMenuEnums.HEADER_NAV_QUESTS: { // quests
-                    break
-                }
-                case interfaceMenuEnums.HEADER_NAV_TICKETS: { // tickets
-                    break
-                }
-                case interfaceMenuEnums.HEADER_NAV_SHOP: { // shop
-                    break
-                }
-                case interfaceMenuEnums.HEADER_NAV_FRACTION: { // fraction
-                    return false
-                }
-                case interfaceMenuEnums.HEADER_NAV_FAMILY: { // family
-                    return false
-                }
-                case interfaceMenuEnums.HEADER_NAV_ADMIN: { // admin
-                    break
-                }
-                case interfaceMenuEnums.HEADER_NAV_SETTINGS: { // settings
-                    break
-                }
-            }
-
             this.setHeaderNav(data.id)
+        })
+        new CEF(this.player, 'cef::menu:openBodyNav').add((data: any) => {
+            this.setBodyNav(data.id)
         })
 
         new CEF(this.player, 'cef::menu:close').add(() => {
@@ -112,6 +94,9 @@ export class InterfaceMenu {
         this.user.cursor(false, true)
         this.user.toggleHud(true)
 
+        this.user.storage.set('menuHeaderNav', -1)
+        this.user.storage.set('menuBodyNav', '')
+
         new CEF(this.player, 'menu', 'toggle', { status: false }).send()
     }
 
@@ -119,12 +104,49 @@ export class InterfaceMenu {
         if(!this.user.isAuth
             || !this.user.openeds.is('menu'))return
 
+        switch(id) {
+            case interfaceMenuEnums.HEADER_NAV_INFO: { // information
+                break
+            }
+            case interfaceMenuEnums.HEADER_NAV_INVENTORY: { // inventory
+                const interfaceMenuInventory = new InterfaceMenuInventory(this.player)
+
+                interfaceMenuInventory.update()
+                interfaceMenuInventory.show()
+                
+                break
+            }
+            case interfaceMenuEnums.HEADER_NAV_QUESTS: { // quests
+                break
+            }
+            case interfaceMenuEnums.HEADER_NAV_TICKETS: { // tickets
+                break
+            }
+            case interfaceMenuEnums.HEADER_NAV_SHOP: { // shop
+                break
+            }
+            case interfaceMenuEnums.HEADER_NAV_FRACTION: { // fraction
+                return
+            }
+            case interfaceMenuEnums.HEADER_NAV_FAMILY: { // family
+                return
+            }
+            case interfaceMenuEnums.HEADER_NAV_ADMIN: { // admin
+                break
+            }
+            case interfaceMenuEnums.HEADER_NAV_SETTINGS: { // settings
+                break
+            }
+        }
+
+        this.user.storage.set('menuHeaderNav', id)
         new CEF(this.player, 'menu', 'setHeaderNav', { id }).send()
     }
     setBodyNav(id: string): void {
         if(!this.user.isAuth
             || !this.user.openeds.is('menu'))return
 
+        this.user.storage.set('menuBodyNav', id)
         new CEF(this.player, 'menu', 'setBodyNav', { id }).send()
     }
 }

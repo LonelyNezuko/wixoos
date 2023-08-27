@@ -127,7 +127,7 @@
         "chatOpen": { "name": "Чат", "desc": "Открыть чат", "key": "T", "keyCode": 84, "isAdmin": 0, "noChange": false, "hudVisible": true },
         "menuOpen": { "name": "Личное меню", "desc": "Открыть личное меню", "key": "M", "keyCode": 77, "isAdmin": 0, "noChange": false, "hudVisible": true },
         "keysToggle": { "name": "Скрыть подсказки", "desc": "Скрыть подсказки", "key": "F9", "keyCode": 120, "isAdmin": 0, "noChange": true, "hudVisible": true },
-        "inventoryOpen": { "name": "Инвентарь", "desc": "Открыть инвентарь", "key": "I", "keyCode": 73, "isAdmin": 0, "noChange": false, "hudVisible": true },
+        "inventoryOpen": { "name": "Инвентарь", "desc": "Открыть инвентарь", "key": "TAB", "keyCode": 9, "isAdmin": 0, "noChange": false, "hudVisible": true },
 
         "engineVehicle": { "name": "Двигатель", "desc": "Запустить двигатель транспорта", "key": "N", "keyCode": 78, "isAdmin": 0, "noChange": false, "hudVisible": false },
         "lockedVehicle": { "name": "Двери Транспорта", "desc": "Закрыть двери транспора", "key": "L", "keyCode": 76, "isAdmin": 0, "noChange": false, "hudVisible": false },
@@ -137,5 +137,9 @@
         "actionRadial": { "name": "Взаимодействие", "desc": "Взаимодействие с игроками/транспортом", "key": "G", "keyCode": 71, "isAdmin": 0, "noChange": false, "hudVisible": false },
 
         "changeMinimap": { "name": "Миникарта", "desc": "Изменить размер миникарты", "key": "Z", "keyCode": 90, "isAdmin": 0, "noChange": false, "hudVisible": true }
+    },
+
+    "inventorySettings": {
+        "maxWeight": 20.0
     }
 }

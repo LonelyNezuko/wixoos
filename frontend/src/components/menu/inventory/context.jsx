@@ -3,9 +3,16 @@ import $ from 'jquery'
 
 import ragemp from '../../../modules/ragemp'
 
-export default function InventoryContext({ toggle, position, item, condition, slot, setItemSelect }) {
+export default function InventoryContext({ toggle, position, item, condition, slot, parent, setItemSelect }) {
     if(!toggle)return (<></>)
-    console.log(condition)
+
+    function close() {
+        setItemSelect({
+            toggle: false,
+            position: [ 0, 0 ],
+            item: {}
+        })
+    }
     return (
         <div className="inventorycontext" style={{top: position[0] + "px", left: position[1] + "px"}}>
             <div className="header">
@@ -80,9 +87,19 @@ export default function InventoryContext({ toggle, position, item, condition, sl
                 </div>
             ) : ''}
             <div className="action">
-                <div className="btn" onClick={() => ragemp.send('server::menu:inventory:use', { slot })}>Использовать</div>
-                <div className="btn" onClick={() => ragemp.send('server::menu:inventory:use', { slot })}>Выбросить</div>
-                <div className="btn">Закрыть</div>
+                <div className="btn" onClick={() => {
+                        ragemp.send('server::menu:inventory:use', { parent, slot })
+                        close()
+                    }}>Использовать</div>
+                {item.count > 1 ? (<div className="btn" onClick={() => {
+                        ragemp.send('server::menu:inventory:split', { parent, slot })
+                        close()
+                    }}>Разделить</div>) : ''}
+                <div className="btn" onClick={() => {
+                        ragemp.send('server::menu:inventory:trash', { parent, slot })
+                        close()
+                    }}>Выбросить</div>
+                <div className="btn" onClick={() => close()}>Закрыть</div>
             </div>
         </div>
     )

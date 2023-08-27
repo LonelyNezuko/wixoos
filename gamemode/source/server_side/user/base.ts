@@ -40,19 +40,23 @@ interface UserBaseInterface {
     char_isMute: number,
     char_isKeysToggle: number,
 
-    char_inventory: Array<any>,
-    char_backpack: Array<any>,
+    char_inventory: any[],
+    char_inventorySettings: any,
+    char_backpack: any[],
 
     char_cash: number,
     
     char_isBank: number,
     char_bankCash: number,
+
+    char_needs: any[number]
 }
 const storage = new Map<number, UserBaseInterface>()
 
 export default class UserBase {
     private readonly player: PlayerMp
     private readonly id: number
+
     private readonly user: User
 
     private readonly storageDefault: UserBaseInterface = {
@@ -83,12 +87,15 @@ export default class UserBase {
         char_isKeysToggle: 0,
     
         char_inventory: [],
+        char_inventorySettings: {},
         char_backpack: [],
     
         char_cash: 0,
         
         char_isBank: 0,
-        char_bankCash: 0
+        char_bankCash: 0,
+
+        char_needs: [100, 100]
     }
 
     constructor(player: PlayerMp) {
@@ -344,6 +351,16 @@ export default class UserBase {
 
                     this.storage.set('char_backpack', inv)
                 }
+
+                // update inventory settings
+                const inventorySettings: any = this.storage.get('char_inventorySettings')
+                const _confTmp: any = CONFIG_ENUMS.inventorySettings
+
+                for(let key in _confTmp) {
+                    if(inventorySettings[key] === undefined) inventorySettings[key] = _confTmp[key]
+                }
+                this.storage.set('char_inventorySettings', inventorySettings)
+                // 
 
                 this.user.loadScreen(true)
                 this.user.spawn()

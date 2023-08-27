@@ -676,6 +676,14 @@ input[type="radio"]:checked:before {
 
 	position: relative;
 	color: white;
+
+    &.inventory-elem-hover {
+        border-color: #00ff006b;
+        background-color: #00ff0040;
+    }
+    &.inventory-elem-nothover {
+        border-color: #ff000057;
+    }
 }
 .inventory-elem:not(.ui-draggable-dragging) {
 	transition: .3s;

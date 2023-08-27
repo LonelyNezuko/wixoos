@@ -9,6 +9,7 @@ import './user'
 
 import './systems/admin'
 import './systems/inventory'
+import './systems/vehicle'
 
 import Admin from "./systems/admin/core"
 

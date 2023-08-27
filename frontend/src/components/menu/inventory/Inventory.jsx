@@ -50,7 +50,7 @@ export function Inventory() {
 	function getWeight(i) {
 		let weight = 0.0
 		i.map(item => {
-			if(item.id) weight += item.weight * item.count
+			if(item.hash) weight += item.weight * item.count
 		})
 
 		return weight.toFixed(1)
@@ -126,14 +126,14 @@ export function Inventory() {
 		            	&& (draggableParent === '#inventoryChar'
 		            		|| draggableParent === '#inventoryNearby'))return
 
-		            ragemp.send('server::client:menu:inventory:transfer', {
-		            	targetParent,
-		            	targetID,
+		            ragemp.send('server::menu:inventory:transfer', {
+		            	toParent: targetParent,
+		            	toID: targetID,
 
-		            	draggableParent,
-		            	draggableID,
+		            	fromParent: draggableParent,
+		            	fromID: draggableID,
 
-		            	draggableItem: draggableParent === '#inventoryNearby' ? nearby[draggableID] : null
+		            	fromItem: draggableParent === '#inventoryNearby' ? nearby[draggableID] : null
 		            })
 		        }
 			})
@@ -148,9 +148,9 @@ export function Inventory() {
 
 		            if(draggableParent === '#inventoryNearby')return
 
-		            ragemp.send('server::client:menu:inventory:trash', {
-		            	draggableParent,
-		            	draggableID
+		            ragemp.send('server::menu:inventory:trash', {
+		            	fromParent: draggableParent,
+		            	fromID: draggableID
 		            })
 		        }
 			})
@@ -170,21 +170,7 @@ export function Inventory() {
 	}, [nearby])
 
 
-	React.useEffect(() => {
-		ragemp.send('server::menu:inventory:update:items', items)
-	}, [items])
-	React.useEffect(() => {
-		ragemp.send('server::menu:inventory:update:backpack', backpack)
-	}, [backpack])
-	React.useEffect(() => {
-		ragemp.send('server::menu:inventory:update:charList', charList)
-	}, [charList])
-	React.useEffect(() => {
-		ragemp.send('server::menu:inventory:update:fastList', fastList)
-	}, [fastList])
-
-
-	React.useEffect(() => {
+	React.useMemo(() => {
 		ragemp.eventCreate('menu:inventory', (cmd, data) => {
 			switch(cmd) {
 				case 'setItems': {
@@ -232,7 +218,7 @@ export function Inventory() {
 						</div>
 					</section>
 				</div>
-				<div className="inventory-body" id="inventoryBackpack" data-items={JSON.stringify(backpack)}>
+				<div style={{height: "calc(100% - 217px - 20px)"}} className="inventory-body" id="inventoryBackpack" data-items={JSON.stringify(backpack)}>
 					<h1>Рюкзак</h1>
 					<div className="inventory-body-weight" style={data.backpack.weight === 0 ? {display: 'none'} : {display: 'block'}}>
 						<h2>
@@ -289,7 +275,14 @@ export function Inventory() {
 					</section>
 				</div>
 			</div>
-			<InventoryContext toggle={itemSelect.toggle} setItemSelect={setItemSelect} position={itemSelect.position} item={itemSelect.item} condition={itemSelect.condition} slot={itemSelect.slot} />
+			<InventoryContext
+				toggle={itemSelect.toggle}
+				setItemSelect={setItemSelect}
+				position={itemSelect.position}
+				item={itemSelect.item}
+				condition={itemSelect.condition}
+				slot={itemSelect.slot}
+				parent={itemSelect.parent} />
 		</div>
 	)
 }
@@ -318,23 +311,37 @@ function InventoryItem({ i, item, _draggablePos, _parent, draggableRef, _id, _st
 			data-parent={_parent}
 
 			onClick={event => {
-				if(setItemSelect && item.id) setItemSelect({
+				if(setItemSelect && item.hash) setItemSelect({
 					toggle: true,
 					position: [ event.clientY, event.clientX ],
 					item: item,
 					condition: getStatus(item.status),
-					slot: i
+					slot: i,
+					parent: _parent
 				})
+			}}
+			onContextMenu={event => {
+				event.preventDefault()
+				if(setItemSelect && item.hash) {
+					setItemSelect({
+						toggle: true,
+						position: [ event.clientY, event.clientX ],
+						item: item,
+						condition: getStatus(item.status),
+						slot: i,
+						parent: _parent
+					})
+				}
 			}}
 		>
 			<div className="inventory-elem-drag">
 				<div className="inventory-elem-img">
 					{_parent === '#inventoryChar' ?
-						!item.item.id ? charListSVG[i] : (<img src={`assets/inventory/items/${item.item.img}`} />) :
-						!item.id ? '': (<img src={`assets/inventory/items/${item.img}`} />)}
+						!item.hash ? charListSVG[i] : (<img src={`assets/inventory/items/${item.item.img}`} />) :
+						!item.hash ? '': (<img src={`assets/inventory/items/${item.img}`} />)}
 				</div>
 				{item.count >= 2 ? (<h3 className="inventory-elem-count">{item.count}</h3>) : ''}
-				{(item.id && item.status) ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
+				{(item.hash && item.status) ? (<button className={`inventory-elem-status inventory-elem-status-${getStatus(item.status)}`}></button>) : ''}
 				{_parent === '#inventoryFast' ? (<h3 className="btn-key">{i + 1}</h3>) : ''}
 			</div>
 		</div>

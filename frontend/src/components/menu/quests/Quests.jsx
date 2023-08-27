@@ -70,72 +70,76 @@ export default function Shop({ bodyNav, openBodyNav }) {
 	const bodyNavIndex = { actives: 0, dailys: 1, completed: 2 }
 	return (
 		<div className="menuQuests">
-			{!quests[bodyNavIndex[bodyNav]].length ? (
-				<h6 className="menu-body-notfound">
-					<span>У Вас нет {bodyNav === 'actives' ? 'активных' : bodyNav === 'dailys' ? 'ежедневных' : bodyNav === 'completed' ? 'завершенных' : ''} заданий</span>
-				</h6>
-			) : (
-				<div className="menuQuests-body">
-					<div className="list">
-						{quests[bodyNavIndex[bodyNav]].map((item, i) => {
-							return (
-								<div onClick={() => setSelect(i)} key={i} className={`elem ${select === i ? 'selected' : ''}`}>
-									<div className="header">
-										{item.traking ? (
-											<div className="star">
-												<IoMdStar />
+			{(bodyNav === 'actives' || bodyNav === 'dailys' || bodyNav === 'completed') ? (
+				<>
+					{!quests[bodyNavIndex[bodyNav]].length ? (
+						<h6 className="menu-body-notfound">
+							<span>У Вас нет {bodyNav === 'actives' ? 'активных' : bodyNav === 'dailys' ? 'ежедневных' : bodyNav === 'completed' ? 'завершенных' : ''} заданий</span>
+						</h6>
+					) : (
+						<div className="menuQuests-body">
+							<div className="list">
+								{quests[bodyNavIndex[bodyNav]].map((item, i) => {
+									return (
+										<div onClick={() => setSelect(i)} key={i} className={`elem ${select === i ? 'selected' : ''}`}>
+											<div className="header">
+												{item.traking ? (
+													<div className="star">
+														<IoMdStar />
+													</div>
+												) : ''}
+												<div className="title">{item.name}</div>
 											</div>
-										) : ''}
-										<div className="title">{item.name}</div>
-									</div>
-									<div className="progress">
-										<div style={{width: getProgress(item) + '%'}}></div>
-									</div>
-									<div className="task">{!getInProcessTask(item) ? 'Нет активного задания' : getInProcessTask(item).name}</div>
-								</div>
-							)
-						})}
-					</div>
-					<div className="info">
-						<div className="header">
-							{quests[bodyNavIndex[bodyNav]][select].traking ? (
-								<div className="star">
-									<IoMdStar />
-								</div>
-							) : ''}
-							<div className="title">{quests[bodyNavIndex[bodyNav]][select].name}</div>
-						</div>
-						<div className="progress">
-							<div style={{width: getProgress(quests[bodyNavIndex[bodyNav]][select]) + '%'}}></div>
-						</div>
-						<div className="desc" dangerouslySetInnerHTML={{__html: quests[bodyNavIndex[bodyNav]][select].desc}}></div>
-						<div className="tasks">
-							{quests[bodyNavIndex[bodyNav]][select].tasks.map((item, i) => {							
-								if(!item.status)return (<></>)
-								return (
-									<section key={i} className={item.status}>
-										<div className="status">
-											{item.status === 'completed' ? (<IoCheckmarkCircle />) : (<HiDotsHorizontal />)}
+											<div className="progress">
+												<div style={{width: getProgress(item) + '%'}}></div>
+											</div>
+											<div className="task">{!getInProcessTask(item) ? 'Нет активного задания' : getInProcessTask(item).name}</div>
 										</div>
-										<h1>{item.name}</h1>
-									</section>
-								)
-							})}
-						</div>
-						<div className="rewards">
-							<h1 className="title">Награда:</h1>
-							<section className="items">
-								{quests[bodyNavIndex[bodyNav]][select].rewards.map((item, i) => {
-									return (<InventoryRenderItem key={i} item={item} />)
+									)
 								})}
-							</section>
+							</div>
+							<div className="info">
+								<div className="header">
+									{quests[bodyNavIndex[bodyNav]][select].traking ? (
+										<div className="star">
+											<IoMdStar />
+										</div>
+									) : ''}
+									<div className="title">{quests[bodyNavIndex[bodyNav]][select].name}</div>
+								</div>
+								<div className="progress">
+									<div style={{width: getProgress(quests[bodyNavIndex[bodyNav]][select]) + '%'}}></div>
+								</div>
+								<div className="desc" dangerouslySetInnerHTML={{__html: quests[bodyNavIndex[bodyNav]][select].desc}}></div>
+								<div className="tasks">
+									{quests[bodyNavIndex[bodyNav]][select].tasks.map((item, i) => {							
+										if(!item.status)return (<></>)
+										return (
+											<section key={i} className={item.status}>
+												<div className="status">
+													{item.status === 'completed' ? (<IoCheckmarkCircle />) : (<HiDotsHorizontal />)}
+												</div>
+												<h1>{item.name}</h1>
+											</section>
+										)
+									})}
+								</div>
+								<div className="rewards">
+									<h1 className="title">Награда:</h1>
+									<section className="items">
+										{quests[bodyNavIndex[bodyNav]][select].rewards.map((item, i) => {
+											return (<InventoryRenderItem key={i} item={item} />)
+										})}
+									</section>
+								</div>
+								<div className={`traking ${quests[bodyNavIndex[bodyNav]][select].traking ? 'on' : ''}`}>
+									<button onClick={() => ragemp.send('server::quests:traking', { id: quests[bodyNavIndex[bodyNav]][select].id })} className="btn">{quests[bodyNavIndex[bodyNav]][select].traking ? 'Отслеживается' : 'Отслеживать'}</button>
+								</div>
+							</div>
 						</div>
-						<div className={`traking ${quests[bodyNavIndex[bodyNav]][select].traking ? 'on' : ''}`}>
-							<button onClick={() => ragemp.send('server::quests:traking', { id: quests[bodyNavIndex[bodyNav]][select].id })} className="btn">{quests[bodyNavIndex[bodyNav]][select].traking ? 'Отслеживается' : 'Отслеживать'}</button>
-						</div>
-					</div>
-				</div>
-			)}
+					)}
+				</>
+			) : ''}
 		</div>
 	)
 }

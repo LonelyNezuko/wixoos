@@ -9,7 +9,10 @@ interface UserInterface {
     isCefLoaded: boolean,
     isEditCharacter: boolean,
 
-    openeds: any[]
+    openeds: any[],
+
+    menuHeaderNav: number,
+    menuBodyNav: string
 }
 const storage = new Map<number, UserInterface>()
 
@@ -24,18 +27,25 @@ export default class User {
     private readonly player: PlayerMp
     private readonly id: number
 
+    private readonly userBase: UserBase
+
     private readonly storageDefault: UserInterface = {
         isReady: false,
         isAuth: false,
         isCefLoaded: false,
         isEditCharacter: false,
     
-        openeds: []
+        openeds: [],
+
+        menuHeaderNav: -1,
+        menuBodyNav: ''
     }
 
     constructor(player: PlayerMp) {
         this.player = player
         this.id = player.id
+
+        this.userBase = new UserBase(this.player)
     }
 
 
@@ -172,6 +182,10 @@ export default class User {
     toggleHud(toggle: boolean): void {
         this.player.call('client::user:toggleHud', [ toggle ])
     }
+    updateHud(): void {
+        this.player.call('client::user:updateHud')
+    }
+
     loadScreen(toggle: boolean): void {
         this.player.call('client::user:loadScreen', [ toggle ])
     }
@@ -199,6 +213,7 @@ export default class User {
         this.loadScreen(false)
 
         this.freeze(false)
+        this.setNeeds()
     }
 
 
@@ -407,5 +422,21 @@ export default class User {
         is: (name: string): boolean => {
             return this.storage.get('openeds').indexOf(name) !== -1
         }
+    }
+
+    
+    setNeeds(satiety?: number, thirst?: number) {
+        this.player.setVariable('needs', [
+            satiety || this.userBase.storage.get('char_needs')[0],
+            thirst || this.userBase.storage.get('char_needs')[1],
+        ])
+        this.updateHud()
+
+        const needs = this.userBase.storage.get('char_needs')
+
+        if(satiety) needs[0] = satiety
+        if(thirst) needs[1] = thirst
+
+        this.userBase.storage.set('char_needs', needs)
     }
 }

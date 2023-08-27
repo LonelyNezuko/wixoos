@@ -30,6 +30,8 @@
 
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 .inventory .inventory-wrap:nth-child(2) {
 	margin: 0 40px;
@@ -112,6 +114,8 @@
 
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 .inventory .inventory-body + .inventory-body {
 	margin-top: 20px;
@@ -201,15 +205,6 @@
 
 	position: absolute;
 	top: 0;
-}
-
-
-.inventory-elem-hover {
-	border-color: #00ff006b;
-	background-color: #00ff0040;
-}
-.inventory-elem-nothover {
-	border-color: #ff000057;
 }
 
 

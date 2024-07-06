@@ -22,7 +22,7 @@ import { BiCopy } from 'react-icons/bi'
 import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi'
 
 export default function CreateChar() {
-	const [ toggle, setToggle ] = React.useState(false)
+	const [ toggle, setToggle ] = React.useState(true)
 
 	const [ nav, setNav ] = React.useState([
 		(<MdSettings />),

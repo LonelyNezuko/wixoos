@@ -11,7 +11,7 @@ import Dialog from './components/dialog/Dialog'
 import ChoiceChar from './components/choiceChar/ChoiceChar'
 import CreateChar from './components/createChar/CreateChar'
 import { Notify } from './components/notify/Notify'
-import Shop from './components/shop/shop'
+// import Shop from './components/shop/shop'
 import NPCDialog from './components/npcDialog/NPCDialog'
 import Radial from './components/radial/Radial'
 import Fuel from './components/fuel/Fuel'
@@ -71,7 +71,7 @@ root.render(
         <ChoiceChar />
         <CreateChar />
         <Notify />
-        <Shop />
+        {/* <Shop /> */}
         <NPCDialog />
         <Radial />
         <Fuel />
